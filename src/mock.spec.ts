@@ -23,4 +23,10 @@ describe('jest-ts-mock', () => {
         mockObj.getNumber.mockReturnValue(12);
         expect(mockObj.getNumber()).toBe(12);
     });
+
+    test('Can specify args', () => {
+        const mockObj = mock<MockInt>();
+        mockObj.getSomethingWithArgs(1, 2);
+        expect(mockObj.getSomethingWithArgs).toBeCalledWith(1, 2);
+    });
 });

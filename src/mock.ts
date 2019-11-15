@@ -1,10 +1,8 @@
-import * as jest from 'jest';
-
 type ProxiedProperty = string | number | symbol;
 
 type MockProxy<T> = {
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ?
-        jest.MockInstance<ReturnType<T[K]>, A> & T[K]: T[K]
+        jest.MockInstance<B, A> & T[K]: T[K]
 }
 
 const mock = <T extends {}> (): MockProxy<T> => {
