@@ -30,7 +30,7 @@ describe('My Awesome Tests', () => {
    });
    
    
-   test('mock out getSomeFun', () => {
+   test('mock out a return type', () => {
        const mock = mock<FunProvider>();
        mock.getSomeFun.mockReturnValue('west coast party');
        
