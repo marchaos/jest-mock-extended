@@ -8,6 +8,13 @@ interface MockInt {
 describe('jest-ts-mock', () => {
     test('Check that a jest.fn() is created without any invocation to the mock method', () => {
         const mockObj = mock<MockInt>();
-        expect(mockObj).toHaveBeenCalledTimes(0);
-    })
+        expect(mockObj.getNumber).toHaveBeenCalledTimes(0);
+    });
+
+    test('Check that invocations are registered', () => {
+        const mockObj = mock<MockInt>();
+        mockObj.getNumber();
+        mockObj.getNumber();
+        expect(mockObj.getNumber).toHaveBeenCalledTimes(2);
+    });
 });
