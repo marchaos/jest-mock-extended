@@ -17,4 +17,10 @@ describe('jest-ts-mock', () => {
         mockObj.getNumber();
         expect(mockObj.getNumber).toHaveBeenCalledTimes(2);
     });
+
+    test('Can mock a return value', () => {
+        const mockObj = mock<MockInt>();
+        mockObj.getNumber.mockReturnValue(12);
+        expect(mockObj.getNumber()).toBe(12);
+    });
 });
