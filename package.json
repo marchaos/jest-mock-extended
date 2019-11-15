@@ -1,10 +1,10 @@
 {
   "name": "jest-ts-mock",
   "version": "1.0.2",
-  "description": "",
+  "description": "Type safe mocking for jest",
   "main": "src/mock.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
@@ -15,6 +15,6 @@
   "peerDependencies": {
     "jest": "^22+"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Marc McIntyre <marchaos@gmail.com",
+  "license": "MIT"
 }
