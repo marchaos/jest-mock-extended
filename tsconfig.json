@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es2017",                          
+    "module": "commonjs",                     
+    "lib": ["es2017","dom", "esnext"],                     
+    "sourceMap": true,
+    "strict": true,                           
+    "noImplicitAny": true,                 
+    "strictNullChecks": true,              
+    "alwaysStrict": true,                  
+    "types": [],                              
+    "allowSyntheticDefaultImports": true,     
+    "esModuleInterop": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
