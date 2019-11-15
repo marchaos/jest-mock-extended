@@ -1,5 +1,5 @@
 # jest-ts-mock
-TypeScript mocking framework for Jest
+Type safe mocking framework for Jest
 
 # Installation
 ```
