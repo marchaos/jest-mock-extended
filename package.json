@@ -1,6 +1,6 @@
 {
   "name": "jest-ts-mock",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Type safe mocking for jest",
   "main": "src/mock.ts",
   "scripts": {

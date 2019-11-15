@@ -1,4 +1,4 @@
-import mock from './mock';
+import mock, {TSMock} from './mock';
 
 interface MockInt {
     getNumber: () => number;
@@ -12,7 +12,7 @@ describe('jest-ts-mock', () => {
     });
 
     test('Check that invocations are registered', () => {
-        const mockObj = mock<MockInt>();
+        const mockObj: MockInt = mock<MockInt>();
         mockObj.getNumber();
         mockObj.getNumber();
         expect(mockObj.getNumber).toHaveBeenCalledTimes(2);
