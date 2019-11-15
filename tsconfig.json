@@ -8,7 +8,7 @@
     "noImplicitAny": true,                 
     "strictNullChecks": true,              
     "alwaysStrict": true,                  
-    "types": [],                              
+    "types": ["jest"],
     "allowSyntheticDefaultImports": true,     
     "esModuleInterop": true
   },
