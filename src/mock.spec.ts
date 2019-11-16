@@ -1,4 +1,5 @@
 import mock, {TSMock} from './mock';
+import {anyNumber} from "./Matchers";
 
 interface MockInt {
     getNumber: () => number;
@@ -28,5 +29,29 @@ describe('jest-ts-mock', () => {
         const mockObj = mock<MockInt>();
         mockObj.getSomethingWithArgs(1, 2);
         expect(mockObj.getSomethingWithArgs).toBeCalledWith(1, 2);
+    });
+
+    test('Can specify calledWith', () => {
+        const mockObj = mock<MockInt>();
+        mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(1);
+
+        expect(mockObj.getSomethingWithArgs(1, 2)).toBe(1);
+    });
+
+    test('Can specify multiple calledWith', () => {
+        const mockObj = mock<MockInt>();
+        mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(3);
+        mockObj.getSomethingWithArgs.calledWith(6, 7).mockReturnValue(13);
+
+        expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+        expect(mockObj.getSomethingWithArgs(6, 7)).toBe(13);
+    });
+
+    describe('matchers', () => {
+        test('Can specify matchers', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.getSomethingWithArgs.calledWith(anyNumber(), anyNumber()).mockReturnValue(3);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+        });
     });
 });

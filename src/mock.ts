@@ -1,8 +1,14 @@
+import CalledWith from "./CalledWith";
+
 type ProxiedProperty = string | number | symbol;
+
+export interface CalledWithMockInstance<T, Y extends any[]> extends jest.MockInstance<T, Y> {
+    calledWith: (...args: Y) => jest.MockInstance<T, Y>;
+}
 
 export type TSMock<T> = {
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ?
-        jest.MockInstance<B, A> & T[K]: T[K]
+        CalledWithMockInstance<B, A> & T[K]: T[K]
 }
 
 const mock = <T extends {}> (): TSMock<T> => {
@@ -16,7 +22,7 @@ const mock = <T extends {}> (): TSMock<T> => {
         // @ts-ignore
         if (!obj[property]) {
             // @ts-ignore
-            obj[property] = jest.fn();
+            obj[property] = CalledWith(jest.fn());
         }
         // @ts-ignore
         return obj[property];
