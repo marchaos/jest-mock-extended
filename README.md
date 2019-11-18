@@ -2,17 +2,17 @@
 Type safe mocking extensions for Jest
 
 # Installation
-```
+```bash
 npm install jest-mock-extended --save-dev
 ```
 or
-```
+```bash
 yarn add jest-mock-extended --dev
 ```
 
 # Example
 
-```js
+```ts
 import mock from 'jest-mock-extended';
 
 interface PartyProvider {
@@ -43,7 +43,7 @@ describe('Party Tests', () => {
 
 ```jest-mock-extended``` allows for invocation matching expectations. Types of arguments, even when using matchers are type checked.
 
-```js
+```ts
 const provider = mock<PartyProvider>();
 provider.getSongs.calledWith('disco party').mockReturnValue(['Dance the night away', 'Stayin Alive']);
 expect(provider.getSongs('disco party')).toEqual(['Dance the night away', 'Stayin Alive']);
@@ -55,7 +55,7 @@ provider.getSongs.calledWith(anyString()).mockReturnValue(['Saw her standing the
 ```
 You can also use calledWith() on it's own to create a jest.fn() with the calledWith extension:
 
-```js
+```ts
  const fn = calledWithFn();
  fn.calledWith(1, 2).mockReturnValue(3);
 ```
