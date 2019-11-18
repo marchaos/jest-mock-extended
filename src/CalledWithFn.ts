@@ -1,8 +1,8 @@
 import { CalledWithMock } from './mock';
-import { Matcher, Matchers } from './Matchers';
+import { Matcher, MatchersOrLiterals } from './Matchers';
 
 interface CalledWithStackItem<T, Y extends any[]> {
-    args: Y | Matchers<Y>;
+    args: MatchersOrLiterals<Y>;
     calledWithFn: jest.Mock<T, Y>;
 }
 

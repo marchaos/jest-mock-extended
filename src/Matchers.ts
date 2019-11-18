@@ -12,9 +12,8 @@ export interface MatcherCreator<T> {
     (expectedValue?: T): Matcher<T>;
 }
 
-export type Matchers<Y extends any[]> = { [K in keyof Y]: Matcher<Y[K]> };
+export type MatchersOrLiterals<Y extends any[]> = { [K in keyof Y]: Matcher<Y[K]> | Y[K] };
 
-export const eq: MatcherCreator<any> = expectedValue => new Matcher(actualValue => expectedValue === actualValue);
 export const any: MatcherCreator<any> = () => new Matcher(() => true);
 export const anyBoolean: MatcherCreator<boolean> = () => new Matcher((actualValue: boolean) => typeof actualValue === 'boolean');
 export const anyNumber: MatcherCreator<number> = () => new Matcher(actualValue => typeof actualValue === 'number' && !isNaN(actualValue));

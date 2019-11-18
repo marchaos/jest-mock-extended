@@ -1,5 +1,5 @@
 import mock from './mock';
-import { anyNumber, eq } from './Matchers';
+import { anyNumber} from './Matchers';
 import calledWithFn from './CalledWithFn';
 
 interface MockInt {
@@ -74,9 +74,9 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         });
 
-        test('can mix Matchers with literals with use of eq', () => {
+        test('can mix Matchers with literals', () => {
             const mockObj = mock<MockInt>();
-            mockObj.getSomethingWithArgs.calledWith(eq(1), anyNumber()).mockReturnValue(3);
+            mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         });
     });

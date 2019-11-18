@@ -62,13 +62,12 @@ You can also use calledWith() on its own to create a jest.fn() with the calledWi
 
 ## Available Matchers
 
-### any..
+### any
 any(), anyString(), anyNumber(), anyFunction(), anySymbol(), anyObject(), anyArray(), anyMap(), anySet()
 
 
 | Matcher               | Description                                                           |
 |-----------------------|-----------------------------------------------------------------------|
-|eq(any)                | e.g eq(1), required when using other matchers in a list of arguments. |
 |isA(class)             | e.g isA(DiscoPartyProvider)                                           |
 |includes('value')      | Checks if value is in the argument array                              |
 |containsKey('key')     |  Checks if the key exists in the object                               |

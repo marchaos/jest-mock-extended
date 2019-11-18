@@ -1,10 +1,10 @@
 import calledWithFn from './CalledWithFn';
-import { Matchers } from './Matchers';
+import { MatchersOrLiterals } from './Matchers';
 
 type ProxiedProperty = string | number | symbol;
 
 export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
-    calledWith: (...args: Y | Matchers<Y>) => jest.Mock<T, Y>;
+    calledWith: (...args: Y | MatchersOrLiterals<Y>) => jest.Mock<T, Y>;
 }
 
 export type MockProxy<T> = {
