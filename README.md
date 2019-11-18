@@ -43,7 +43,7 @@ describe('Party Tests', () => {
 
 ```jest-mock-extended``` allows for invocation matching expectations. Types of arguments, even when using matchers are type checked.
 
-```
+```js
 const provider = mock<PartyProvider>();
 provider.getSongs.calledWith('disco party').mockReturnValue(['Dance the night away', 'Stayin Alive']);
 expect(provider.getSongs('disco party')).toEqual(['Dance the night away', 'Stayin Alive']);
@@ -55,7 +55,7 @@ provider.getSongs.calledWith(anyString()).mockReturnValue(['Saw her standing the
 ```
 You can also use calledWith() on it's own to create a jest.fn() with the calledWith extension:
 
-```
+```js
  const fn = calledWithFn();
  fn.calledWith(1, 2).mockReturnValue(3);
 ```
