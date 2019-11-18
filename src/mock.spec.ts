@@ -1,6 +1,6 @@
 import mock from './mock';
 import { anyNumber } from './Matchers';
-import calledWithFn from './CalledWith';
+import calledWithFn from './CalledWithFn';
 
 interface MockInt {
     getNumber: () => number;

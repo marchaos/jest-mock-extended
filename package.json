@@ -1,10 +1,17 @@
 {
   "name": "jest-ts-mock",
   "version": "1.0.3",
+  "homepage": "https://github.com/marchaos/jest-ts-mock",
   "description": "Type safe mocking for jest",
-  "main": "src/mock.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "test": "jest"
+    "prepare": "npm run build",
+    "test": "jest",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
@@ -16,6 +23,6 @@
   "peerDependencies": {
     "jest": "^22+"
   },
-  "author": "Marc McIntyre <marchaos@gmail.com",
+  "author": "Marc McIntyre <marchaos@gmail.com>",
   "license": "MIT"
 }

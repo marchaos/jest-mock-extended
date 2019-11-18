@@ -1,17 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es2017",                          
-    "module": "commonjs",                     
-    "lib": ["es2017","dom", "esnext"],                     
+    "target": "es2017",
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "lib/",
+    "lib": [
+      "es2017"
+    ],
     "sourceMap": true,
-    "strict": true,                           
-    "noImplicitAny": true,                 
-    "strictNullChecks": true,              
-    "alwaysStrict": true,                  
-    "types": ["jest"],
-    "allowSyntheticDefaultImports": true,     
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "types": [
+      "jest"
+    ],
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
+  "include": ["src"],
   "exclude": [
     "node_modules"
   ]

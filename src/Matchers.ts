@@ -1,4 +1,4 @@
-type MatcherFn<T> = (actualValue: T) => boolean;
+export type MatcherFn<T> = (actualValue: T) => boolean;
 
 // needs to be a class so we can instanceof
 export class Matcher<T> {

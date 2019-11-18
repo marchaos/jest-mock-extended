@@ -1,4 +1,4 @@
-import calledWithFn from './CalledWith';
+import calledWithFn from './CalledWithFn';
 import { Matchers } from './Matchers';
 
 type ProxiedProperty = string | number | symbol;
