@@ -53,7 +53,7 @@ provider.getSongs.calledWith(any()).mockReturnValue(['Saw her standing there']);
 provider.getSongs.calledWith(anyString()).mockReturnValue(['Saw her standing there']);
 
 ```
-You can also use calledWith() on it's own to create a jest.fn() with the calledWith extension:
+You can also use calledWith() on its own to create a jest.fn() with the calledWith extension:
 
 ```ts
  const fn = calledWithFn();
