@@ -1,5 +1,5 @@
 import mock from './mock';
-import { anyNumber } from './Matchers';
+import { anyNumber, eq } from './Matchers';
 import calledWithFn from './CalledWithFn';
 
 interface MockInt {
@@ -7,7 +7,7 @@ interface MockInt {
     getSomethingWithArgs: (arg1: number, arg2: number) => number;
 }
 
-describe('jest-ts-mock', () => {
+describe('jest-mock-extended', () => {
     test('Check that a jest.fn() is created without any invocation to the mock method', () => {
         const mockObj = mock<MockInt>();
         expect(mockObj.getNumber).toHaveBeenCalledTimes(0);
@@ -66,6 +66,18 @@ describe('jest-ts-mock', () => {
             mockObj.getSomethingWithArgs.calledWith(anyNumber(), anyNumber()).mockReturnValue(3);
             // @ts-ignore
             expect(mockObj.getSomethingWithArgs('1', 2)).toBe(undefined);
+        });
+
+        test('can use literals', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(3);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+        });
+
+        test('can mix Matchers with literals with use of eq', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.getSomethingWithArgs.calledWith(eq(1), anyNumber()).mockReturnValue(3);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         });
     });
 });

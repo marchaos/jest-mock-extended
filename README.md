@@ -1,19 +1,19 @@
-# jest-ts-mock
-Type safe mocking framework for Jest
+# jest-mock-extended
+Type safe mocking extensions for Jest
 
 # Installation
 ```
-npm install jest-ts-mock --save-dev
+npm install jest-mock-extended --save-dev
 ```
 or
 ```
-yarn add jest-ts-mock --dev
+yarn add jest-mock-extended --dev
 ```
 
 # Example
 
 ```js
-import mock from 'jest-ts-mock';
+import mock from 'jest-mock-extended';
 
 interface FunProvider {
    getSomeFun: () => string;

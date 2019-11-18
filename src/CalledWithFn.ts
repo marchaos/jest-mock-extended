@@ -8,12 +8,7 @@ interface CalledWithStackItem<T, Y extends any[]> {
 
 const checkCalledWith = <T, Y extends any[]>(calledWithStack: CalledWithStackItem<T, Y>[], actualArgs: Y): T => {
     const calledWithInstance = calledWithStack.find(instance =>
-        instance.args.every((matcher, i) => {
-            if (matcher instanceof Matcher) {
-                return matcher.match(actualArgs[i]);
-            }
-            return actualArgs[i] === matcher;
-        })
+        instance.args.every((matcher, i) => (matcher instanceof Matcher ? matcher.match(actualArgs[i]) : actualArgs[i] === matcher))
     );
 
     // @ts-ignore cannot return undefined, but this will fail the test if there is an expectation which is what we want
