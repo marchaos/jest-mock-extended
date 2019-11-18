@@ -1,5 +1,6 @@
-import mock, {TSMock} from './mock';
-import {anyNumber} from "./Matchers";
+import mock from './mock';
+import { anyNumber } from './Matchers';
+import calledWithFn from './CalledWith';
 
 interface MockInt {
     getNumber: () => number;
@@ -47,11 +48,24 @@ describe('jest-ts-mock', () => {
         expect(mockObj.getSomethingWithArgs(6, 7)).toBe(13);
     });
 
-    describe('matchers', () => {
+    describe('calledWith', () => {
+        test('can use calledWith without mock', () => {
+            const mockFn = calledWithFn();
+            mockFn.calledWith(anyNumber(), anyNumber()).mockReturnValue(3);
+            expect(mockFn(1, 2)).toBe(3);
+        });
+
         test('Can specify matchers', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs.calledWith(anyNumber(), anyNumber()).mockReturnValue(3);
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+        });
+
+        test('does not match when one arg does not match Matcher', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.getSomethingWithArgs.calledWith(anyNumber(), anyNumber()).mockReturnValue(3);
+            // @ts-ignore
+            expect(mockObj.getSomethingWithArgs('1', 2)).toBe(undefined);
         });
     });
 });
