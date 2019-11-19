@@ -83,3 +83,15 @@ You can also use calledWith() on its own to create a jest.fn() with the calledWi
 |notUndefined()         | value !== undefined                                                   |
 |notEmpty()             | value !== undefined && value !== null && value !== ''                 |
 
+## Writing a custom Matcher
+
+Custom matchers can be written using a MatcherCreator
+```
+import { MatcherCreator, Matcher } from 'jest-mock-extended';
+
+// expectedValue is optional
+export const myMatcher: MatcherCreator<MyType> = (expectedValue) => new Matcher((actualValue) => {
+    return (expectedValue === actualValue && actualValue.isSpecial);
+});
+
+```
