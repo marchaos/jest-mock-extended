@@ -13,7 +13,7 @@ yarn add jest-mock-extended --dev
 # Example
 
 ```ts
-import mock from 'jest-mock-extended';
+import { mock } from 'jest-mock-extended';
 
 interface PartyProvider {
    getPartyType: () => string;
