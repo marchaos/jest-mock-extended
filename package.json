@@ -1,6 +1,6 @@
 {
   "name": "jest-mock-extended",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/marchaos/jest-mock-extended",
   "description": "Type safe mocking extensions for jest",
   "files": [
@@ -21,7 +21,7 @@
     "typescript": "^3.7.2"
   },
   "peerDependencies": {
-    "jest": "^22+"
+    "jest": "^24.0.0"
   },
   "author": "Marc McIntyre <marchaos@gmail.com>",
   "license": "MIT"
