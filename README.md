@@ -86,7 +86,7 @@ You can also use calledWith() on its own to create a jest.fn() with the calledWi
 ## Writing a custom Matcher
 
 Custom matchers can be written using a MatcherCreator
-```
+```ts
 import { MatcherCreator, Matcher } from 'jest-mock-extended';
 
 // expectedValue is optional
