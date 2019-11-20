@@ -1,16 +1,16 @@
 language: node_js
 node_js:
-  - node
+    - lts/*
 branches:
-  only:
-    - master
+    only:
+        - master
 cache:
-  directories:
-    - node_modules
+    directories:
+        - node_modules
 before_install:
-  - npm update
+    - npm update
 install:
-  - npm install
+    - npm install
 script:
-  - npm test
-  - npm run coveralls
+    - npm test
+    - npm run coveralls
