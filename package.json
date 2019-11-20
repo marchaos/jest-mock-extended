@@ -12,7 +12,7 @@
     "prepare": "npm run build",
     "test": "jest",
     "build": "tsc",
-    "coveralls": "jest --coverage && cat ./tests/coverage/lcov.info | coveralls"
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
