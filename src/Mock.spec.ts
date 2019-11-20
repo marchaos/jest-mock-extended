@@ -3,6 +3,7 @@ import { anyNumber} from './Matchers';
 import calledWithFn from './CalledWithFn';
 
 interface MockInt {
+    id: number;
     getNumber: () => number;
     getSomethingWithArgs: (arg1: number, arg2: number) => number;
 }
@@ -46,6 +47,13 @@ describe('jest-mock-extended', () => {
 
         expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         expect(mockObj.getSomethingWithArgs(6, 7)).toBe(13);
+    });
+
+    test('Can set props', () => {
+        const mockObj = mock<MockInt>();
+        mockObj.id = 17;
+
+        expect(mockObj.id).toBe(17);
     });
 
     describe('calledWith', () => {
