@@ -1,7 +1,7 @@
 # jest-mock-extended
 Type safe mocking extensions for Jest
 
-https://travis-ci.com/marchaos/jest-mock-extended.svg?branch=master
+[![Build Status](https://travis-ci.com/marchaos/jest-mock-extended.svg?branch=master)](https://travis-ci.com/marchaos/jest-mock-extended)
 
 # Installation
 ```bash
