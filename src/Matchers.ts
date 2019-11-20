@@ -29,12 +29,12 @@ export const isA: MatcherCreator<any> = clazz => new Matcher(actualValue => actu
 
 export const arrayIncludes: MatcherCreator<any[], any> = arrayVal =>
     new Matcher(actualValue => Array.isArray(actualValue) && actualValue.includes(arrayVal));
-export const setHas: MatcherCreator<Set<any>> = arrayVal =>
+export const setHas: MatcherCreator<Set<any>, any> = arrayVal =>
     new Matcher(actualValue => anySet().match(actualValue) && actualValue!.has(arrayVal));
-export const mapContainsKey: MatcherCreator<Map<any, any>> = mapVal =>
+export const mapHas: MatcherCreator<Map<any, any>, any> = mapVal =>
     new Matcher(actualValue => anyMap().match(actualValue) && actualValue!.has(mapVal));
-export const objectContainsKey: MatcherCreator<any> = key =>
-    new Matcher(actualValue => anyObject().match(actualValue) && actualValue[key] !== undefined);
+export const objectContainsKey: MatcherCreator<any, string> = key =>
+    new Matcher(actualValue => anyObject().match(actualValue) && actualValue[key!] !== undefined);
 export const objectContainsValue: MatcherCreator<any> = value =>
     new Matcher(actualValue => anyObject().match(actualValue) && Object.values(actualValue).includes(value));
 export const notNull: MatcherCreator<any> = () => new Matcher(actualValue => actualValue !== null);

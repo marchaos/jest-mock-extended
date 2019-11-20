@@ -93,5 +93,16 @@ import { MatcherCreator, Matcher } from 'jest-mock-extended';
 export const myMatcher: MatcherCreator<MyType> = (expectedValue) => new Matcher((actualValue) => {
     return (expectedValue === actualValue && actualValue.isSpecial);
 });
+```
 
+By default, the expected value and actual value are the same type. In the case where you need to type the expectedValue 
+differently than the actual value, you can use the optional 2 generic parameter:
+
+```ts
+import { MatcherCreator, Matcher } from 'jest-mock-extended';
+
+// expectedValue is optional
+export const myMatcher: MatcherCreator<string[], string> = (expectedValue) => new Matcher((actualValue) => {
+    return (actualValue.includes(expectedValue));
+});
 ```
