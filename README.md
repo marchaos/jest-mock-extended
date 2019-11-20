@@ -2,6 +2,10 @@
 Type safe mocking extensions for Jest
 
 [![Build Status](https://travis-ci.com/marchaos/jest-mock-extended.svg?branch=master)](https://travis-ci.com/marchaos/jest-mock-extended)
+[![Coverage Status](https://coveralls.io/repos/github/marchaos/jest-mock-extended/badge.svg?branch=master)](https://coveralls.io/github/marchaos/jest-mock-extended?branch=master)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 
 # Installation
 ```bash
