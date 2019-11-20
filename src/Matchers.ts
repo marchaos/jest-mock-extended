@@ -37,6 +37,7 @@ export const objectContainsKey: MatcherCreator<any, string> = key =>
     new Matcher(actualValue => anyObject().match(actualValue) && actualValue[key!] !== undefined);
 export const objectContainsValue: MatcherCreator<any> = value =>
     new Matcher(actualValue => anyObject().match(actualValue) && Object.values(actualValue).includes(value));
+
 export const notNull: MatcherCreator<any> = () => new Matcher(actualValue => actualValue !== null);
 export const notUndefined: MatcherCreator<any> = () => new Matcher(actualValue => actualValue !== undefined);
 export const notEmpty: MatcherCreator<any> = () =>

@@ -1,4 +1,4 @@
-import { CalledWithMock } from './mock';
+import { CalledWithMock } from './Mock';
 import { Matcher, MatchersOrLiterals } from './Matchers';
 
 interface CalledWithStackItem<T, Y extends any[]> {

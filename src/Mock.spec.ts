@@ -1,4 +1,4 @@
-import mock from './mock';
+import mock from './Mock';
 import { anyNumber} from './Matchers';
 import calledWithFn from './CalledWithFn';
 
