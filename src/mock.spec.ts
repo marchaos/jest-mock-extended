@@ -79,5 +79,17 @@ describe('jest-mock-extended', () => {
             mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         });
+
+        test('supports multiple calledWith', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.getSomethingWithArgs.calledWith(2, anyNumber()).mockReturnValue(4);
+            mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
+            mockObj.getSomethingWithArgs.calledWith(6, anyNumber()).mockReturnValue(7);
+
+            expect(mockObj.getSomethingWithArgs(2, 2)).toBe(4);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+            expect(mockObj.getSomethingWithArgs(6, 2)).toBe(7);
+            expect(mockObj.getSomethingWithArgs(7, 2)).toBe(undefined);
+        });
     });
 });
