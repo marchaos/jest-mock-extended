@@ -1,7 +1,14 @@
 # jest-mock-extended
-Type safe mocking extensions for Jest
+Type safe mocking extensions for Jest 🃏
 
-# Installation
+[![Build Status](https://travis-ci.com/marchaos/jest-mock-extended.svg?branch=master)](https://travis-ci.com/marchaos/jest-mock-extended)
+[![Coverage Status](https://coveralls.io/repos/github/marchaos/jest-mock-extended/badge.svg?branch=master)](https://coveralls.io/github/marchaos/jest-mock-extended?branch=master)
+[![npm version](https://badge.fury.io/js/jest-mock-extended.svg)](https://badge.fury.io/js/jest-mock-extended)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+
+## Installation
 ```bash
 npm install jest-mock-extended --save-dev
 ```
@@ -10,7 +17,7 @@ or
 yarn add jest-mock-extended --dev
 ```
 
-# Example
+## Example
 
 ```ts
 import { mock } from 'jest-mock-extended';
@@ -39,7 +46,7 @@ describe('Party Tests', () => {
 });
 ```
 
-# calledWith() Extension
+## calledWith() Extension
 
 ```jest-mock-extended``` allows for invocation matching expectations. Types of arguments, even when using matchers are type checked.
 
