@@ -1,6 +1,8 @@
 # jest-mock-extended
 Type safe mocking extensions for Jest
 
+https://travis-ci.com/marchaos/jest-mock-extended.svg?branch=master
+
 # Installation
 ```bash
 npm install jest-mock-extended --save-dev
