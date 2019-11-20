@@ -8,8 +8,8 @@ export class Matcher<T> {
     }
 }
 
-export interface MatcherCreator<T> {
-    (expectedValue?: T): Matcher<T>;
+export interface MatcherCreator<T, E = T> {
+    (expectedValue?: E): Matcher<T>;
 }
 
 export type MatchersOrLiterals<Y extends any[]> = { [K in keyof Y]: Matcher<Y[K]> | Y[K] };
@@ -27,13 +27,15 @@ export const anyMap: MatcherCreator<Map<any, any>> = () => new Matcher(actualVal
 export const anySet: MatcherCreator<Set<any>> = () => new Matcher(actualValue => actualValue instanceof Set);
 export const isA: MatcherCreator<any> = clazz => new Matcher(actualValue => actualValue instanceof clazz);
 
-export const includes: MatcherCreator<any[]> = arrayVal =>
+export const arrayIncludes: MatcherCreator<any[], any> = arrayVal =>
     new Matcher(actualValue => Array.isArray(actualValue) && actualValue.includes(arrayVal));
-export const has: MatcherCreator<Set<any>> = arrayVal =>
+export const setHas: MatcherCreator<Set<any>> = arrayVal =>
     new Matcher(actualValue => anySet().match(actualValue) && actualValue!.has(arrayVal));
-export const containsKey: MatcherCreator<any> = key =>
+export const mapContainsKey: MatcherCreator<Map<any, any>> = mapVal =>
+    new Matcher(actualValue => anyMap().match(actualValue) && actualValue!.has(mapVal));
+export const objectContainsKey: MatcherCreator<any> = key =>
     new Matcher(actualValue => anyObject().match(actualValue) && actualValue[key] !== undefined);
-export const containsValue: MatcherCreator<any> = value =>
+export const objectContainsValue: MatcherCreator<any> = value =>
     new Matcher(actualValue => anyObject().match(actualValue) && Object.values(actualValue).includes(value));
 export const notNull: MatcherCreator<any> = () => new Matcher(actualValue => actualValue !== null);
 export const notUndefined: MatcherCreator<any> = () => new Matcher(actualValue => actualValue !== undefined);
