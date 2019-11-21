@@ -1,12 +1,17 @@
 # jest-mock-extended
-Type safe mocking extensions for Jest 🃏
+> Type safe mocking extensions for Jest 🃏
 
 [![Build Status](https://travis-ci.com/marchaos/jest-mock-extended.svg?branch=master)](https://travis-ci.com/marchaos/jest-mock-extended)
 [![Coverage Status](https://coveralls.io/repos/github/marchaos/jest-mock-extended/badge.svg?branch=master)](https://coveralls.io/github/marchaos/jest-mock-extended?branch=master)
 [![npm version](https://badge.fury.io/js/jest-mock-extended.svg)](https://badge.fury.io/js/jest-mock-extended)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-
+## Features
+- Provides complete Typescript type safety for interfaces, argument types and return types
+- Ability to mock any interface or oject
+- calledWith() extension to provide argument specific expectations, which works for objects of functions.
+- Extensive Matcher API
+- Familiar Jest like API
 
 ## Installation
 ```bash
