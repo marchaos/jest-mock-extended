@@ -9,7 +9,7 @@
 ## Features
 - Provides complete Typescript type safety for interfaces, argument types and return types
 - Ability to mock any interface or object
-- calledWith() extension to provide argument specific expectations, which works for objects of functions.
+- calledWith() extension to provide argument specific expectations, which works for objects and functions.
 - Extensive Matcher API
 - Familiar Jest like API
 
