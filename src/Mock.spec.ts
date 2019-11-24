@@ -1,5 +1,5 @@
 import mock from './Mock';
-import { anyNumber} from './Matchers';
+import { anyNumber } from './Matchers';
 import calledWithFn from './CalledWithFn';
 
 interface MockInt {
@@ -98,6 +98,26 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
             expect(mockObj.getSomethingWithArgs(6, 2)).toBe(7);
             expect(mockObj.getSomethingWithArgs(7, 2)).toBe(undefined);
+        });
+    });
+
+    describe('Matchers with toHaveBeenCalledWith', () => {
+        it('matchers allow all args to be Matcher based', () => {
+            const mockObj: MockInt = mock<MockInt>();
+            mockObj.getSomethingWithArgs(2, 4);
+            expect(mockObj.getSomethingWithArgs).toHaveBeenCalledWith(anyNumber(), anyNumber());
+        });
+
+        it('matchers allow for a mix of Matcher and literal', () => {
+            const mockObj: MockInt = mock<MockInt>();
+            mockObj.getSomethingWithArgs(2, 4);
+            expect(mockObj.getSomethingWithArgs).toHaveBeenCalledWith(anyNumber(), 4);
+        });
+
+        it('matchers allow for not.toHaveBeenCalledWith', () => {
+            const mockObj: MockInt = mock<MockInt>();
+            mockObj.getSomethingWithArgs(2, 4);
+            expect(mockObj.getSomethingWithArgs).not.toHaveBeenCalledWith(anyNumber(), 5);
         });
     });
 });

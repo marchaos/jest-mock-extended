@@ -2,9 +2,9 @@ export type MatcherFn<T> = (actualValue: T) => boolean;
 
 // needs to be a class so we can instanceof
 export class Matcher<T> {
-    public readonly match: MatcherFn<T>;
+    public readonly asymmetricMatch: MatcherFn<T>;
     constructor(matcher: MatcherFn<T>) {
-        this.match = matcher;
+        this.asymmetricMatch = matcher;
     }
 }
 
@@ -30,13 +30,13 @@ export const isA: MatcherCreator<any> = clazz => new Matcher(actualValue => actu
 export const arrayIncludes: MatcherCreator<any[], any> = arrayVal =>
     new Matcher(actualValue => Array.isArray(actualValue) && actualValue.includes(arrayVal));
 export const setHas: MatcherCreator<Set<any>, any> = arrayVal =>
-    new Matcher(actualValue => anySet().match(actualValue) && actualValue!.has(arrayVal));
+    new Matcher(actualValue => anySet().asymmetricMatch(actualValue) && actualValue!.has(arrayVal));
 export const mapHas: MatcherCreator<Map<any, any>, any> = mapVal =>
-    new Matcher(actualValue => anyMap().match(actualValue) && actualValue!.has(mapVal));
+    new Matcher(actualValue => anyMap().asymmetricMatch(actualValue) && actualValue!.has(mapVal));
 export const objectContainsKey: MatcherCreator<any, string> = key =>
-    new Matcher(actualValue => anyObject().match(actualValue) && actualValue[key!] !== undefined);
+    new Matcher(actualValue => anyObject().asymmetricMatch(actualValue) && actualValue[key!] !== undefined);
 export const objectContainsValue: MatcherCreator<any> = value =>
-    new Matcher(actualValue => anyObject().match(actualValue) && Object.values(actualValue).includes(value));
+    new Matcher(actualValue => anyObject().asymmetricMatch(actualValue) && Object.values(actualValue).includes(value));
 
 export const notNull: MatcherCreator<any> = () => new Matcher(actualValue => actualValue !== null);
 export const notUndefined: MatcherCreator<any> = () => new Matcher(actualValue => actualValue !== undefined);
