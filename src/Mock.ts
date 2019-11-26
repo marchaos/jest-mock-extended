@@ -11,7 +11,7 @@ export type MockProxy<T> = {
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> & T[K] : T[K];
 };
 
-const mock = <T extends {}>(): MockProxy<T> => {
+const mock = <T extends {}>(): MockProxy<T> & T => {
     const set = (obj: MockProxy<T>, property: ProxiedProperty, value: any) => {
         // @ts-ignore
         obj[property] = value;

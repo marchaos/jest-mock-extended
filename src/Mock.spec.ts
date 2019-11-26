@@ -9,6 +9,36 @@ interface MockInt {
 }
 
 describe('jest-mock-extended', () => {
+    test('Can be assigned back to itself even when there are private parts', () => {
+        class Test1 implements MockInt {
+            readonly id: number;
+            private readonly anotherPart: number;
+
+            constructor(id: number) {
+                this.id = id;
+                this.anotherPart = id;
+            }
+
+            ofAnother(test: Test1) {
+                return test.getNumber();
+            }
+
+            getNumber() {
+                return this.id;
+            }
+
+            getSomethingWithArgs(arg1: number, arg2: number) {
+                return this.id;
+            }
+        }
+
+        // No TS errors here
+        const mockObj: Test1 = mock<Test1>();
+        // No error here.
+        new Test1(1).ofAnother(mockObj);
+        expect(mockObj.getNumber).toHaveBeenCalledTimes(1);
+    });
+
     test('Check that a jest.fn() is created without any invocation to the mock method', () => {
         const mockObj = mock<MockInt>();
         expect(mockObj.getNumber).toHaveBeenCalledTimes(0);
