@@ -1,4 +1,4 @@
-import mock from './Mock';
+import mock, { mockDeep } from './Mock';
 import { anyNumber } from './Matchers';
 import calledWithFn from './CalledWithFn';
 
@@ -18,15 +18,15 @@ class Test1 implements MockInt {
         this.anotherPart = id;
     }
 
-    ofAnother(test: Test1) {
+    public ofAnother(test: Test1) {
         return test.getNumber();
     }
 
-    getNumber() {
+    public getNumber() {
         return this.id;
     }
 
-    getSomethingWithArgs(arg1: number, arg2: number) {
+    public getSomethingWithArgs(arg1: number, arg2: number) {
         return this.id;
     }
 }
@@ -34,6 +34,10 @@ class Test1 implements MockInt {
 class Test2 {
     getNumber(num: number) {
         return num * 2;
+    }
+
+    getAnotherString() {
+        return 'another string';
     }
 }
 
@@ -44,19 +48,6 @@ describe('jest-mock-extended', () => {
         // No error here.
         new Test1(1).ofAnother(mockObj);
         expect(mockObj.getNumber).toHaveBeenCalledTimes(1);
-    });
-
-    test('can deep mock members', () => {
-        const mockObj = mock<Test1>(true);
-        mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
-        expect(mockObj.deepProp.getNumber(1)).toBe(4);
-    });
-
-    test('maintains API for deep mocks', () => {
-        const mockObj = mock<Test1>(true);
-        mockObj.deepProp.getNumber(100);
-
-        expect(mockObj.deepProp.getNumber.mock.calls[0][0]).toBe(100);
     });
 
     test('Check that a jest.fn() is created without any invocation to the mock method', () => {
@@ -168,6 +159,50 @@ describe('jest-mock-extended', () => {
             const mockObj: MockInt = mock<MockInt>();
             mockObj.getSomethingWithArgs(2, 4);
             expect(mockObj.getSomethingWithArgs).not.toHaveBeenCalledWith(anyNumber(), 5);
+        });
+    });
+
+    describe('Deep mock support', () => {
+        test('can deep mock members', () => {
+            const mockObj = mockDeep<Test1>();
+            mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
+            expect(mockObj.deepProp.getNumber(1)).toBe(4);
+        });
+
+        test('maintains API for deep mocks', () => {
+            const mockObj = mockDeep<Test1>();
+            mockObj.deepProp.getNumber(100);
+
+            expect(mockObj.deepProp.getNumber.mock.calls[0][0]).toBe(100);
+        });
+    });
+
+    describe('mock implementation support', () => {
+        test('can provide mock implementation for props', () => {
+            const mockObj = mock<Test1>({
+                id: 61
+            });
+            expect(mockObj.id).toBe(61);
+        });
+
+        test('can provide mock implementation for functions', () => {
+            const mockObj = mock<Test1>({
+                getNumber: () => {
+                    return 150;
+                }
+            });
+            expect(mockObj.getNumber()).toBe(150);
+        });
+
+        test('can provide deep mock implementations', () => {
+            const mockObj = mockDeep<Test1>({
+                deepProp: {
+                    getNumber: (num: number) => {
+                        return 76;
+                    }
+                }
+            });
+            expect(mockObj.deepProp.getNumber(123)).toBe(76);
         });
     });
 });

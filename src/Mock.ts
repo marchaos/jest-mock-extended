@@ -1,5 +1,6 @@
 import calledWithFn from './CalledWithFn';
 import { MatchersOrLiterals } from './Matchers';
+import { DeepPartial } from 'ts-essentials';
 
 type ProxiedProperty = string | number | symbol;
 
@@ -33,15 +34,18 @@ const JestFnAPI = [
     'mockResolvedValueOnce',
     'mockRejectedValue',
     'mockRejectedValueOnce',
-    'calledWith' // added by this api
+    'calledWith' // added by this library
 ];
 
-const mock = <T extends {}>(deep = false): MockProxy<T> & T => {
+export interface MockOpts {
+    deep?: boolean;
+}
+
+export const mockDeep = <T>(mockImplementation?: DeepPartial<T>): MockProxy<T> & T => mock(mockImplementation, { deep: true });
+
+const mock = <T>(mockImplementation: DeepPartial<T> = {} as DeepPartial<T>, opts?: MockOpts): MockProxy<T> & T => {
     const handler = {
         set: (obj: MockProxy<T>, property: ProxiedProperty, value: any) => {
-            // @ts-ignore
-            console.info('set', property);
-
             // @ts-ignore
             obj[property] = value;
             return true;
@@ -50,16 +54,13 @@ const mock = <T extends {}>(deep = false): MockProxy<T> & T => {
         get: (obj: MockProxy<T>, property: ProxiedProperty) => {
             let fn = calledWithFn();
             // @ts-ignore
-            fn.propName = property;
-
-            // @ts-ignore
             if (!obj[property]) {
-                if (deep) {
+                if (opts?.deep) {
+                    // @ts-ignore
+                    fn.propName = property;
                     // @ts-ignore
                     obj[property] = new Proxy<MockProxy<T>>(fn, handler);
                 } else {
-                    // @ts-ignore
-                    console.info('get', property);
                     // @ts-ignore
                     if (!obj[property]) {
                         // @ts-ignore
@@ -76,6 +77,7 @@ const mock = <T extends {}>(deep = false): MockProxy<T> & T => {
             // const mock = jest.fn();
             // mock.mockReturnValue() // Call on instance
             // mock(); // call on mock function
+            // TODO: There does not seem to be a cleaner way to do this - any suggestions?
 
             // @ts-ignore
             if (JestFnAPI.includes(obj.propName)) {
@@ -89,7 +91,7 @@ const mock = <T extends {}>(deep = false): MockProxy<T> & T => {
         }
     };
 
-    return new Proxy<MockProxy<T>>({} as MockProxy<T>, handler);
+    return new Proxy<MockProxy<T>>(mockImplementation as MockProxy<T>, handler);
 };
 
 export default mock;
