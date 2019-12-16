@@ -8,35 +8,55 @@ interface MockInt {
     getSomethingWithArgs: (arg1: number, arg2: number) => number;
 }
 
+class Test1 implements MockInt {
+    readonly id: number;
+    private readonly anotherPart: number;
+    public deepProp: Test2 = new Test2();
+
+    constructor(id: number) {
+        this.id = id;
+        this.anotherPart = id;
+    }
+
+    ofAnother(test: Test1) {
+        return test.getNumber();
+    }
+
+    getNumber() {
+        return this.id;
+    }
+
+    getSomethingWithArgs(arg1: number, arg2: number) {
+        return this.id;
+    }
+}
+
+class Test2 {
+    getNumber(num: number) {
+        return num * 2;
+    }
+}
+
 describe('jest-mock-extended', () => {
     test('Can be assigned back to itself even when there are private parts', () => {
-        class Test1 implements MockInt {
-            readonly id: number;
-            private readonly anotherPart: number;
-
-            constructor(id: number) {
-                this.id = id;
-                this.anotherPart = id;
-            }
-
-            ofAnother(test: Test1) {
-                return test.getNumber();
-            }
-
-            getNumber() {
-                return this.id;
-            }
-
-            getSomethingWithArgs(arg1: number, arg2: number) {
-                return this.id;
-            }
-        }
-
         // No TS errors here
         const mockObj: Test1 = mock<Test1>();
         // No error here.
         new Test1(1).ofAnother(mockObj);
         expect(mockObj.getNumber).toHaveBeenCalledTimes(1);
+    });
+
+    test('can deep mock members', () => {
+        const mockObj = mock<Test1>(true);
+        mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
+        expect(mockObj.deepProp.getNumber(1)).toBe(4);
+    });
+
+    test('maintains API for deep mocks', () => {
+        const mockObj = mock<Test1>(true);
+        mockObj.deepProp.getNumber(100);
+
+        expect(mockObj.deepProp.getNumber.mock.calls[0][0]).toBe(100);
     });
 
     test('Check that a jest.fn() is created without any invocation to the mock method', () => {

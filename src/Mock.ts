@@ -8,30 +8,88 @@ export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
 }
 
 export type MockProxy<T> = {
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> & T[K] : T[K];
+    // This supports deep mocks in the else branch
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> & T[K] : MockProxy<T[K]> & T[K];
 };
 
-const mock = <T extends {}>(): MockProxy<T> & T => {
-    const set = (obj: MockProxy<T>, property: ProxiedProperty, value: any) => {
-        // @ts-ignore
-        obj[property] = value;
-        return true;
-    };
+const JestFnAPI = [
+    '_isMockFunction',
+    '_protoImpl',
+    'getMockName',
+    'getMockImplementation',
+    'mock',
+    'mockClear',
+    'mockReset',
+    'mockRestore',
+    'mockImplementation',
+    'mockImplementation',
+    'mockImplementationOnce',
+    'mockImplementationOnce',
+    'mockName',
+    'mockReturnThis',
+    'mockReturnValue',
+    'mockReturnValueOnce',
+    'mockResolvedValue',
+    'mockResolvedValueOnce',
+    'mockRejectedValue',
+    'mockRejectedValueOnce',
+    'calledWith' // added by this api
+];
 
-    const get = (obj: MockProxy<T>, property: ProxiedProperty) => {
-        // @ts-ignore
-        if (!obj[property]) {
+const mock = <T extends {}>(deep = false): MockProxy<T> & T => {
+    const handler = {
+        set: (obj: MockProxy<T>, property: ProxiedProperty, value: any) => {
             // @ts-ignore
-            obj[property] = calledWithFn();
+            console.info('set', property);
+
+            // @ts-ignore
+            obj[property] = value;
+            return true;
+        },
+
+        get: (obj: MockProxy<T>, property: ProxiedProperty) => {
+            let fn = calledWithFn();
+            // @ts-ignore
+            fn.propName = property;
+
+            // @ts-ignore
+            if (!obj[property]) {
+                if (deep) {
+                    // @ts-ignore
+                    obj[property] = new Proxy<MockProxy<T>>(fn, handler);
+                } else {
+                    // @ts-ignore
+                    console.info('get', property);
+                    // @ts-ignore
+                    if (!obj[property]) {
+                        // @ts-ignore
+                        obj[property] = calledWithFn();
+                    }
+                }
+            }
+            // @ts-ignore
+            return obj[property];
+        },
+        apply: (obj: MockProxy<T>, thisArg: any, argumentsList: Array<any>) => {
+            // check to see if this is a call on a the MockInstance which we will need to delegate to the instance rather
+            // than the function i.e
+            // const mock = jest.fn();
+            // mock.mockReturnValue() // Call on instance
+            // mock(); // call on mock function
+
+            // @ts-ignore
+            if (JestFnAPI.includes(obj.propName)) {
+                // @ts-ignore
+                return obj[obj.propName](...argumentsList);
+            }
+
+            // otherwise it's a call on the mock function.
+            // @ts-ignore
+            return obj(...argumentsList);
         }
-        // @ts-ignore
-        return obj[property];
     };
 
-    return new Proxy<MockProxy<T>>({} as MockProxy<T>, {
-        set: (obj, property, value) => set(obj, property, value),
-        get: (obj, property) => get(obj, property)
-    });
+    return new Proxy<MockProxy<T>>({} as MockProxy<T>, handler);
 };
 
 export default mock;
