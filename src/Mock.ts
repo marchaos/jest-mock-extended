@@ -71,6 +71,7 @@ const mock = <T>(mockImplementation: DeepPartial<T> = {} as DeepPartial<T>, opts
             // @ts-ignore
             return obj[property];
         },
+
         apply: (obj: MockProxy<T>, thisArg: any, argumentsList: Array<any>) => {
             // check to see if this is a call on a the MockInstance which we will need to delegate to the instance rather
             // than the function i.e
