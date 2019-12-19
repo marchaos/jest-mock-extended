@@ -31,20 +31,29 @@ class Test1 implements MockInt {
     }
 }
 
+class Test3 {
+    getNumber(num: number) {
+        return num ^ 2;
+    }
+}
+
 class Test2 {
+    public deeperProp: Test3 = new Test3();
+
+
     getNumber(num: number) {
         return num * 2;
     }
 
-    getAnotherString() {
-        return 'another string';
+    getAnotherString(str: string) {
+        return `${str} another string`;
     }
 }
 
 describe('jest-mock-extended', () => {
     test('Can be assigned back to itself even when there are private parts', () => {
         // No TS errors here
-        const mockObj: Test1 = mock<Test1>();
+        const mockObj: Test1 = mockDeep<Test1>();
         // No error here.
         new Test1(1).ofAnother(mockObj);
         expect(mockObj.getNumber).toHaveBeenCalledTimes(1);
@@ -169,6 +178,12 @@ describe('jest-mock-extended', () => {
             expect(mockObj.deepProp.getNumber(1)).toBe(4);
         });
 
+        test('three level deep mock', () => {
+            const mockObj = mockDeep<Test1>();
+            mockObj.deepProp.deeperProp.getNumber.calledWith(1).mockReturnValue(4);
+            expect(mockObj.deepProp.deeperProp.getNumber(1)).toBe(4);
+        });
+
         test('maintains API for deep mocks', () => {
             const mockObj = mockDeep<Test1>();
             mockObj.deepProp.getNumber(100);
@@ -194,6 +209,17 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getNumber()).toBe(150);
         });
 
+        test('Partially mocked implementations can have non-mocked function expectations', () => {
+            const mockObj = mock<Test1>({
+                getNumber: () => {
+                    return 150;
+                }
+            });
+
+            mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(3);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+        });
+
         test('can provide deep mock implementations', () => {
             const mockObj = mockDeep<Test1>({
                 deepProp: {
@@ -203,6 +229,19 @@ describe('jest-mock-extended', () => {
                 }
             });
             expect(mockObj.deepProp.getNumber(123)).toBe(76);
+        });
+
+        test('Partially mocked implementations of deep mocks can have non-mocked function expectations', () => {
+            const mockObj = mockDeep<Test1>({
+                deepProp: {
+                    getNumber: (num: number) => {
+                        return 76;
+                    }
+                }
+            });
+
+            mockObj.deepProp.getAnotherString.calledWith('abc').mockReturnValue('this string');
+            expect(mockObj.deepProp.getAnotherString('abc')).toBe('this string');
         });
     });
 });
