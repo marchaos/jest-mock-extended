@@ -20,18 +20,18 @@ export interface MockOpts {
 export const mockDeep = <T>(mockImplementation?: DeepPartial<T>): MockProxy<T> & T => mock(mockImplementation, { deep: true });
 
 // @ts-ignore
-const overrideMockImp =  (obj: object, opts) => {
+const overrideMockImp = (obj: object, opts) => {
     const proxy = new Proxy<MockProxy<any>>(obj, handler(opts));
-        for (let name of Object.keys(obj)) {
+    for (let name of Object.keys(obj)) {
+        // @ts-ignore
+        if (typeof obj[name] === 'object' && obj[name] !== null) {
             // @ts-ignore
-            if (typeof obj[name] === 'object' && obj[name] !== null) {
-                // @ts-ignore
-                proxy[name] = overrideMockImp(obj[name])
-            } else {
-                // @ts-ignore
-                proxy[name] = obj[name];
-            }
+            proxy[name] = overrideMockImp(obj[name]);
+        } else {
+            // @ts-ignore
+            proxy[name] = obj[name];
         }
+    }
 
     return proxy;
 };
@@ -69,7 +69,6 @@ const handler = (opts?: MockOpts) => ({
         return obj[property];
     }
 });
-
 
 const mock = <T>(mockImplementation: DeepPartial<T> = {} as DeepPartial<T>, opts?: MockOpts): MockProxy<T> & T => {
     // @ts-ignore
