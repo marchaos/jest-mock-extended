@@ -31,15 +31,8 @@ class Test1 implements MockInt {
     }
 }
 
-class Test3 {
-    getNumber(num: number) {
-        return num ^ 2;
-    }
-}
-
 class Test2 {
     public deeperProp: Test3 = new Test3();
-
 
     getNumber(num: number) {
         return num * 2;
@@ -50,10 +43,16 @@ class Test2 {
     }
 }
 
+class Test3 {
+    getNumber(num: number) {
+        return num ^ 2;
+    }
+}
+
 describe('jest-mock-extended', () => {
     test('Can be assigned back to itself even when there are private parts', () => {
         // No TS errors here
-        const mockObj: Test1 = mockDeep<Test1>();
+        const mockObj: Test1 = mock<Test1>();
         // No error here.
         new Test1(1).ofAnother(mockObj);
         expect(mockObj.getNumber).toHaveBeenCalledTimes(1);
@@ -189,6 +188,18 @@ describe('jest-mock-extended', () => {
             mockObj.deepProp.getNumber(100);
 
             expect(mockObj.deepProp.getNumber.mock.calls[0][0]).toBe(100);
+        });
+
+        test('non deep expectation work as expected', () => {
+            const mockObj = mockDeep<Test1>();
+            new Test1(1).ofAnother(mockObj);
+            expect(mockObj.getNumber).toHaveBeenCalledTimes(1);
+        });
+
+        test('deep expectation work as expected', () => {
+            const mockObj = mockDeep<Test1>();
+            mockObj.deepProp.getNumber(2);
+            expect(mockObj.deepProp.getNumber).toHaveBeenCalledTimes(1);
         });
     });
 

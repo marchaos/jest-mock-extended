@@ -19,17 +19,12 @@ export interface MockOpts {
 
 export const mockDeep = <T>(mockImplementation?: DeepPartial<T>): MockProxy<T> & T => mock(mockImplementation, { deep: true });
 
-
 // @ts-ignore
 const overrideMockImp =  (obj: object, opts) => {
-    // @ts-ignore
-    console.info('in override', obj);
     const proxy = new Proxy<MockProxy<any>>(obj, handler(opts));
         for (let name of Object.keys(obj)) {
             // @ts-ignore
             if (typeof obj[name] === 'object' && obj[name] !== null) {
-                // @ts-ignore
-                console.info(name);
                 // @ts-ignore
                 proxy[name] = overrideMockImp(obj[name])
             } else {
@@ -39,8 +34,7 @@ const overrideMockImp =  (obj: object, opts) => {
         }
 
     return proxy;
-}
-
+};
 
 const handler = (opts?: MockOpts) => ({
     set: (obj: MockProxy<any>, property: ProxiedProperty, value: any) => {
@@ -51,22 +45,19 @@ const handler = (opts?: MockOpts) => ({
 
     get: (obj: MockProxy<any>, property: ProxiedProperty) => {
         let fn = calledWithFn();
-        // @ts-ignore
-        console.info('boom', property, obj[property]);
 
         // @ts-ignore
         if (!obj[property]) {
-            if (opts?.deep) {
-                // @ts-ignore
-                console.info('deeeep', property, obj);
-
+            // So this calls check here is totally not ideal - jest internally does a
+            // check to see if this is a spy - which we want to say no to, but blindly returning
+            // an proxy for calls results in the spy check returning true. This is another reason
+            // why deep is opt in.
+            if (opts?.deep && property !== 'calls') {
                 // @ts-ignore
                 fn.propName = property;
                 // @ts-ignore
-                obj[property] = new Proxy<MockProxy<T>>(fn, handler(opts));
+                obj[property] = new Proxy<MockProxy<any>>(fn, handler(opts));
             } else {
-                // @ts-ignore
-                console.info('raw');
                 // @ts-ignore
                 if (!obj[property]) {
                     // @ts-ignore
