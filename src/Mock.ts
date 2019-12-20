@@ -59,10 +59,7 @@ const handler = (opts?: MockOpts) => ({
                 obj[property] = new Proxy<MockProxy<any>>(fn, handler(opts));
             } else {
                 // @ts-ignore
-                if (!obj[property]) {
-                    // @ts-ignore
-                    obj[property] = calledWithFn();
-                }
+                obj[property] = calledWithFn();
             }
         }
         // @ts-ignore
