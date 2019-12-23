@@ -255,4 +255,37 @@ describe('jest-mock-extended', () => {
             expect(mockObj.deepProp.getAnotherString('abc')).toBe('this string');
         });
     });
+
+    describe('Promise', () => {
+        test('Can return as Promise.resolve', async () => {
+            const mockObj = mock<MockInt>();
+            mockObj.id = 17;
+            const promiseMockObj = Promise.resolve(mockObj);
+            await expect(promiseMockObj).resolves.toBeDefined();
+            await expect(promiseMockObj).resolves.toMatchObject({id :17});
+        });
+        test('Can return as Promise.reject', async () => {
+            const error = new Error('17');
+            const promiseMockObj = Promise.reject(error);
+            try {
+                await promiseMockObj;
+                fail('Promise must be rejected');
+            } catch (e) {
+                expect(e).toEqual(error);
+            }
+            await expect(promiseMockObj).rejects.toBeDefined();
+            await expect(promiseMockObj).rejects.toEqual(error);
+        });
+        test('Can mock a then function', async () => {
+            const mockPromiseObj = Promise.resolve(42);
+            const mockObj = mock<MockInt>();
+            mockObj.id = 17;
+            // @ts-ignore
+            mockObj.then = mockPromiseObj.then.bind(mockPromiseObj);
+            const promiseMockObj = Promise.resolve(mockObj);
+            await promiseMockObj;
+            await expect(promiseMockObj).resolves.toBeDefined();
+            await expect(promiseMockObj).resolves.toEqual(42);
+        });
+    });
 });

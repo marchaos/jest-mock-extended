@@ -48,6 +48,13 @@ const handler = (opts?: MockOpts) => ({
 
         // @ts-ignore
         if (!obj[property]) {
+            // This condition is required to use the mock object in the promise.
+            // For example Promise.resolve (layout) and async return values.
+            // These solutions check the "then" property.
+            // If "then" is function, then call it else return mock object.
+            if (property === 'then') {
+                return undefined;
+            }
             // So this calls check here is totally not ideal - jest internally does a
             // check to see if this is a spy - which we want to say no to, but blindly returning
             // an proxy for calls results in the spy check returning true. This is another reason
