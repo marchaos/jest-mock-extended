@@ -10,8 +10,8 @@ interface MockInt {
 
 class Test1 implements MockInt {
     readonly id: number;
-    private readonly anotherPart: number;
     public deepProp: Test2 = new Test2();
+    private readonly anotherPart: number;
 
     constructor(id: number) {
         this.id = id;
@@ -262,19 +262,23 @@ describe('jest-mock-extended', () => {
             mockObj.id = 17;
             const promiseMockObj = Promise.resolve(mockObj);
             await expect(promiseMockObj).resolves.toBeDefined();
-            await expect(promiseMockObj).resolves.toMatchObject({id :17});
+            await expect(promiseMockObj).resolves.toMatchObject({ id: 17 });
         });
         test('Can return as Promise.reject', async () => {
-            const error = new Error('17');
-            const promiseMockObj = Promise.reject(error);
+            const mockError = mock<Error>();
+            mockError.message = '17';
+            const promiseMockObj = Promise.reject(mockError);
             try {
                 await promiseMockObj;
                 fail('Promise must be rejected');
             } catch (e) {
-                expect(e).toEqual(error);
+                await expect(e).toBeDefined();
+                await expect(e).toBe(mockError);
+                await expect(e).toHaveProperty('message', '17');
             }
             await expect(promiseMockObj).rejects.toBeDefined();
-            await expect(promiseMockObj).rejects.toEqual(error);
+            await expect(promiseMockObj).rejects.toBe(mockError);
+            await expect(promiseMockObj).rejects.toHaveProperty('message', '17');
         });
         test('Can mock a then function', async () => {
             const mockPromiseObj = Promise.resolve(42);
