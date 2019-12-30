@@ -10,8 +10,8 @@ interface MockInt {
 
 class Test1 implements MockInt {
     readonly id: number;
-    private readonly anotherPart: number;
     public deepProp: Test2 = new Test2();
+    private readonly anotherPart: number;
 
     constructor(id: number) {
         this.id = id;
@@ -253,6 +253,43 @@ describe('jest-mock-extended', () => {
 
             mockObj.deepProp.getAnotherString.calledWith('abc').mockReturnValue('this string');
             expect(mockObj.deepProp.getAnotherString('abc')).toBe('this string');
+        });
+    });
+
+    describe('Promise', () => {
+        test('Can return as Promise.resolve', async () => {
+            const mockObj = mock<MockInt>();
+            mockObj.id = 17;
+            const promiseMockObj = Promise.resolve(mockObj);
+            await expect(promiseMockObj).resolves.toBeDefined();
+            await expect(promiseMockObj).resolves.toMatchObject({ id: 17 });
+        });
+        test('Can return as Promise.reject', async () => {
+            const mockError = mock<Error>();
+            mockError.message = '17';
+            const promiseMockObj = Promise.reject(mockError);
+            try {
+                await promiseMockObj;
+                fail('Promise must be rejected');
+            } catch (e) {
+                await expect(e).toBeDefined();
+                await expect(e).toBe(mockError);
+                await expect(e).toHaveProperty('message', '17');
+            }
+            await expect(promiseMockObj).rejects.toBeDefined();
+            await expect(promiseMockObj).rejects.toBe(mockError);
+            await expect(promiseMockObj).rejects.toHaveProperty('message', '17');
+        });
+        test('Can mock a then function', async () => {
+            const mockPromiseObj = Promise.resolve(42);
+            const mockObj = mock<MockInt>();
+            mockObj.id = 17;
+            // @ts-ignore
+            mockObj.then = mockPromiseObj.then.bind(mockPromiseObj);
+            const promiseMockObj = Promise.resolve(mockObj);
+            await promiseMockObj;
+            await expect(promiseMockObj).resolves.toBeDefined();
+            await expect(promiseMockObj).resolves.toEqual(42);
         });
     });
 });
