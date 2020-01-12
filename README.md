@@ -43,7 +43,7 @@ describe('Party Tests', () => {
    
    
    test('mock out a return type', () => {
-       const mock = mock<FunProvider>();
+       const mock = mock<PartyProvider>();
        mock.getPartyType.mockReturnValue('west coast party');
        
        expect(mock.getPartyType()).toBe('west coast party');
