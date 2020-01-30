@@ -11,6 +11,7 @@
 - Ability to mock any interface or object
 - calledWith() extension to provide argument specific expectations, which works for objects and functions.
 - Extensive Matcher API compatible with Jasmine matchers
+- Supports mocking deep objects / classes.
 - Familiar Jest like API
 
 ## Installation
@@ -70,6 +71,37 @@ You can also use calledWith() on its own to create a jest.fn() with the calledWi
 ```ts
  const fn = calledWithFn();
  fn.calledWith(1, 2).mockReturnValue(3);
+```
+
+## Clearing / Resetting mocks
+
+```jest-mock-extended``` exposes a mockClear and mockReset for resetting or clearing mocks with the same 
+functionality as jest.fn().
+
+```ts
+import { mock, mockClear, mockReset } from 'jest-mock-extended';
+
+describe('test', () => {
+   const mock: UserService = mock<UserService>();
+   
+   beforeEach(() => {
+      mockReset(mock); // or mockClear(mock)
+   });
+   ...
+})
+```
+
+## Deep mocks
+
+If your class has objects returns from methods that you would also like to mock, you can use ```mockDeep``` in 
+replacement for mock.
+
+```ts
+import { mockDeep } from 'jest-mock-extended';
+
+const mockObj = mockDeep<Test1>();
+mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
+expect(mockObj.deepProp.getNumber(1)).toBe(4);
 ```
 
 ## Available Matchers
