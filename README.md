@@ -73,7 +73,7 @@ You can also use calledWith() on its own to create a jest.fn() with the calledWi
  fn.calledWith(1, 2).mockReturnValue(3);
 ```
 
-## Clearing / Resetting mocks
+## Clearing / Resetting Mocks
 
 ```jest-mock-extended``` exposes a mockClear and mockReset for resetting or clearing mocks with the same 
 functionality as jest.fn().
