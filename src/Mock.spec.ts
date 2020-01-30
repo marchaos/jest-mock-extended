@@ -296,7 +296,22 @@ describe('jest-mock-extended', () => {
     });
 
     describe('clearing / resetting', () => {
-        it('mockReset', () => {
+        it('mockReset supports jest.fn()', () => {
+            const fn = jest.fn().mockImplementation(() => true);
+            expect(fn()).toBe(true);
+            mockReset(fn);
+            expect(fn()).toBe(undefined);
+        });
+
+        it('mockClear supports jest.fn()', () => {
+            const fn = jest.fn().mockImplementation(() => true);
+            fn();
+            expect(fn.mock.calls.length).toBe(1);
+            mockClear(fn);
+            expect(fn.mock.calls.length).toBe(0);
+        });
+
+        it('mockReset object', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
@@ -304,7 +319,7 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(undefined);
         });
 
-        it('mockClear', () => {
+        it('mockClear object', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
@@ -332,7 +347,6 @@ describe('jest-mock-extended', () => {
             expect(mockObj.deepProp.getNumber.mock.calls.length).toBe(0);
             // Does not clear mock implementations of calledWith
             expect(mockObj.deepProp.getNumber(1)).toBe(4);
-
         });
     });
 });

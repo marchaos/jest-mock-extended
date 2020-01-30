@@ -27,6 +27,11 @@ export const mockClear = (mock: MockProxy<any>) => {
             mock[key].mockClear();
         }
     }
+
+    // This is a catch for if they pass in a jest.fn()
+    if (mock._isMockFunction) {
+        return mock.mockClear();
+    }
 };
 
 
@@ -38,6 +43,11 @@ export const mockReset = (mock: MockProxy<any>) => {
         if (mock[key]._isMockFunction) {
             mock[key].mockReset();
         }
+    }
+
+    // This is a catch for if they pass in a jest.fn()
+    if (mock._isMockFunction) {
+        return mock.mockReset();
     }
 };
 
