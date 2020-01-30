@@ -127,7 +127,7 @@ expect(mockObj.deepProp.getNumber(1)).toBe(4);
 |notUndefined()         | value !== undefined                                                   |
 |notEmpty()             | value !== undefined && value !== null && value !== ''                 |
 
-## Writing a custom Matcher
+## Writing a Custom Matcher
 
 Custom matchers can be written using a MatcherCreator
 ```ts
