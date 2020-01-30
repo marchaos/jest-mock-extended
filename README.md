@@ -66,7 +66,7 @@ provider.getSongs.calledWith(any()).mockReturnValue(['Saw her standing there']);
 provider.getSongs.calledWith(anyString()).mockReturnValue(['Saw her standing there']);
 
 ```
-You can also use calledWith() on its own to create a jest.fn() with the calledWith extension:
+You can also use ```calledWith()``` on its own to create a ```jest.fn()``` with the calledWith extension:
 
 ```ts
  const fn = calledWithFn();
@@ -76,7 +76,7 @@ You can also use calledWith() on its own to create a jest.fn() with the calledWi
 ## Clearing / Resetting Mocks
 
 ```jest-mock-extended``` exposes a mockClear and mockReset for resetting or clearing mocks with the same 
-functionality as jest.fn().
+functionality as ```jest.fn()```.
 
 ```ts
 import { mock, mockClear, mockReset } from 'jest-mock-extended';
@@ -129,7 +129,8 @@ expect(mockObj.deepProp.getNumber(1)).toBe(4);
 
 ## Writing a Custom Matcher
 
-Custom matchers can be written using a MatcherCreator
+Custom matchers can be written using a ```MatcherCreator```
+
 ```ts
 import { MatcherCreator, Matcher } from 'jest-mock-extended';
 
@@ -139,7 +140,7 @@ export const myMatcher: MatcherCreator<MyType> = (expectedValue) => new Matcher(
 });
 ```
 
-By default, the expected value and actual value are the same type. In the case where you need to type the expectedValue 
+By default, the expected value and actual value are the same type. In the case where you need to type the expected value 
 differently than the actual value, you can use the optional 2 generic parameter:
 
 ```ts
