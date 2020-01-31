@@ -52,6 +52,29 @@ describe('Party Tests', () => {
 });
 ```
 
+## Assigning Mocks with a Type
+
+If you wish to assign a mock to a variable that requires a type in your test, then you should use the MockProxy<> type
+given that this will provide the apis for calledWith() and other built-in jest types for providing test functionality.
+
+```ts
+import { MockProxy, mock } from 'jest-mock-extended';
+
+describe('test', () => {
+    let myMock: MockProxy<MyInterface>;
+
+    beforeEach(() => {
+        myMock = mock<MyInterface>();
+    })
+
+    test(() => {
+         myMock.calledWith(1).mockReturnValue(2);
+         ...
+    })
+});
+
+```
+
 ## calledWith() Extension
 
 ```jest-mock-extended``` allows for invocation matching expectations. Types of arguments, even when using matchers are type checked.

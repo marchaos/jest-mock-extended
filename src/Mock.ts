@@ -29,7 +29,7 @@ export const mockClear = (mock: MockProxy<any>) => {
     }
 
     // This is a catch for if they pass in a jest.fn()
-    if (mock._isMockFunction) {
+    if (!mock._isMockObject) {
         return mock.mockClear();
     }
 };
@@ -46,7 +46,9 @@ export const mockReset = (mock: MockProxy<any>) => {
     }
 
     // This is a catch for if they pass in a jest.fn()
-    if (mock._isMockFunction) {
+    // Worst case, we will create a jest.fn() (since this is a proxy)
+    // below in the get and call mockReset on it
+    if (!mock._isMockObject) {
         return mock.mockReset();
     }
 };
