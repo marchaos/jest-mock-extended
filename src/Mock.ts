@@ -17,18 +17,50 @@ export interface MockOpts {
     deep?: boolean;
 }
 
+export const mockClear = (mock: MockProxy<any>) => {
+    for (let key of Object.keys(mock)) {
+        if (mock[key]._isMockObject) {
+            mockClear(mock[key]);
+        }
+
+        if (mock[key]._isMockFunction) {
+            mock[key].mockClear();
+        }
+    }
+
+    // This is a catch for if they pass in a jest.fn()
+    if (!mock._isMockObject) {
+        return mock.mockClear();
+    }
+};
+
+
+export const mockReset = (mock: MockProxy<any>) => {
+    for (let key of Object.keys(mock)) {
+        if (mock[key]._isMockObject) {
+            mockReset(mock[key]);
+        }
+        if (mock[key]._isMockFunction) {
+            mock[key].mockReset();
+        }
+    }
+
+    // This is a catch for if they pass in a jest.fn()
+    // Worst case, we will create a jest.fn() (since this is a proxy)
+    // below in the get and call mockReset on it
+    if (!mock._isMockObject) {
+        return mock.mockReset();
+    }
+};
+
 export const mockDeep = <T>(mockImplementation?: DeepPartial<T>): MockProxy<T> & T => mock(mockImplementation, { deep: true });
 
-// @ts-ignore
-const overrideMockImp = (obj: object, opts) => {
+const overrideMockImp = (obj: DeepPartial<any>, opts?: MockOpts) => {
     const proxy = new Proxy<MockProxy<any>>(obj, handler(opts));
     for (let name of Object.keys(obj)) {
-        // @ts-ignore
         if (typeof obj[name] === 'object' && obj[name] !== null) {
-            // @ts-ignore
-            proxy[name] = overrideMockImp(obj[name]);
+            proxy[name] = overrideMockImp(obj[name], opts);
         } else {
-            // @ts-ignore
             proxy[name] = obj[name];
         }
     }
@@ -37,8 +69,12 @@ const overrideMockImp = (obj: object, opts) => {
 };
 
 const handler = (opts?: MockOpts) => ({
+    ownKeys (target: MockProxy<any>) {
+        return Reflect.ownKeys(target);
+    },
+
     set: (obj: MockProxy<any>, property: ProxiedProperty, value: any) => {
-        // @ts-ignore
+        // @ts-ignore All of these ignores are due to https://github.com/microsoft/TypeScript/issues/1863
         obj[property] = value;
         return true;
     },
@@ -61,9 +97,9 @@ const handler = (opts?: MockOpts) => ({
             // why deep is opt in.
             if (opts?.deep && property !== 'calls') {
                 // @ts-ignore
-                fn.propName = property;
-                // @ts-ignore
                 obj[property] = new Proxy<MockProxy<any>>(fn, handler(opts));
+                // @ts-ignore
+                obj[property]._isMockObject = true;
             } else {
                 // @ts-ignore
                 obj[property] = calledWithFn();
@@ -75,7 +111,8 @@ const handler = (opts?: MockOpts) => ({
 });
 
 const mock = <T>(mockImplementation: DeepPartial<T> = {} as DeepPartial<T>, opts?: MockOpts): MockProxy<T> & T => {
-    // @ts-ignore
+    // @ts-ignore private
+    mockImplementation!._isMockObject = true;
     return overrideMockImp(mockImplementation, opts);
 };
 

@@ -1,4 +1,4 @@
-import mock, { mockDeep } from './Mock';
+import mock, { mockClear, mockDeep, mockReset } from './Mock';
 import { anyNumber } from './Matchers';
 import calledWithFn from './CalledWithFn';
 
@@ -264,6 +264,7 @@ describe('jest-mock-extended', () => {
             await expect(promiseMockObj).resolves.toBeDefined();
             await expect(promiseMockObj).resolves.toMatchObject({ id: 17 });
         });
+
         test('Can return as Promise.reject', async () => {
             const mockError = mock<Error>();
             mockError.message = '17';
@@ -280,6 +281,7 @@ describe('jest-mock-extended', () => {
             await expect(promiseMockObj).rejects.toBe(mockError);
             await expect(promiseMockObj).rejects.toHaveProperty('message', '17');
         });
+
         test('Can mock a then function', async () => {
             const mockPromiseObj = Promise.resolve(42);
             const mockObj = mock<MockInt>();
@@ -290,6 +292,61 @@ describe('jest-mock-extended', () => {
             await promiseMockObj;
             await expect(promiseMockObj).resolves.toBeDefined();
             await expect(promiseMockObj).resolves.toEqual(42);
+        });
+    });
+
+    describe('clearing / resetting', () => {
+        it('mockReset supports jest.fn()', () => {
+            const fn = jest.fn().mockImplementation(() => true);
+            expect(fn()).toBe(true);
+            mockReset(fn);
+            expect(fn()).toBe(undefined);
+        });
+
+        it('mockClear supports jest.fn()', () => {
+            const fn = jest.fn().mockImplementation(() => true);
+            fn();
+            expect(fn.mock.calls.length).toBe(1);
+            mockClear(fn);
+            expect(fn.mock.calls.length).toBe(0);
+        });
+
+        it('mockReset object', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+            mockReset(mockObj);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(undefined);
+        });
+
+        it('mockClear object', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+            expect(mockObj.getSomethingWithArgs.mock.calls.length).toBe(1);
+            mockClear(mockObj);
+            expect(mockObj.getSomethingWithArgs.mock.calls.length).toBe(0);
+            // Does not clear mock implementations of calledWith
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+        });
+
+        it('mockReset deep', () => {
+            const mockObj = mockDeep<Test1>();
+            mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
+            expect(mockObj.deepProp.getNumber(1)).toBe(4);
+            mockReset(mockObj);
+            expect(mockObj.deepProp.getNumber(1)).toBe(undefined);
+        });
+
+        it('mockClear deep', () => {
+            const mockObj = mockDeep<Test1>();
+            mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
+            expect(mockObj.deepProp.getNumber(1)).toBe(4);
+            expect(mockObj.deepProp.getNumber.mock.calls.length).toBe(1);
+            mockClear(mockObj);
+            expect(mockObj.deepProp.getNumber.mock.calls.length).toBe(0);
+            // Does not clear mock implementations of calledWith
+            expect(mockObj.deepProp.getNumber(1)).toBe(4);
         });
     });
 });
