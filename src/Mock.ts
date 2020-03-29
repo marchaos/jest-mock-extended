@@ -117,11 +117,8 @@ const mock = <T>(mockImplementation: DeepPartial<T> = {} as DeepPartial<T>, opts
 };
 
 export const mockFn = <T extends Function>(): T extends (...args: infer A) => infer B ? CalledWithMock<B, A> & T : T => {
-    const mockImplementation = calledWithFn();
-    // @ts-ignore private
-    mockImplementation!._isMockFunction = true;
     // @ts-ignore
-    return mockImplementation;
+    return calledWithFn();
 };
 
 export default mock;

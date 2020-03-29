@@ -358,5 +358,12 @@ describe('jest-mock-extended', () => {
             const result: string = await mockFunc(1, 2);
             expect(result).toBe(`str`);
         });
+        test('should mock function and use calledWith', async () => {
+            type MyFn = (x: number, y: number) => Promise<string>;
+            const mockFunc = mockFn<MyFn>();
+            mockFunc.calledWith(1, 2).mockResolvedValue(`str`);
+            const result: string = await mockFunc(1, 2);
+            expect(result).toBe(`str`);
+        });
     })
 });
