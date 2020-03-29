@@ -1,4 +1,4 @@
-import mock, { mockClear, mockDeep, mockReset } from './Mock';
+import mock, { mockClear, mockDeep, mockReset, mockFn } from './Mock';
 import { anyNumber } from './Matchers';
 import calledWithFn from './CalledWithFn';
 
@@ -107,9 +107,9 @@ describe('jest-mock-extended', () => {
 
     describe('calledWith', () => {
         test('can use calledWith without mock', () => {
-            const mockFn = calledWithFn();
-            mockFn.calledWith(anyNumber(), anyNumber()).mockReturnValue(3);
-            expect(mockFn(1, 2)).toBe(3);
+            const mockFunc = calledWithFn();
+            mockFunc.calledWith(anyNumber(), anyNumber()).mockReturnValue(3);
+            expect(mockFunc(1, 2)).toBe(3);
         });
 
         test('Can specify matchers', () => {
@@ -349,4 +349,14 @@ describe('jest-mock-extended', () => {
             expect(mockObj.deepProp.getNumber(1)).toBe(4);
         });
     });
+
+    describe('function mock', () => {
+        test('should mock function', async () => {
+            type MyFn = (x: number, y: number) => Promise<string>;
+            const mockFunc = mockFn<MyFn>();
+            mockFunc.mockResolvedValue(`str`);
+            const result: string = await mockFunc(1, 2);
+            expect(result).toBe(`str`);
+        });
+    })
 });
