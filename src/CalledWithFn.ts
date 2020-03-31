@@ -19,19 +19,19 @@ const checkCalledWith = <T, Y extends any[]>(calledWithStack: CalledWithStackIte
 
 export const calledWithFn = <T, Y extends any[]>(): CalledWithMock<T, Y> => {
     const fn: jest.Mock<T, Y> = jest.fn();
-    const calledWithStack: CalledWithStackItem<T, Y>[] = [];
-    let hasImplementation = false;
+    let calledWithStack: CalledWithStackItem<T, Y>[] = [];
 
     (fn as CalledWithMock<T, Y>).calledWith = (...args) => {
         // We create new function to delegate any interactions (mockReturnValue etc.) to for this set of args.
         // If that set of args is matched, we just call that jest.fn() for the result.
         const calledWithFn = jest.fn();
-        if (!hasImplementation) {
+        // @ts-ignore no type for it, see https://github.com/DefinitelyTyped/DefinitelyTyped/pull/43531
+        if (!fn.getMockImplementation()) {
             // Our original function gets a mock implementation which handles the matching
             fn.mockImplementation((...args: Y) => checkCalledWith(calledWithStack, args));
+            calledWithStack = [];
         }
         calledWithStack.push({ args, calledWithFn });
-        hasImplementation = true;
 
         return calledWithFn;
     };

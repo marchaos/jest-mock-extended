@@ -317,6 +317,8 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
             mockReset(mockObj);
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(undefined);
+            mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         });
 
         it('mockClear object', () => {
