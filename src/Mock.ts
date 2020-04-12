@@ -116,7 +116,11 @@ const mock = <T>(mockImplementation: DeepPartial<T> = {} as DeepPartial<T>, opts
     return overrideMockImp(mockImplementation, opts);
 };
 
-export const mockFn = <T extends Function>(): T extends (...args: infer A) => infer B ? CalledWithMock<B, A> & T : T => {
+export const mockFn = <
+    T extends Function,
+    A extends any[] = T extends (...args: infer AReal) => any ? AReal : any[],
+    R = T extends (...args: any) => infer RReal ? RReal : any
+    >(): CalledWithMock<R, A> & T => {
     // @ts-ignore
     return calledWithFn();
 };
