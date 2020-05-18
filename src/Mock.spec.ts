@@ -4,6 +4,7 @@ import calledWithFn from './CalledWithFn';
 
 interface MockInt {
     id: number;
+    someValue?: boolean | null;
     getNumber: () => number;
     getSomethingWithArgs: (arg1: number, arg2: number) => number;
 }
@@ -103,6 +104,19 @@ describe('jest-mock-extended', () => {
         mockObj.id = 17;
 
         expect(mockObj.id).toBe(17);
+    });
+
+    test('Can set false and null boolean props', () => {
+        const mockObj = mock<MockInt>({
+            someValue: false
+        });
+
+        const mockObj2 = mock<MockInt>({
+            someValue: null
+        });
+
+        expect(mockObj.someValue).toBe(false);
+        expect(mockObj2.someValue).toBe(null);
     });
 
     describe('calledWith', () => {
