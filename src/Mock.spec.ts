@@ -119,6 +119,14 @@ describe('jest-mock-extended', () => {
         expect(mockObj2.someValue).toBe(null);
     });
 
+    test('can set undefined explicitly', () => {
+        const mockObj = mock<MockInt>({
+            someValue: undefined // this is intentionally set to undefined
+        });
+
+        expect(mockObj.someValue).toBe(undefined);
+    });
+
     describe('calledWith', () => {
         test('can use calledWith without mock', () => {
             const mockFn = calledWithFn();
