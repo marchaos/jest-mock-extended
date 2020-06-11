@@ -105,6 +105,16 @@ describe('jest-mock-extended', () => {
         expect(mockObj.id).toBe(17);
     });
 
+    test('Equals self', () => {
+        const mockObj = mock<MockInt>();
+        expect(mockObj).toBe(mockObj);
+        expect(mockObj).toEqual(mockObj);
+
+        const spy = jest.fn();
+        spy(mockObj);
+        expect(spy).toHaveBeenCalledWith(mockObj);
+    });
+
     describe('calledWith', () => {
         test('can use calledWith without mock', () => {
             const mockFn = calledWithFn();
