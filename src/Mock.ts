@@ -91,6 +91,11 @@ const handler = (opts?: MockOpts) => ({
             if (property === 'then') {
                 return undefined;
             }
+            // Jest's internal equality checking does some wierd stuff to check for iterable equality
+            if (property === Symbol.iterator) {
+                // @ts-ignore
+                return obj[property];
+            }
             // So this calls check here is totally not ideal - jest internally does a
             // check to see if this is a spy - which we want to say no to, but blindly returning
             // an proxy for calls results in the spy check returning true. This is another reason
