@@ -83,7 +83,7 @@ const handler = (opts?: MockOpts) => ({
         let fn = calledWithFn();
 
         // @ts-ignore
-        if (!obj[property]) {
+        if (!(property in obj)) {
             // This condition is required to use the mock object in the promise.
             // For example Promise.resolve (layout) and async return values.
             // These solutions check the "then" property.
