@@ -89,11 +89,12 @@ provider.getSongs.calledWith(any()).mockReturnValue(['Saw her standing there']);
 provider.getSongs.calledWith(anyString()).mockReturnValue(['Saw her standing there']);
 
 ```
-You can also use ```calledWith()``` on its own to create a ```jest.fn()``` with the calledWith extension:
+You can also use ```mockFn()``` to create a ```jest.fn()``` with the calledWith extension:
 
 ```ts
- const fn = calledWithFn();
- fn.calledWith(1, 2).mockReturnValue(3);
+ type MyFn = (x: number, y: number) => Promise<string>;
+ const fn = mockFn<MyFn>();
+ fn.calledWith(1, 2).mockReturnValue('str');
 ```
 
 ## Clearing / Resetting Mocks

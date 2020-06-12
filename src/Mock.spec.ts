@@ -1,4 +1,4 @@
-import mock, { mockClear, mockDeep, mockReset } from './Mock';
+import mock, { mockClear, mockDeep, mockReset, mockFn } from './Mock';
 import { anyNumber } from './Matchers';
 import calledWithFn from './CalledWithFn';
 
@@ -106,6 +106,7 @@ describe('jest-mock-extended', () => {
         expect(mockObj.id).toBe(17);
     });
 
+
     test('Can set false and null boolean props', () => {
         const mockObj = mock<MockInt>({
             someValue: false
@@ -126,12 +127,22 @@ describe('jest-mock-extended', () => {
 
         expect(mockObj.someValue).toBe(undefined);
     });
+  
+    test('Equals self', () => {
+        const mockObj = mock<MockInt>();
+        expect(mockObj).toBe(mockObj);
+        expect(mockObj).toEqual(mockObj);
+
+        const spy = jest.fn();
+        spy(mockObj);
+        expect(spy).toHaveBeenCalledWith(mockObj);
+    });
 
     describe('calledWith', () => {
         test('can use calledWith without mock', () => {
-            const mockFn = calledWithFn();
-            mockFn.calledWith(anyNumber(), anyNumber()).mockReturnValue(3);
-            expect(mockFn(1, 2)).toBe(3);
+            const mockFunc = calledWithFn();
+            mockFunc.calledWith(anyNumber(), anyNumber()).mockReturnValue(3);
+            expect(mockFunc(1, 2)).toBe(3);
         });
 
         test('Can specify matchers', () => {
@@ -339,6 +350,8 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
             mockReset(mockObj);
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(undefined);
+            mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         });
 
         it('mockClear object', () => {
@@ -371,4 +384,21 @@ describe('jest-mock-extended', () => {
             expect(mockObj.deepProp.getNumber(1)).toBe(4);
         });
     });
+
+    describe('function mock', () => {
+        test('should mock function', async () => {
+            type MyFn = (x: number, y: number) => Promise<string>;
+            const mockFunc = mockFn<MyFn>();
+            mockFunc.mockResolvedValue(`str`);
+            const result: string = await mockFunc(1, 2);
+            expect(result).toBe(`str`);
+        });
+        test('should mock function and use calledWith', async () => {
+            type MyFn = (x: number, y: number) => Promise<string>;
+            const mockFunc = mockFn<MyFn>();
+            mockFunc.calledWith(1, 2).mockResolvedValue(`str`);
+            const result: string = await mockFunc(1, 2);
+            expect(result).toBe(`str`);
+        });
+    })
 });
