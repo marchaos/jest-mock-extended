@@ -20,18 +20,11 @@ export class CaptorMatcher<T> {
             return true;
         };
     }
-
-
 }
 
 export interface MatcherCreator<T, E = T> {
     (expectedValue?: E): Matcher<T>;
 }
-
-export interface CaptorMatcherCreator<T, E = T> {
-    (expectedValue?: E): CaptorMatcher<T>;
-}
-
 
 export type MatchersOrLiterals<Y extends any[]> = { [K in keyof Y]: Matcher<Y[K]> | Y[K] };
 
@@ -64,5 +57,5 @@ export const notUndefined: MatcherCreator<any> = () => new Matcher(actualValue =
 export const notEmpty: MatcherCreator<any> = () =>
     new Matcher(actualValue => actualValue !== null && actualValue !== undefined && actualValue !== '');
 
-export const captor: CaptorMatcherCreator<any> = () => new CaptorMatcher();
+export const captor = <T extends any = any> () => new CaptorMatcher<T>();
 
