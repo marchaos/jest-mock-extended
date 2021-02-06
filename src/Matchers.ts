@@ -8,9 +8,30 @@ export class Matcher<T> {
     }
 }
 
+export class CaptorMatcher<T> {
+    public readonly asymmetricMatch: MatcherFn<T>;
+    public readonly value!: T;
+    public readonly values: T[] = [];
+    constructor() {
+        this.asymmetricMatch = (actualValue: T) => {
+            // @ts-ignore
+            this.value = actualValue;
+            this.values.push(actualValue);
+            return true;
+        };
+    }
+
+
+}
+
 export interface MatcherCreator<T, E = T> {
     (expectedValue?: E): Matcher<T>;
 }
+
+export interface CaptorMatcherCreator<T, E = T> {
+    (expectedValue?: E): CaptorMatcher<T>;
+}
+
 
 export type MatchersOrLiterals<Y extends any[]> = { [K in keyof Y]: Matcher<Y[K]> | Y[K] };
 
@@ -42,3 +63,6 @@ export const notNull: MatcherCreator<any> = () => new Matcher(actualValue => act
 export const notUndefined: MatcherCreator<any> = () => new Matcher(actualValue => actualValue !== undefined);
 export const notEmpty: MatcherCreator<any> = () =>
     new Matcher(actualValue => actualValue !== null && actualValue !== undefined && actualValue !== '');
+
+export const captor: CaptorMatcherCreator<any> = () => new CaptorMatcher();
+
