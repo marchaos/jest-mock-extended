@@ -57,5 +57,5 @@ export const notUndefined: MatcherCreator<any> = () => new Matcher(actualValue =
 export const notEmpty: MatcherCreator<any> = () =>
     new Matcher(actualValue => actualValue !== null && actualValue !== undefined && actualValue !== '');
 
-export const captor = <T extends any = any> () => new CaptorMatcher<T>();
-
+export const captor = <T extends any = any>() => new CaptorMatcher<T>();
+export const matches = <T extends any = any>(matcher: MatcherFn<T>) => new Matcher(matcher);

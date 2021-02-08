@@ -17,7 +17,9 @@ import {
     objectContainsValue,
     notNull,
     notUndefined,
-    notEmpty, captor
+    notEmpty,
+    captor,
+    matches
 } from './Matchers';
 
 class Cls {}
@@ -473,9 +475,9 @@ describe('Matchers', () => {
         beforeEach(() => {
             fn = jest.fn();
             doSomething = (fn: (...args: any[]) => void, count: number) => {
-                fn(String(count), count, {1: 2});
-            }
-        })
+                fn(String(count), count, { 1: 2 });
+            };
+        });
 
         test('can capture arg with other matchers', () => {
             doSomething(fn, 1);
@@ -497,6 +499,22 @@ describe('Matchers', () => {
 
             expect(argCaptor.value).toBe('3');
             expect(argCaptor.values).toEqual(['1', '2', '3']);
+        });
+    });
+
+    describe('matches function', () => {
+        test('expects passes for when it returns true', () => {
+            const fn = jest.fn();
+            fn(1);
+
+            expect(fn).toHaveBeenCalledWith(matches(val => val === 1));
+        });
+
+        test('expects with not passes for when it returns false', () => {
+            const fn = jest.fn();
+            fn(1);
+
+            expect(fn).not.toHaveBeenCalledWith(matches(val => val === 2));
         });
     });
 });
