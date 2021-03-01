@@ -12,7 +12,7 @@
 - Ability to mock any interface or object
 - calledWith() extension to provide argument specific expectations, which works for objects and functions.
 - Extensive Matcher API compatible with Jasmine matchers
-- Supports mocking deep objects / classes.
+- Supports mocking deep objects / class instances.
 - Familiar Jest like API
 
 ## Installation
