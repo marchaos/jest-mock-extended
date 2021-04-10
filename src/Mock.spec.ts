@@ -1,4 +1,4 @@
-import mock, { mockClear, mockDeep, mockReset, mockFn } from './Mock';
+import mock, { mockClear, mockDeep, mockReset, mockFn, JestMockExtended } from './Mock';
 import { anyNumber } from './Matchers';
 import calledWithFn from './CalledWithFn';
 
@@ -106,7 +106,6 @@ describe('jest-mock-extended', () => {
         expect(mockObj.id).toBe(17);
     });
 
-
     test('Can set false and null boolean props', () => {
         const mockObj = mock<MockInt>({
             someValue: false
@@ -127,7 +126,7 @@ describe('jest-mock-extended', () => {
 
         expect(mockObj.someValue).toBe(undefined);
     });
-  
+
     test('Equals self', () => {
         const mockObj = mock<MockInt>();
         expect(mockObj).toBe(mockObj);
@@ -400,5 +399,14 @@ describe('jest-mock-extended', () => {
             const result: string = await mockFunc(1, 2);
             expect(result).toBe(`str`);
         });
-    })
+    });
+
+    describe('ignoreProps', () => {
+        test('can configure ignoreProps', async () => {
+            JestMockExtended.configure({ ignoreProps: ['ignoreMe'] });
+            const mockFunc = mock<{ ignoreMe: string; dontIgnoreMe: string }>();
+            expect(mockFunc.ignoreMe).toBeUndefined();
+            expect(mockFunc.dontIgnoreMe).toBeDefined();
+        });
+    });
 });
