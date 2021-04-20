@@ -128,7 +128,7 @@ const handler = (opts?: MockOpts) => ({
         }
 
         // @ts-ignore
-        if (typeof obj[property] === 'function') {
+        if (obj instanceof Date && typeof obj[property] === 'function') {
             // @ts-ignore
             return obj[property].bind(obj)
         }
