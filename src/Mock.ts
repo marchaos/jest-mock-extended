@@ -126,6 +126,13 @@ const handler = (opts?: MockOpts) => ({
                 obj[property] = calledWithFn();
             }
         }
+
+        // @ts-ignore
+        if (typeof obj[property] === 'function') {
+            // @ts-ignore
+            return obj[property].bind(obj)
+        }
+
         // @ts-ignore
         return obj[property];
     }
