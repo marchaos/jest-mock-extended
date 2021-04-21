@@ -50,12 +50,6 @@ class Test3 {
     }
 }
 
-class Test4 {
-    getNumber(num: number) {
-        return num ^ 2;
-    }
-}
-
 describe('jest-mock-extended', () => {
     test('Can be assigned back to itself even when there are private parts', () => {
         // No TS errors here
