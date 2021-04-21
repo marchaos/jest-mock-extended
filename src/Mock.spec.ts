@@ -50,6 +50,12 @@ class Test3 {
     }
 }
 
+class Test4 {
+    getNumber(num: number) {
+        return num ^ 2;
+    }
+}
+
 describe('jest-mock-extended', () => {
     test('Can be assigned back to itself even when there are private parts', () => {
         // No TS errors here
@@ -407,6 +413,16 @@ describe('jest-mock-extended', () => {
             const mockFunc = mock<{ ignoreMe: string; dontIgnoreMe: string }>();
             expect(mockFunc.ignoreMe).toBeUndefined();
             expect(mockFunc.dontIgnoreMe).toBeDefined();
+        });
+    });
+
+    describe('mock Date', () => {
+        test('should call built-in date functions', () => {
+            type objWithDate = { date: Date };
+            const mockObj = mock<objWithDate>({ date: new Date('2000-01-15') });
+            expect(mockObj.date.getFullYear()).toBe(2000);
+            expect(mockObj.date.getMonth()).toBe(0);
+            expect(mockObj.date.getDate()).toBe(15);
         });
     });
 });
