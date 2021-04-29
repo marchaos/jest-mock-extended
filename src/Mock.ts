@@ -4,6 +4,25 @@ import { DeepPartial } from 'ts-essentials';
 
 type ProxiedProperty = string | number | symbol;
 
+export interface GlobalConfig {
+    // ignoreProps is required when we don't want to return anything for a mock (for example, when mocking a promise).
+    ignoreProps?: ProxiedProperty[]
+}
+
+const DEFAULT_CONFIG:  GlobalConfig = {
+    ignoreProps: ['then']
+};
+
+let GLOBAL_CONFIG = DEFAULT_CONFIG;
+
+export const JestMockExtended = {
+    DEFAULT_CONFIG,
+    configure: (config: GlobalConfig) => {
+        // Shallow merge so they can override anything they want.
+        GLOBAL_CONFIG = { ...DEFAULT_CONFIG, ...config };
+    }
+}
+
 export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
     calledWith: (...args: Y | MatchersOrLiterals<Y>) => jest.Mock<T, Y>;
 }
@@ -84,11 +103,8 @@ const handler = (opts?: MockOpts) => ({
 
         // @ts-ignore
         if (!(property in obj)) {
-            // This condition is required to use the mock object in the promise.
-            // For example Promise.resolve (layout) and async return values.
-            // These solutions check the "then" property.
-            // If "then" is function, then call it else return mock object.
-            if (property === 'then') {
+
+            if (GLOBAL_CONFIG.ignoreProps?.includes(property)) {
                 return undefined;
             }
             // Jest's internal equality checking does some wierd stuff to check for iterable equality
