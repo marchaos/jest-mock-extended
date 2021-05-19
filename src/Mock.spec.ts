@@ -1,6 +1,7 @@
 import mock, { mockClear, mockDeep, mockReset, mockFn, JestMockExtended } from './Mock';
 import { anyNumber } from './Matchers';
 import calledWithFn from './CalledWithFn';
+import { MockProxy } from './Mock';
 
 interface MockInt {
     id: number;
@@ -48,6 +49,9 @@ class Test3 {
     getNumber(num: number) {
         return num ^ 2;
     }
+}
+class Test4 {
+    constructor(test1: Test1, int: MockInt) {}
 }
 
 describe('jest-mock-extended', () => {
@@ -137,6 +141,16 @@ describe('jest-mock-extended', () => {
         expect(spy).toHaveBeenCalledWith(mockObj);
     });
 
+    describe('Mimic Type', () => {
+        test('can use MockProxy in place of Mock Type', () => {
+            const t1: MockProxy<Test1> = mock<Test1>();
+            const i1: MockProxy<MockInt> = mock<MockInt>();
+
+            // no TS error
+            const f = new Test4(t1, i1);
+        });
+    });
+
     describe('calledWith', () => {
         test('can use calledWith without mock', () => {
             const mockFunc = calledWithFn();
@@ -183,19 +197,19 @@ describe('jest-mock-extended', () => {
     });
 
     describe('Matchers with toHaveBeenCalledWith', () => {
-        it('matchers allow all args to be Matcher based', () => {
+        test('matchers allow all args to be Matcher based', () => {
             const mockObj: MockInt = mock<MockInt>();
             mockObj.getSomethingWithArgs(2, 4);
             expect(mockObj.getSomethingWithArgs).toHaveBeenCalledWith(anyNumber(), anyNumber());
         });
 
-        it('matchers allow for a mix of Matcher and literal', () => {
+        test('matchers allow for a mix of Matcher and literal', () => {
             const mockObj: MockInt = mock<MockInt>();
             mockObj.getSomethingWithArgs(2, 4);
             expect(mockObj.getSomethingWithArgs).toHaveBeenCalledWith(anyNumber(), 4);
         });
 
-        it('matchers allow for not.toHaveBeenCalledWith', () => {
+        test('matchers allow for not.toHaveBeenCalledWith', () => {
             const mockObj: MockInt = mock<MockInt>();
             mockObj.getSomethingWithArgs(2, 4);
             expect(mockObj.getSomethingWithArgs).not.toHaveBeenCalledWith(anyNumber(), 5);
@@ -328,14 +342,14 @@ describe('jest-mock-extended', () => {
     });
 
     describe('clearing / resetting', () => {
-        it('mockReset supports jest.fn()', () => {
+        test('mockReset supports jest.fn()', () => {
             const fn = jest.fn().mockImplementation(() => true);
             expect(fn()).toBe(true);
             mockReset(fn);
             expect(fn()).toBe(undefined);
         });
 
-        it('mockClear supports jest.fn()', () => {
+        test('mockClear supports jest.fn()', () => {
             const fn = jest.fn().mockImplementation(() => true);
             fn();
             expect(fn.mock.calls.length).toBe(1);
@@ -343,7 +357,7 @@ describe('jest-mock-extended', () => {
             expect(fn.mock.calls.length).toBe(0);
         });
 
-        it('mockReset object', () => {
+        test('mockReset object', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
@@ -353,7 +367,7 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         });
 
-        it('mockClear object', () => {
+        test('mockClear object', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
@@ -364,7 +378,7 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         });
 
-        it('mockReset deep', () => {
+        test('mockReset deep', () => {
             const mockObj = mockDeep<Test1>();
             mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
             expect(mockObj.deepProp.getNumber(1)).toBe(4);
@@ -372,7 +386,7 @@ describe('jest-mock-extended', () => {
             expect(mockObj.deepProp.getNumber(1)).toBe(undefined);
         });
 
-        it('mockClear deep', () => {
+        test('mockClear deep', () => {
             const mockObj = mockDeep<Test1>();
             mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
             expect(mockObj.deepProp.getNumber(1)).toBe(4);
