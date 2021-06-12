@@ -1,6 +1,6 @@
 {
   "name": "jest-mock-extended",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "homepage": "https://github.com/marchaos/jest-mock-extended",
   "description": "Type safe mocking extensions for jest",
   "files": [
