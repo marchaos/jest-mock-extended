@@ -194,6 +194,13 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getSomethingWithArgs(6, 2)).toBe(7);
             expect(mockObj.getSomethingWithArgs(7, 2)).toBe(undefined);
         });
+
+        test('Support jest matcher', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.getSomethingWithArgs.calledWith(expect.anything(), expect.anything()).mockReturnValue(3);
+
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+        });
     });
 
     describe('Matchers with toHaveBeenCalledWith', () => {
