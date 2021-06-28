@@ -8,6 +8,7 @@ interface MockInt {
     someValue?: boolean | null;
     getNumber: () => number;
     getSomethingWithArgs: (arg1: number, arg2: number) => number;
+    getSomethingWithMoreArgs: (arg1: number, arg2: number, arg3: number) => number;
 }
 
 class Test1 implements MockInt {
@@ -29,6 +30,10 @@ class Test1 implements MockInt {
     }
 
     public getSomethingWithArgs(arg1: number, arg2: number) {
+        return this.id;
+    }
+
+    public getSomethingWithMoreArgs(arg1: number, arg2: number, arg3: number) {
         return this.id;
     }
 }
@@ -200,6 +205,14 @@ describe('jest-mock-extended', () => {
             mockObj.getSomethingWithArgs.calledWith(expect.anything(), expect.anything()).mockReturnValue(3);
 
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+        });
+
+        test('Suport mix Matchers with literals and with jest matcher', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.getSomethingWithMoreArgs.calledWith(anyNumber(), expect.anything(), 3).mockReturnValue(4);
+
+            expect(mockObj.getSomethingWithMoreArgs(1, 2, 3)).toBe(4);
+            expect(mockObj.getSomethingWithMoreArgs(1, 2, 4)).toBeUndefined;
         });
     });
 
