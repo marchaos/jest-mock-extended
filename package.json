@@ -1,6 +1,6 @@
 {
   "name": "jest-mock-extended",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "homepage": "https://github.com/marchaos/jest-mock-extended",
   "description": "Type safe mocking extensions for jest",
   "files": [
@@ -20,11 +20,11 @@
   },
   "devDependencies": {
     "rimraf": "^3.0.0",
-    "@types/jest": "^25.1.5",
+    "@types/jest": "^26.0.24",
     "coveralls": "^3.0.9",
-    "jest": "^24.9.0",
+    "jest": "^27.0.6",
     "prettier": "^1.19.1",
-    "ts-jest": "^24.2.0",
+    "ts-jest": "^27.0.3",
     "typescript": "^3.7.4"
   },
   "peerDependencies": {
