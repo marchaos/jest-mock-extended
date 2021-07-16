@@ -443,4 +443,14 @@ describe('jest-mock-extended', () => {
             expect(mockFunc.dontIgnoreMe).toBeDefined();
         });
     });
+
+    describe('mock Date', () => {
+        test('should call built-in date functions', () => {
+            type objWithDate = { date: Date };
+            const mockObj = mock<objWithDate>({ date: new Date('2000-01-15') });
+            expect(mockObj.date.getFullYear()).toBe(2000);
+            expect(mockObj.date.getMonth()).toBe(0);
+            expect(mockObj.date.getDate()).toBe(15);
+        });
+    });
 });
