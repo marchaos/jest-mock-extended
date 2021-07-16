@@ -151,6 +151,7 @@ expect(mockObj.deepProp.getNumber(1)).toBe(4);
 |notNull()              | value !== null                                                        |
 |notUndefined()         | value !== undefined                                                   |
 |notEmpty()             | value !== undefined && value !== null && value !== ''                 |
+|captor()               | Used to capture an arg - alternative to mock.calls[0][0]              |
 
 ## Writing a Custom Matcher
 
