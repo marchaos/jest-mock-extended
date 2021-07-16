@@ -48,11 +48,7 @@ export interface MatcherCreator<T, E = T> {
 
 export type MatchersOrLiterals<Y extends any[]> = { [K in keyof Y]: Matcher<Y[K]> | Y[K] };
 
-export const any: MatcherCreator<any> = () => new Matcher((arg) => {
-    // @ts-ignore
-    console.info(arg, '<---');
-    return true;
-}, 'any()');
+export const any: MatcherCreator<any> = () => new Matcher(() => true, 'any()');
 export const anyBoolean: MatcherCreator<boolean> = () => new Matcher((actualValue: boolean) => typeof actualValue === 'boolean', 'anyBoolean()');
 export const anyNumber: MatcherCreator<number> = () => new Matcher(actualValue => typeof actualValue === 'number' && !isNaN(actualValue), 'anyNumber()');
 export const anyString: MatcherCreator<string> = () => new Matcher((actualValue: string) => typeof actualValue === 'string', 'anyString()');
