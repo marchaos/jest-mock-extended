@@ -6,11 +6,26 @@ interface CalledWithStackItem<T, Y extends any[]> {
     calledWithFn: jest.Mock<T, Y>;
 }
 
+interface JestAsymmetricMatcher {
+    asymmetricMatch(...args: any[]): boolean;
+}
+function isJestAsymmetricMatcher(obj: any): obj is JestAsymmetricMatcher {
+    return !!obj && !!obj.asymmetricMatch && typeof obj.asymmetricMatch === 'function';
+}
+
 const checkCalledWith = <T, Y extends any[]>(calledWithStack: CalledWithStackItem<T, Y>[], actualArgs: Y): T => {
     const calledWithInstance = calledWithStack.find(instance =>
-        instance.args.every((matcher, i) =>
-            matcher instanceof Matcher ? matcher.asymmetricMatch(actualArgs[i]) : actualArgs[i] === matcher
-        )
+        instance.args.every((matcher, i) => {
+            if (matcher instanceof Matcher) {
+                return matcher.asymmetricMatch(actualArgs[i]);
+            }
+
+            if (isJestAsymmetricMatcher(matcher)) {
+                return matcher.asymmetricMatch(actualArgs[i]);
+            }
+
+            return actualArgs[i] === matcher;
+        })
     );
 
     // @ts-ignore cannot return undefined, but this will fail the test if there is an expectation which is what we want
