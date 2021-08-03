@@ -1,6 +1,6 @@
 {
   "name": "jest-mock-extended",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "homepage": "https://github.com/marchaos/jest-mock-extended",
   "description": "Type safe mocking extensions for jest",
   "files": [
@@ -16,7 +16,7 @@
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
-    "ts-essentials": "^7.0.2"
+    "ts-essentials": "^7.0.3"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",

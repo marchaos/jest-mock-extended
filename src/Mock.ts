@@ -21,6 +21,9 @@ export const JestMockExtended = {
         // Shallow merge so they can override anything they want.
         GLOBAL_CONFIG = { ...DEFAULT_CONFIG, ...config };
     },
+    resetConfig: () => {
+        GLOBAL_CONFIG = DEFAULT_CONFIG;
+    },
 };
 
 export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {

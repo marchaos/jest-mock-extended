@@ -438,9 +438,25 @@ describe('jest-mock-extended', () => {
     describe('ignoreProps', () => {
         test('can configure ignoreProps', async () => {
             JestMockExtended.configure({ ignoreProps: ['ignoreMe'] });
-            const mockFunc = mock<{ ignoreMe: string; dontIgnoreMe: string }>();
-            expect(mockFunc.ignoreMe).toBeUndefined();
-            expect(mockFunc.dontIgnoreMe).toBeDefined();
+            const mockObj = mock<{ ignoreMe: string; dontIgnoreMe: string }>();
+            expect(mockObj.ignoreMe).toBeUndefined();
+            expect(mockObj.dontIgnoreMe).toBeDefined();
+        });
+    });
+
+    describe('JestMockExtended config', () => {
+        test('can mock then', async () => {
+            JestMockExtended.configure({ ignoreProps: [] });
+            const mockObj = mock<{ then: () => void }>();
+            mockObj.then();
+            expect(mockObj.then).toHaveBeenCalled();
+        });
+
+        test('can reset config', async () => {
+            JestMockExtended.configure({ ignoreProps: [] });
+            JestMockExtended.resetConfig();
+            const mockObj = mock<{ then: () => void }>();
+            expect(mockObj.then).toBeUndefined();
         });
     });
 });
