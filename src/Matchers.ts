@@ -3,6 +3,7 @@ export type MatcherFn<T> = (actualValue: T) => boolean;
 // needs to be a class so we can instanceof
 export class Matcher<T> {
     $$typeof: symbol;
+    inverse?: boolean;
 
     constructor(readonly asymmetricMatch: MatcherFn<T>, private readonly description: string) {
         this.$$typeof = Symbol.for('jest.asymmetricMatcher');
@@ -14,6 +15,10 @@ export class Matcher<T> {
 
     toAsymmetricMatcher() {
         return this.description;
+    }
+
+    getExpectedType() {
+        return 'undefined';
     }
 }
 
@@ -33,7 +38,11 @@ export class CaptorMatcher<T> {
         };
     }
 
-    toString() {
+    getExpectedType() {
+        return 'Object'
+    }
+
+        toString() {
         return 'captor';
     }
 

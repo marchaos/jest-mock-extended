@@ -37,6 +37,16 @@ describe('Matchers', () => {
         test('returns true for null', () => {
             expect(any().asymmetricMatch(null)).toBe(true);
         });
+
+        test('Supports undefined in chain', () => {
+            const f = jest.fn();
+            f(undefined);
+
+            // @ts-ignore
+            console.info(f.mock);
+
+            expect(f).toHaveBeenCalledWith(any());
+        });
     });
 
     describe('anyString', () => {

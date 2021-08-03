@@ -1,6 +1,6 @@
 import calledWithFn from './CalledWithFn';
-import { MatchersOrLiterals } from './Matchers';
-import { DeepPartial } from 'ts-essentials';
+import {MatchersOrLiterals} from './Matchers';
+import {DeepPartial} from 'ts-essentials';
 
 type ProxiedProperty = string | number | symbol;
 
@@ -29,7 +29,13 @@ export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
 
 export type MockProxy<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : MockProxy<T[K]>;
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : T[K];
+} & T;
+
+
+export type DeepMockProxy<T> = {
+    // This supports deep mocks in the else branch
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : DeepMockProxy<T[K]>;
 } & T;
 
 export interface MockOpts {
@@ -72,7 +78,7 @@ export const mockReset = (mock: MockProxy<any>) => {
     }
 };
 
-export const mockDeep = <T>(mockImplementation?: DeepPartial<T>): MockProxy<T> & T => mock(mockImplementation, { deep: true });
+export const mockDeep = <T>(mockImplementation?: DeepPartial<T>): DeepMockProxy<T> & T => mock(mockImplementation, { deep: true });
 
 const overrideMockImp = (obj: DeepPartial<any>, opts?: MockOpts) => {
     const proxy = new Proxy<MockProxy<any>>(obj, handler(opts));
@@ -145,5 +151,17 @@ export const mockFn = <
     // @ts-ignore
     return calledWithFn();
 };
+
+export const stub = <T extends object> (): T => {
+    return new Proxy<T>({} as T, {
+        get: (obj, property: ProxiedProperty) => {
+            if (property in obj) {
+                // @ts-ignore
+                return obj[property];
+            }
+            return jest.fn();
+        }
+    });
+}
 
 export default mock;
