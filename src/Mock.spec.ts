@@ -117,11 +117,11 @@ describe('jest-mock-extended', () => {
 
     test('Can set false and null boolean props', () => {
         const mockObj = mock<MockInt>({
-            someValue: false
+            someValue: false,
         });
 
         const mockObj2 = mock<MockInt>({
-            someValue: null
+            someValue: null,
         });
 
         expect(mockObj.someValue).toBe(false);
@@ -130,7 +130,7 @@ describe('jest-mock-extended', () => {
 
     test('can set undefined explicitly', () => {
         const mockObj = mock<MockInt>({
-            someValue: undefined // this is intentionally set to undefined
+            someValue: undefined, // this is intentionally set to undefined
         });
 
         expect(mockObj.someValue).toBe(undefined);
@@ -272,7 +272,7 @@ describe('jest-mock-extended', () => {
     describe('mock implementation support', () => {
         test('can provide mock implementation for props', () => {
             const mockObj = mock<Test1>({
-                id: 61
+                id: 61,
             });
             expect(mockObj.id).toBe(61);
         });
@@ -281,7 +281,7 @@ describe('jest-mock-extended', () => {
             const mockObj = mock<Test1>({
                 getNumber: () => {
                     return 150;
-                }
+                },
             });
             expect(mockObj.getNumber()).toBe(150);
         });
@@ -290,7 +290,7 @@ describe('jest-mock-extended', () => {
             const mockObj = mock<Test1>({
                 getNumber: () => {
                     return 150;
-                }
+                },
             });
 
             mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(3);
@@ -302,8 +302,8 @@ describe('jest-mock-extended', () => {
                 deepProp: {
                     getNumber: (num: number) => {
                         return 76;
-                    }
-                }
+                    },
+                },
             });
             expect(mockObj.deepProp.getNumber(123)).toBe(76);
         });
@@ -313,8 +313,8 @@ describe('jest-mock-extended', () => {
                 deepProp: {
                     getNumber: (num: number) => {
                         return 76;
-                    }
-                }
+                    },
+                },
             });
 
             mockObj.deepProp.getAnotherString.calledWith('abc').mockReturnValue('this string');

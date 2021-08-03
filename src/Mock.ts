@@ -1,16 +1,16 @@
 import calledWithFn from './CalledWithFn';
-import {MatchersOrLiterals} from './Matchers';
-import {DeepPartial} from 'ts-essentials';
+import { MatchersOrLiterals } from './Matchers';
+import { DeepPartial } from 'ts-essentials';
 
 type ProxiedProperty = string | number | symbol;
 
 export interface GlobalConfig {
     // ignoreProps is required when we don't want to return anything for a mock (for example, when mocking a promise).
-    ignoreProps?: ProxiedProperty[]
+    ignoreProps?: ProxiedProperty[];
 }
 
-const DEFAULT_CONFIG:  GlobalConfig = {
-    ignoreProps: ['then']
+const DEFAULT_CONFIG: GlobalConfig = {
+    ignoreProps: ['then'],
 };
 
 let GLOBAL_CONFIG = DEFAULT_CONFIG;
@@ -20,8 +20,8 @@ export const JestMockExtended = {
     configure: (config: GlobalConfig) => {
         // Shallow merge so they can override anything they want.
         GLOBAL_CONFIG = { ...DEFAULT_CONFIG, ...config };
-    }
-}
+    },
+};
 
 export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
     calledWith: (...args: Y | MatchersOrLiterals<Y>) => jest.Mock<T, Y>;
@@ -30,13 +30,14 @@ export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
 export type MockProxy<T> = {
     // This supports deep mocks in the else branch
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : T[K];
-} & T;
-
+} &
+    T;
 
 export type DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : DeepMockProxy<T[K]>;
-} & T;
+} &
+    T;
 
 export interface MockOpts {
     deep?: boolean;
@@ -58,7 +59,6 @@ export const mockClear = (mock: MockProxy<any>) => {
         return mock.mockClear();
     }
 };
-
 
 export const mockReset = (mock: MockProxy<any>) => {
     for (let key of Object.keys(mock)) {
@@ -94,7 +94,7 @@ const overrideMockImp = (obj: DeepPartial<any>, opts?: MockOpts) => {
 };
 
 const handler = (opts?: MockOpts) => ({
-    ownKeys (target: MockProxy<any>) {
+    ownKeys(target: MockProxy<any>) {
         return Reflect.ownKeys(target);
     },
 
@@ -109,7 +109,6 @@ const handler = (opts?: MockOpts) => ({
 
         // @ts-ignore
         if (!(property in obj)) {
-
             if (GLOBAL_CONFIG.ignoreProps?.includes(property)) {
                 return undefined;
             }
@@ -134,7 +133,7 @@ const handler = (opts?: MockOpts) => ({
         }
         // @ts-ignore
         return obj[property];
-    }
+    },
 });
 
 const mock = <T>(mockImplementation: DeepPartial<T> = {} as DeepPartial<T>, opts?: MockOpts): MockProxy<T> & T => {
@@ -147,12 +146,12 @@ export const mockFn = <
     T extends Function,
     A extends any[] = T extends (...args: infer AReal) => any ? AReal : any[],
     R = T extends (...args: any) => infer RReal ? RReal : any
-    >(): CalledWithMock<R, A> & T => {
+>(): CalledWithMock<R, A> & T => {
     // @ts-ignore
     return calledWithFn();
 };
 
-export const stub = <T extends object> (): T => {
+export const stub = <T extends object>(): T => {
     return new Proxy<T>({} as T, {
         get: (obj, property: ProxiedProperty) => {
             if (property in obj) {
@@ -160,8 +159,8 @@ export const stub = <T extends object> (): T => {
                 return obj[property];
             }
             return jest.fn();
-        }
+        },
     });
-}
+};
 
 export default mock;

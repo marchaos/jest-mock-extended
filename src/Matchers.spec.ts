@@ -19,7 +19,7 @@ import {
     notUndefined,
     notEmpty,
     captor,
-    matches
+    matches,
 } from './Matchers';
 
 class Cls {}
@@ -517,14 +517,14 @@ describe('Matchers', () => {
             const fn = jest.fn();
             fn(1);
 
-            expect(fn).toHaveBeenCalledWith(matches(val => val === 1));
+            expect(fn).toHaveBeenCalledWith(matches((val) => val === 1));
         });
 
         test('expects with not passes for when it returns false', () => {
             const fn = jest.fn();
             fn(1);
 
-            expect(fn).not.toHaveBeenCalledWith(matches(val => val === 2));
+            expect(fn).not.toHaveBeenCalledWith(matches((val) => val === 2));
         });
     });
 });

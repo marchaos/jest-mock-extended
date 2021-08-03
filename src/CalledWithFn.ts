@@ -14,7 +14,7 @@ function isJestAsymmetricMatcher(obj: any): obj is JestAsymmetricMatcher {
 }
 
 const checkCalledWith = <T, Y extends any[]>(calledWithStack: CalledWithStackItem<T, Y>[], actualArgs: Y): T => {
-    const calledWithInstance = calledWithStack.find(instance =>
+    const calledWithInstance = calledWithStack.find((instance) =>
         instance.args.every((matcher, i) => {
             if (matcher instanceof Matcher) {
                 return matcher.asymmetricMatch(actualArgs[i]);
