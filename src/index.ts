@@ -4,6 +4,7 @@ export {
     GlobalConfig,
     mockDeep,
     MockProxy,
+    DeepMockProxy,
     CalledWithMock,
     mockClear,
     mockReset,
