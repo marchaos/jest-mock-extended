@@ -10,11 +10,11 @@ interface JestAsymmetricMatcher {
     asymmetricMatch(...args: any[]): boolean;
 }
 function isJestAsymmetricMatcher(obj: any): obj is JestAsymmetricMatcher {
-    return !!obj && !!obj.asymmetricMatch && typeof obj.asymmetricMatch === 'function';
+    return !!obj && typeof obj === 'object' && 'asymmetricMatch' in obj && typeof obj.asymmetricMatch === 'function';
 }
 
 const checkCalledWith = <T, Y extends any[]>(calledWithStack: CalledWithStackItem<T, Y>[], actualArgs: Y): T => {
-    const calledWithInstance = calledWithStack.find((instance) =>
+    const calledWithInstance = calledWithStack.find(instance =>
         instance.args.every((matcher, i) => {
             if (matcher instanceof Matcher) {
                 return matcher.asymmetricMatch(actualArgs[i]);
