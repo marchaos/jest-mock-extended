@@ -7,6 +7,7 @@ interface MockInt {
     id: number;
     someValue?: boolean | null;
     getNumber: () => number;
+    getNumberWithMockArg: (mock: any) => number;
     getSomethingWithArgs: (arg1: number, arg2: number) => number;
     getSomethingWithMoreArgs: (arg1: number, arg2: number, arg3: number) => number;
 }
@@ -26,6 +27,10 @@ class Test1 implements MockInt {
     }
 
     public getNumber() {
+        return this.id;
+    }
+
+    public getNumberWithMockArg(mock: any) {
         return this.id;
     }
 
@@ -214,6 +219,14 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getSomethingWithMoreArgs(1, 2, 3)).toBe(4);
             expect(mockObj.getSomethingWithMoreArgs(1, 2, 4)).toBeUndefined;
         });
+
+        test('Can use calledWith with an other mock', () => {
+            const mockObj = mock<MockInt>();
+            const mockArg = mock();
+            mockObj.getNumberWithMockArg.calledWith(mockArg).mockReturnValue(4);
+
+            expect(mockObj.getNumberWithMockArg(mockArg)).toBe(4);
+        })
     });
 
     describe('Matchers with toHaveBeenCalledWith', () => {
