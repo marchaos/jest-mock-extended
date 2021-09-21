@@ -6,6 +6,10 @@
   "files": [
     "lib/**/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marchaos/jest-mock-extended.git"
+  },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
