@@ -48,6 +48,8 @@ export interface MockOpts {
 
 export const mockClear = (mock: MockProxy<any>) => {
     for (let key of Object.keys(mock)) {
+        if (mock[key] == null) continue;
+        
         if (mock[key]._isMockObject) {
             mockClear(mock[key]);
         }
@@ -65,6 +67,8 @@ export const mockClear = (mock: MockProxy<any>) => {
 
 export const mockReset = (mock: MockProxy<any>) => {
     for (let key of Object.keys(mock)) {
+        if (mock[key] == null) continue;
+
         if (mock[key]._isMockObject) {
             mockReset(mock[key]);
         }

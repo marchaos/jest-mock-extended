@@ -429,6 +429,42 @@ describe('jest-mock-extended', () => {
             // Does not clear mock implementations of calledWith
             expect(mockObj.deepProp.getNumber(1)).toBe(4);
         });
+
+        test('mockReset ignores undefined properties', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.someValue = undefined;
+            mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
+            mockReset(mockObj);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(undefined);
+        });
+
+        test('mockReset ignores null properties', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.someValue = null;
+            mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
+            mockReset(mockObj);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(undefined);
+        });
+
+        test('mockClear ignores undefined properties', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.someValue = undefined;
+            mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+            expect(mockObj.getSomethingWithArgs.mock.calls.length).toBe(1);
+            mockClear(mockObj);
+            expect(mockObj.getSomethingWithArgs.mock.calls.length).toBe(0);
+        });
+
+        test('mockClear ignores null properties', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.someValue = null;
+            mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+            expect(mockObj.getSomethingWithArgs.mock.calls.length).toBe(1);
+            mockClear(mockObj);
+            expect(mockObj.getSomethingWithArgs.mock.calls.length).toBe(0);
+        });
     });
 
     describe('function mock', () => {
