@@ -1,40 +1,37 @@
 {
-  "name": "jest-mock-extended",
-  "version": "2.0.4",
-  "homepage": "https://github.com/marchaos/jest-mock-extended",
-  "description": "Type safe mocking extensions for jest",
-  "files": [
-    "lib/**/*"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/marchaos/jest-mock-extended.git"
-  },
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "scripts": {
-    "prepare": "npm run build",
-    "clean": "rimraf coverage lib",
-    "test": "jest",
-    "build": "tsc",
-    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
-  },
-  "dependencies": {
-    "ts-essentials": "^7.0.3"
-  },
-  "devDependencies": {
-    "@types/jest": "^26.0.24",
-    "coveralls": "^3.1.1",
-    "jest": "^26.6.3",
-    "prettier": "^2.3.2",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^26.5.6",
-    "typescript": "^4.3.5"
-  },
-  "peerDependencies": {
-    "jest": "^24.0.0 || ^25.0.0 || ^26.0.0 || ^27.0.0",
-    "typescript": "^3.0.0 || ^4.0.0"
-  },
-  "author": "Marc McIntyre <marchaos@gmail.com>",
-  "license": "MIT"
+    "name": "vitest-mock-extended",
+    "version": "0.1.0",
+    "homepage": "https://github.com/eratio08/vitest-mock-extended",
+    "description": "Type safe mocking extensions for vitest",
+    "files": [
+        "lib/**/*"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/eratio08/vitest-mock-extended"
+    },
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "clean": "rimraf coverage lib",
+        "test": "vitest",
+        "build": "tsc",
+        "coveralls": "vitest --coverage && cat ./coverage/lcov.info | coveralls"
+    },
+    "dependencies": {
+        "ts-essentials": "^7.0.3"
+    },
+    "devDependencies": {
+        "c8": "^7.11.0",
+        "coveralls": "^3.1.1",
+        "prettier": "^2.3.2",
+        "rimraf": "^3.0.2",
+        "typescript": "^4.3.5",
+        "vitest": "^0.7.11"
+    },
+    "peerDependencies": {
+        "typescript": "^3.0.0 || ^4.0.0"
+    },
+    "author": "Marc McIntyre <marchaos@gmail.com>",
+    "license": "MIT"
 }

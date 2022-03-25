@@ -1,4 +1,4 @@
-import mock, { mockClear, mockDeep, mockReset, mockFn, JestMockExtended } from './Mock';
+import mock, { mockClear, mockDeep, mockReset, mockFn, VitestMockExtended } from './Mock';
 import { anyNumber } from './Matchers';
 import calledWithFn from './CalledWithFn';
 import { MockProxy } from './Mock';
@@ -64,7 +64,7 @@ class Test4 {
     constructor(test1: Test1, int: MockInt) {}
 }
 
-describe('jest-mock-extended', () => {
+describe('vitest-mock-extended', () => {
     test('Can be assigned back to itself even when there are private parts', () => {
         // No TS errors here
         const mockObj: Test1 = mock<Test1>();
@@ -73,7 +73,7 @@ describe('jest-mock-extended', () => {
         expect(mockObj.getNumber).toHaveBeenCalledTimes(1);
     });
 
-    test('Check that a jest.fn() is created without any invocation to the mock method', () => {
+    test('Check that a vi.fn() is created without any invocation to the mock method', () => {
         const mockObj = mock<MockInt>();
         expect(mockObj.getNumber).toHaveBeenCalledTimes(0);
     });
@@ -146,7 +146,7 @@ describe('jest-mock-extended', () => {
         expect(mockObj).toBe(mockObj);
         expect(mockObj).toEqual(mockObj);
 
-        const spy = jest.fn();
+        const spy = vi.fn();
         spy(mockObj);
         expect(spy).toHaveBeenCalledWith(mockObj);
     });
@@ -205,14 +205,14 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getSomethingWithArgs(7, 2)).toBe(undefined);
         });
 
-        test('Support jest matcher', () => {
+        test('Support vitest matcher', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs.calledWith(expect.anything(), expect.anything()).mockReturnValue(3);
 
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         });
 
-        test('Suport mix Matchers with literals and with jest matcher', () => {
+        test('Suport mix Matchers with literals and with vitest matcher', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithMoreArgs.calledWith(anyNumber(), expect.anything(), 3).mockReturnValue(4);
 
@@ -226,7 +226,7 @@ describe('jest-mock-extended', () => {
             mockObj.getNumberWithMockArg.calledWith(mockArg).mockReturnValue(4);
 
             expect(mockObj.getNumberWithMockArg(mockArg)).toBe(4);
-        })
+        });
     });
 
     describe('Matchers with toHaveBeenCalledWith', () => {
@@ -350,7 +350,7 @@ describe('jest-mock-extended', () => {
             const promiseMockObj = Promise.reject(mockError);
             try {
                 await promiseMockObj;
-                fail('Promise must be rejected');
+                throw new Error('Promise must be rejected');
             } catch (e) {
                 await expect(e).toBeDefined();
                 await expect(e).toBe(mockError);
@@ -375,15 +375,15 @@ describe('jest-mock-extended', () => {
     });
 
     describe('clearing / resetting', () => {
-        test('mockReset supports jest.fn()', () => {
-            const fn = jest.fn().mockImplementation(() => true);
+        test('mockReset supports vi.fn()', () => {
+            const fn = vi.fn().mockImplementation(() => true);
             expect(fn()).toBe(true);
             mockReset(fn);
             expect(fn()).toBe(undefined);
         });
 
-        test('mockClear supports jest.fn()', () => {
-            const fn = jest.fn().mockImplementation(() => true);
+        test('mockClear supports vi.fn()', () => {
+            const fn = vi.fn().mockImplementation(() => true);
             fn();
             expect(fn.mock.calls.length).toBe(1);
             mockClear(fn);
@@ -394,10 +394,12 @@ describe('jest-mock-extended', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
             mockReset(mockObj);
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(undefined);
             mockObj.getSomethingWithArgs.calledWith(1, anyNumber()).mockReturnValue(3);
-            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+            const x = mockObj.getSomethingWithArgs(1, 2);
+            expect(x).toBe(3);
         });
 
         test('mockClear object', () => {
@@ -450,7 +452,7 @@ describe('jest-mock-extended', () => {
 
     describe('ignoreProps', () => {
         test('can configure ignoreProps', async () => {
-            JestMockExtended.configure({ ignoreProps: ['ignoreMe'] });
+            VitestMockExtended.configure({ ignoreProps: ['ignoreMe'] });
             const mockObj = mock<{ ignoreMe: string; dontIgnoreMe: string }>();
             expect(mockObj.ignoreMe).toBeUndefined();
             expect(mockObj.dontIgnoreMe).toBeDefined();
@@ -459,15 +461,15 @@ describe('jest-mock-extended', () => {
 
     describe('JestMockExtended config', () => {
         test('can mock then', async () => {
-            JestMockExtended.configure({ ignoreProps: [] });
+            VitestMockExtended.configure({ ignoreProps: [] });
             const mockObj = mock<{ then: () => void }>();
             mockObj.then();
             expect(mockObj.then).toHaveBeenCalled();
         });
 
         test('can reset config', async () => {
-            JestMockExtended.configure({ ignoreProps: [] });
-            JestMockExtended.resetConfig();
+            VitestMockExtended.configure({ ignoreProps: [] });
+            VitestMockExtended.resetConfig();
             const mockObj = mock<{ then: () => void }>();
             expect(mockObj.then).toBeUndefined();
         });
