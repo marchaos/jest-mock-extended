@@ -1,6 +1,6 @@
 export {
     default as mock,
-    JestMockExtended,
+    VitestMockExtended as JestMockExtended,
     GlobalConfig,
     mockDeep,
     MockProxy,

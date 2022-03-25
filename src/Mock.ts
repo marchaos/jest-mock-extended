@@ -1,6 +1,7 @@
 import calledWithFn from './CalledWithFn';
 import { MatchersOrLiterals } from './Matchers';
 import { DeepPartial } from 'ts-essentials';
+import { SpyInstanceFn } from 'vitest';
 
 type ProxiedProperty = string | number | symbol;
 
@@ -15,7 +16,7 @@ const DEFAULT_CONFIG: GlobalConfig = {
 
 let GLOBAL_CONFIG = DEFAULT_CONFIG;
 
-export const JestMockExtended = {
+export const VitestMockExtended = {
     DEFAULT_CONFIG,
     configure: (config: GlobalConfig) => {
         // Shallow merge so they can override anything they want.
@@ -26,21 +27,19 @@ export const JestMockExtended = {
     },
 };
 
-export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
-    calledWith: (...args: Y | MatchersOrLiterals<Y>) => jest.Mock<T, Y>;
+export interface CalledWithMock<T, Y extends any[]> extends SpyInstanceFn<Y, T> {
+    calledWith: (...args: Y | MatchersOrLiterals<Y>) => SpyInstanceFn<Y, T>;
 }
 
 export type MockProxy<T> = {
     // This supports deep mocks in the else branch
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : T[K];
-} &
-    T;
+} & T;
 
 export type DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : DeepMockProxy<T[K]>;
-} &
-    T;
+} & T;
 
 export interface MockOpts {
     deep?: boolean;
@@ -108,10 +107,12 @@ const handler = (opts?: MockOpts) => ({
     },
 
     get: (obj: MockProxy<any>, property: ProxiedProperty) => {
-        let fn = calledWithFn();
-
         // @ts-ignore
         if (!(property in obj)) {
+            if (property === '_isMockObject' || property === '_isMockFunction') {
+                return undefined;
+            }
+
             if (GLOBAL_CONFIG.ignoreProps?.includes(property)) {
                 return undefined;
             }
@@ -124,6 +125,7 @@ const handler = (opts?: MockOpts) => ({
             // check to see if this is a spy - which we want to say no to, but blindly returning
             // an proxy for calls results in the spy check returning true. This is another reason
             // why deep is opt in.
+            let fn = calledWithFn();
             if (opts?.deep && property !== 'calls') {
                 // @ts-ignore
                 obj[property] = new Proxy<MockProxy<any>>(fn, handler(opts));
@@ -131,14 +133,14 @@ const handler = (opts?: MockOpts) => ({
                 obj[property]._isMockObject = true;
             } else {
                 // @ts-ignore
-                obj[property] = calledWithFn();
+                obj[property] = fn;
             }
         }
 
         // @ts-ignore
         if (obj instanceof Date && typeof obj[property] === 'function') {
             // @ts-ignore
-            return obj[property].bind(obj)
+            return obj[property].bind(obj);
         }
 
         // @ts-ignore
@@ -168,7 +170,7 @@ export const stub = <T extends object>(): T => {
                 // @ts-ignore
                 return obj[property];
             }
-            return jest.fn();
+            return vi.fn();
         },
     });
 };

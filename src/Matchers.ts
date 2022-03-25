@@ -6,7 +6,7 @@ export class Matcher<T> {
     inverse?: boolean;
 
     constructor(readonly asymmetricMatch: MatcherFn<T>, private readonly description: string) {
-        this.$$typeof = Symbol.for('jest.asymmetricMatcher');
+        this.$$typeof = Symbol.for('vi.asymmetricMatcher');
     }
 
     toString() {
@@ -28,7 +28,7 @@ export class CaptorMatcher<T> {
     public readonly value!: T;
     public readonly values: T[] = [];
     constructor() {
-        this.$$typeof = Symbol.for('jest.asymmetricMatcher');
+        this.$$typeof = Symbol.for('vi.asymmetricMatcher');
 
         this.asymmetricMatch = (actualValue: T) => {
             // @ts-ignore

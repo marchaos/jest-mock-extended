@@ -1,24 +1,19 @@
 {
-  "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
-    "declaration": true,
-    "outDir": "lib/",
-    "lib": [
-      "es2017"
-    ],
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "alwaysStrict": true,
-    "types": [
-      "jest"
-    ],
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
-  },
-  "include": ["src"],
-  "exclude": [
-    "node_modules"
-  ]
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "commonjs",
+        "declaration": true,
+        "outDir": "lib/",
+        "lib": ["es2017"],
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "alwaysStrict": true,
+        "types": ["vitest/globals"],
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
 }
