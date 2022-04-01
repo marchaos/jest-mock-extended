@@ -2,7 +2,7 @@
     "name": "vitest-mock-extended",
     "version": "0.1.0",
     "homepage": "https://github.com/eratio08/vitest-mock-extended",
-    "description": "Type safe mocking extensions for vitest",
+    "description": "Type safe mocking extensions for vitest, forked from jest-mock-extended",
     "files": [
         "lib/**/*"
     ],
@@ -32,6 +32,6 @@
     "peerDependencies": {
         "typescript": "^3.0.0 || ^4.0.0"
     },
-    "author": "Marc McIntyre <marchaos@gmail.com>",
+    "author": "Eike Lurz <eike.lurz@tuta.io>",
     "license": "MIT"
 }
