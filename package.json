@@ -15,19 +15,19 @@
     "scripts": {
         "clean": "rimraf coverage lib",
         "test": "vitest",
-        "build": "tsc",
+        "build": "tsc -p tsconfig.lib.json",
         "coveralls": "vitest --coverage && cat ./coverage/lcov.info | coveralls"
     },
     "dependencies": {
         "ts-essentials": "^7.0.3"
     },
     "devDependencies": {
-        "c8": "7.x",
-        "coveralls": "3.x",
-        "prettier": "2.x",
-        "rimraf": "3.x",
-        "typescript": "4.x",
-        "vitest": "0.x"
+        "c8": "~7.11.0",
+        "coveralls": "~3.1.1",
+        "prettier": "~2.6.1",
+        "rimraf": "~3.0.2",
+        "typescript": "~4.6.3",
+        "vitest": "~0.8.2"
     },
     "peerDependencies": {
         "typescript": "^3.0.0 || ^4.0.0"
