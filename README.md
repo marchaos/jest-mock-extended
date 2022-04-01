@@ -132,7 +132,7 @@ replacement for mock.
 ```ts
 import { mockDeep } from 'vitest-mock-extended';
 
-const mockObj = mockDeep<Test1>();
+const mockObj: DeepMockProxy<Test1> = mockDeep<Test1>();
 mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
 expect(mockObj.deepProp.getNumber(1)).toBe(4);
 ```
