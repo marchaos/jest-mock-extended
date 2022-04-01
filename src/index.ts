@@ -1,5 +1,4 @@
 export {
-    default as mock,
     JestMockExtended,
     GlobalConfig,
     mockDeep,
@@ -11,5 +10,8 @@ export {
     mockFn,
     stub,
 } from './Mock';
-export { default as calledWithFn } from './CalledWithFn';
+import { default as mockDefault } from './Mock'
+export const mock = mockDefault
+import { default as calledWithFnDefault } from './CalledWithFn';
+export const calledWithFn = calledWithFnDefault
 export * from './Matchers';
