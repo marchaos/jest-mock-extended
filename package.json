@@ -1,15 +1,15 @@
 {
     "name": "vitest-mock-extended",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "homepage": "https://github.com/eratio08/vitest-mock-extended",
     "description": "Type safe mocking extensions for vitest, forked from jest-mock-extended",
-    "files": [
-        "lib/**/*"
-    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/eratio08/vitest-mock-extended"
     },
+    "files": [
+        "lib/**/*"
+    ],
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
@@ -19,18 +19,19 @@
         "coveralls": "vitest --coverage && cat ./coverage/lcov.info | coveralls"
     },
     "dependencies": {
-        "ts-essentials": "^7.0.3"
+        "ts-essentials": "^9.1.2"
     },
     "devDependencies": {
         "c8": "~7.11.0",
         "coveralls": "~3.1.1",
-        "prettier": "~2.6.1",
+        "prettier": "~2.6.2",
         "rimraf": "~3.0.2",
         "typescript": "~4.6.3",
-        "vitest": "~0.8.2"
+        "vitest": "~0.8.4"
     },
     "peerDependencies": {
-        "typescript": "^3.0.0 || ^4.0.0"
+        "typescript": "3.x || 4.x",
+        "vitest": "0.x"
     },
     "author": "Eike Lurz <eike.lurz@tuta.io>",
     "license": "MIT"
