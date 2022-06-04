@@ -33,6 +33,8 @@ or
 yarn add vitest-mock-extended --dev
 ```
 
+If `ReferenceError: vi is not defined` related error occurs, please set [`globals: true`](https://vitest.dev/config/#globals).
+
 ## Example
 
 ```ts
