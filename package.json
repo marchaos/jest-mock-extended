@@ -14,16 +14,14 @@
     "types": "lib/index.d.ts",
     "scripts": {
         "clean": "rimraf coverage lib",
-        "test": "vitest",
-        "build": "tsc -p tsconfig.lib.json",
-        "coveralls": "vitest --coverage && cat ./coverage/lcov.info | coveralls"
+        "test": "vitest run --coverage",
+        "build": "tsc -p tsconfig.lib.json"
     },
     "dependencies": {
         "ts-essentials": "^9.1.2"
     },
     "devDependencies": {
         "c8": "~7.11.0",
-        "coveralls": "~3.1.1",
         "prettier": "~2.6.2",
         "rimraf": "~3.0.2",
         "typescript": "~4.6.3",
