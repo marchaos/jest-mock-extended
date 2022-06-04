@@ -1,0 +1,46 @@
+name: Run Unit-Tests
+on: [pull_request]
+concurrency:
+  group: ${{ github.workflow }} - ${{ github.event.pull_request.id }}
+  cancel-in-progress: true
+jobs:
+  unit-tests:
+    name: Run Unit-Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          check-latest: true
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+ 
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run Unit-Tests
+        run: pnpm test
