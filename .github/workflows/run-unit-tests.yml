@@ -11,14 +11,7 @@ jobs:
       # https://github.com/marketplace/actions/checkout
       - name: Checkout Repository
         uses: actions/checkout@v3
-      
-      # https://github.com/marketplace/actions/setup-node-js-environment
-      - name: Setup NodeJS
-        uses: actions/setup-node@v3
-        with:
-          node-version: lts/*
-          check-latest: true
-
+        
       # https://github.com/marketplace/actions/setup-pnpm
       - uses: pnpm/action-setup@v2.0.1
         name: Install pnpm
@@ -26,22 +19,17 @@ jobs:
         with:
           version: latest
           run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+      
+      # https://github.com/marketplace/actions/setup-node-js-environment
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          cache: pnpm
+          node-version: lts/*
+          check-latest: true
  
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Run Unit-Tests
         run: pnpm test
