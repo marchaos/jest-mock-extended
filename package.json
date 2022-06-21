@@ -22,10 +22,10 @@
     },
     "devDependencies": {
         "c8": "~7.11.3",
-        "prettier": "~2.7.0",
+        "prettier": "~2.7.1",
         "rimraf": "~3.0.2",
-        "typescript": "~4.7.3",
-        "vitest": "~0.15.1"
+        "typescript": "~4.7.4",
+        "vitest": "~0.15.2"
     },
     "peerDependencies": {
         "typescript": "3.x || 4.x",

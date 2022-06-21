@@ -9,7 +9,6 @@
         "noImplicitAny": true,
         "strictNullChecks": true,
         "alwaysStrict": true,
-        "types": ["vitest/globals"],
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "skipLibCheck": true
