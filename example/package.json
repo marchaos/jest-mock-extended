@@ -1,0 +1,17 @@
+{
+    "name": "example",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "vitest run --coverage"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "4.7.4",
+        "vitest": "0.15.2",
+        "vitest-mock-extended": "link:.."
+    }
+}

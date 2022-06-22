@@ -4,7 +4,6 @@
         "module": "ES2022",
         "moduleResolution": "NodeNext",
         "declaration": true,
-        "outDir": "lib/",
         "lib": ["ES2022"],
         "strict": true,
         "noImplicitAny": true,

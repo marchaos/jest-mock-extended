@@ -15,21 +15,21 @@
     "scripts": {
         "clean": "rimraf coverage lib",
         "test": "vitest run --coverage",
-        "build": "tsc -p tsconfig.lib.json"
+        "build": "pnpm run clean && tsc -p tsconfig.lib.json"
     },
     "dependencies": {
         "ts-essentials": "^9.1.2"
     },
     "devDependencies": {
-        "c8": "~7.11.3",
-        "prettier": "~2.7.1",
-        "rimraf": "~3.0.2",
-        "typescript": "~4.7.4",
-        "vitest": "~0.15.2"
+        "c8": "7.11.3",
+        "prettier": "2.7.1",
+        "rimraf": "3.0.2",
+        "typescript": "4.7.4",
+        "vitest": "0.15.2"
     },
     "peerDependencies": {
         "typescript": "3.x || 4.x",
-        "vitest": "0.x"
+        "vitest": "0.15.2"
     },
     "author": "Eike Lurz <eike.lurz@tuta.io>",
     "license": "MIT"
