@@ -1,6 +1,6 @@
 {
     "name": "vitest-mock-extended",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "homepage": "https://github.com/eratio08/vitest-mock-extended",
     "description": "Type safe mocking extensions for vitest, forked from jest-mock-extended",
     "repository": {
@@ -15,6 +15,7 @@
     "scripts": {
         "clean": "rimraf coverage lib",
         "test": "vitest run --coverage",
+        "test:example": "cd example && pnpm run test",
         "build": "pnpm run clean && tsc -p tsconfig.lib.json"
     },
     "dependencies": {
@@ -29,7 +30,7 @@
     },
     "peerDependencies": {
         "typescript": "3.x || 4.x",
-        "vitest": "0.15.2"
+        "vitest": "^0.15"
     },
     "author": "Eike Lurz <eike.lurz@tuta.io>",
     "license": "MIT"
