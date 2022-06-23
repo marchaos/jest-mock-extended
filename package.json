@@ -1,6 +1,6 @@
 {
     "name": "vitest-mock-extended",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "homepage": "https://github.com/eratio08/vitest-mock-extended",
     "description": "Type safe mocking extensions for vitest, forked from jest-mock-extended",
     "repository": {
@@ -30,7 +30,7 @@
     },
     "peerDependencies": {
         "typescript": "3.x || 4.x",
-        "vitest": "^0.15"
+        "vitest": "0.x"
     },
     "author": "Eike Lurz <eike.lurz@tuta.io>",
     "license": "MIT"
