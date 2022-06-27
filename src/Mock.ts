@@ -1,7 +1,7 @@
 import { calledWithFn } from './CalledWithFn';
 import { MatchersOrLiterals } from './Matchers';
 import { DeepPartial } from 'ts-essentials';
-import { SpyInstanceFn, vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 type ProxiedProperty = string | number | symbol;
 
@@ -27,8 +27,8 @@ const VitestMockExtended = {
     },
 };
 
-interface CalledWithMock<T, Y extends any[]> extends SpyInstanceFn<Y, T> {
-    calledWith: (...args: Y | MatchersOrLiterals<Y>) => SpyInstanceFn<Y, T>;
+interface CalledWithMock<T, Y extends any[]> extends Mock<Y, T> {
+    calledWith: (...args: Y | MatchersOrLiterals<Y>) => Mock<Y, T>;
 }
 
 type MockProxy<T> = {

@@ -1,10 +1,10 @@
 import { CalledWithMock } from './Mock';
 import { Matcher, MatchersOrLiterals } from './Matchers';
-import { vi, SpyInstanceFn } from 'vitest';
+import { vi, Mock } from 'vitest';
 
 interface CalledWithStackItem<T, Y extends any[]> {
     args: MatchersOrLiterals<Y>;
-    calledWithFn: SpyInstanceFn<Y, T>;
+    calledWithFn: Mock<Y, T>;
 }
 
 interface VitestAsymmetricMatcher {
@@ -34,13 +34,13 @@ const checkCalledWith = <T, Y extends any[]>(calledWithStack: CalledWithStackIte
 };
 
 const calledWithFn = <T, Y extends any[]>(): CalledWithMock<T, Y> => {
-    const fn: SpyInstanceFn<Y, T> = vi.fn();
+    const fn: Mock<Y, T> = vi.fn();
     let calledWithStack: CalledWithStackItem<T, Y>[] = [];
 
     (fn as CalledWithMock<T, Y>).calledWith = (...args) => {
         // We create new function to delegate any interactions (mockReturnValue etc.) to for this set of args.
         // If that set of args is matched, we just call that vi.fn() for the result.
-        const calledWithFn: SpyInstanceFn<Y, T> = vi.fn();
+        const calledWithFn: Mock<Y, T> = vi.fn();
         if (!fn.getMockImplementation() || fn.getMockImplementation()?.name === 'implementation') {
             // Our original function gets a mock implementation which handles the matching
             fn.mockImplementation((...args: Y) => checkCalledWith(calledWithStack, args));
