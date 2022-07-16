@@ -35,19 +35,9 @@ export type MockProxy<T> = {
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : T[K];
 } & T;
 
-// Make a type by omitting keys which match Condition
-export type OmitType<Base, Condition> = Omit<
-    Base,
-    {
-        [Key in keyof Base]: Base[Key] extends Condition ? never : Key;
-    }[keyof Base]
->;
-
 export type DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B
-        ? CalledWithMock<B, A> & DeepMockProxy<OmitType<T[K], (...args: any) => any>>
-        : DeepMockProxy<T[K]>;
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> & DeepMockProxy<T[K]> : DeepMockProxy<T[K]>;
 } & T;
 
 export interface MockOpts {
