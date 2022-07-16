@@ -33,14 +33,12 @@ export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
 export type MockProxy<T> = {
     // This supports deep mocks in the else branch
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : T[K];
-} &
-    T;
+} & T;
 
 export type DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : DeepMockProxy<T[K]>;
-} &
-    T;
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> & DeepMockProxy<T[K]> : DeepMockProxy<T[K]>;
+} & T;
 
 export interface MockOpts {
     deep?: boolean;
@@ -89,7 +87,7 @@ export const mockReset = (mock: MockProxy<any>) => {
     }
 };
 
-export const mockDeep = <T>(mockImplementation?: DeepPartial<T>): DeepMockProxy<T> & T => mock(mockImplementation, { deep: true });
+export const mockDeep = <T>(mockImplementation?: DeepPartial<T>) => mock<T, DeepMockProxy<T> & T>(mockImplementation, { deep: true });
 
 const overrideMockImp = (obj: DeepPartial<any>, opts?: MockOpts) => {
     const proxy = new Proxy<MockProxy<any>>(obj, handler(opts));
@@ -154,7 +152,10 @@ const handler = (opts?: MockOpts) => ({
     },
 });
 
-const mock = <T>(mockImplementation: DeepPartial<T> = {} as DeepPartial<T>, opts?: MockOpts): MockProxy<T> & T => {
+const mock = <T, MockedReturn extends MockProxy<T> & T = MockProxy<T> & T>(
+    mockImplementation: DeepPartial<T> = {} as DeepPartial<T>,
+    opts?: MockOpts
+): MockedReturn => {
     // @ts-ignore private
     mockImplementation!._isMockObject = true;
     return overrideMockImp(mockImplementation, opts);

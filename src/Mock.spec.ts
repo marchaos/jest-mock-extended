@@ -64,6 +64,26 @@ class Test4 {
     constructor(test1: Test1, int: MockInt) {}
 }
 
+export interface FunctionWithPropsMockInt {
+    (arg1: number): number;
+
+    prop: number;
+
+    nonDeepProp: (arg: Test1) => number;
+
+    deepProp: Test2;
+}
+
+export class Test6 {
+    public id: number;
+    funcValueProp: FunctionWithPropsMockInt;
+
+    constructor(funcValueProp: FunctionWithPropsMockInt, id: number) {
+        this.id = id;
+        this.funcValueProp = funcValueProp;
+    }
+}
+
 describe('jest-mock-extended', () => {
     test('Can be assigned back to itself even when there are private parts', () => {
         // No TS errors here
@@ -226,7 +246,7 @@ describe('jest-mock-extended', () => {
             mockObj.getNumberWithMockArg.calledWith(mockArg).mockReturnValue(4);
 
             expect(mockObj.getNumberWithMockArg(mockArg)).toBe(4);
-        })
+        });
     });
 
     describe('Matchers with toHaveBeenCalledWith', () => {
@@ -279,6 +299,51 @@ describe('jest-mock-extended', () => {
             const mockObj = mockDeep<Test1>();
             mockObj.deepProp.getNumber(2);
             expect(mockObj.deepProp.getNumber).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe('Deep mock support for class variables which are functions but also have nested properties and functions', () => {
+        test('can deep mock members', () => {
+            const mockObj = mockDeep<Test6>();
+            const input = new Test1(1);
+            mockObj.funcValueProp.nonDeepProp.calledWith(input).mockReturnValue(4);
+
+            expect(mockObj.funcValueProp.nonDeepProp(input)).toBe(4);
+        });
+
+        test('three or more level deep mock', () => {
+            const mockObj = mockDeep<Test6>();
+            mockObj.funcValueProp.deepProp.deeperProp.getNumber.calledWith(1).mockReturnValue(4);
+
+            expect(mockObj.funcValueProp.deepProp.deeperProp.getNumber(1)).toBe(4);
+        });
+
+        test('maintains API for deep mocks', () => {
+            const mockObj = mockDeep<Test6>();
+            mockObj.funcValueProp.deepProp.getNumber(100);
+
+            expect(mockObj.funcValueProp.deepProp.getNumber.mock.calls[0][0]).toBe(100);
+        });
+
+        test('deep expectation work as expected', () => {
+            const mockObj = mockDeep<Test6>();
+            mockObj.funcValueProp.deepProp.getNumber(2);
+
+            expect(mockObj.funcValueProp.deepProp.getNumber).toHaveBeenCalledTimes(1);
+        });
+
+        test('can mock base function which have properties', () => {
+            const mockObj = mockDeep<Test6>();
+            mockObj.funcValueProp.calledWith(1).mockReturnValue(2);
+
+            expect(mockObj.funcValueProp(1)).toBe(2);
+        });
+
+        test('base function expectation work as expected', () => {
+            const mockObj = mockDeep<Test6>();
+            mockObj.funcValueProp(1);
+
+            expect(mockObj.funcValueProp).toHaveBeenCalledTimes(1);
         });
     });
 
