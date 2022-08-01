@@ -2,12 +2,12 @@ lockfileVersion: 5.4
 
 specifiers:
   typescript: 4.7.4
-  vitest: 0.19.1
+  vitest: 0.20.2
   vitest-mock-extended: link:..
 
 devDependencies:
   typescript: 4.7.4
-  vitest: 0.19.1
+  vitest: 0.20.2
   vitest-mock-extended: link:..
 
 packages:
@@ -417,8 +417,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.19.1:
-    resolution: {integrity: sha512-E/ZXpFMUahn731wzhMBNzWRp4mGgiZFT0xdHa32cbNO0CSaHpE9hTfteEU247Gi2Dula8uXo5vvrNB6dtszmQA==}
+  /vitest/0.20.2:
+    resolution: {integrity: sha512-AFXTHrwG4d2OO6SAL8WP5ZkOwLtgeF4tlrHfXFqrHc+5chNegeR53pge0lv/C4316SqJ2DbYaUBH8vh3CdF+BQ==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
