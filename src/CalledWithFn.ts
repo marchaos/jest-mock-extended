@@ -45,7 +45,7 @@ export const calledWithFn = <T, Y extends any[]>(): CalledWithMock<T, Y> => {
             fn.mockImplementation((...args: Y) => checkCalledWith(calledWithStack, args));
             calledWithStack = [];
         }
-        calledWithStack.push({ args, calledWithFn });
+        calledWithStack.unshift({ args, calledWithFn });
 
         return calledWithFn;
     };
