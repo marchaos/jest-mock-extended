@@ -5,7 +5,7 @@ export class Matcher<T> {
     $$typeof: symbol;
     inverse?: boolean;
 
-    constructor(readonly asymmetricMatch: MatcherFn<T>, private readonly description: string) {
+    constructor(readonly asymmetricMatch: MatcherFn<T>, private readonly description: string = "customMatcher") {
         this.$$typeof = Symbol.for('jest.asymmetricMatcher');
     }
 
