@@ -35,7 +35,7 @@ jobs:
                   check-latest: true
 
             - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+              run: pnpm install ${{ github.actor == 'dependabot' && '' || --frozen-lockfile }}
 
             - name: Run Unit-Tests
               run: pnpm test:src
@@ -44,4 +44,4 @@ jobs:
               run: pnpm build
 
             - name: Run example Unit-Tests
-              run: cd example && pnpm install --frozen-lockfile && pnpm test
+              run: cd example && pnpm install ${{ github.actor == 'dependabot' && '' || --frozen-lockfile }} && pnpm test
