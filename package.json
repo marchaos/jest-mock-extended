@@ -1,6 +1,8 @@
 {
     "name": "vitest-mock-extended",
-    "version": "1.0.0",
+    "version": "0.0.0-development",
+    "author": "Eike Lurz <eike.lurz@tuta.io>",
+    "license": "MIT",
     "homepage": "https://github.com/eratio08/vitest-mock-extended",
     "description": "Type safe mocking extensions for vitest, forked from jest-mock-extended",
     "repository": {
@@ -16,7 +18,8 @@
         "clean": "rimraf coverage lib",
         "test": "vitest run --coverage",
         "test:example": "cd example && pnpm run test",
-        "build": "pnpm run clean && tsc -p tsconfig.lib.json"
+        "build": "pnpm run clean && tsc -p tsconfig.lib.json",
+        "semantic-release": "semantic-release"
     },
     "dependencies": {
         "ts-essentials": "^9.3.0"
@@ -25,6 +28,7 @@
         "@vitest/coverage-c8": "0.23.4",
         "prettier": "2.7.1",
         "rimraf": "3.0.2",
+        "semantic-release": "^19.0.5",
         "typescript": "4.8.4",
         "vite": "^3.1.8",
         "vitest": "0.23.4"
@@ -33,6 +37,20 @@
         "typescript": "3.x || 4.x",
         "vitest": ">=0.23.4"
     },
-    "author": "Eike Lurz <eike.lurz@tuta.io>",
-    "license": "MIT"
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./lib/types/index.d.ts",
+                "default": "./lib/index.js"
+            }
+        }
+    },
+    "release": {
+        "branches": [
+            "main"
+        ]
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }
