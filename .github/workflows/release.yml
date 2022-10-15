@@ -8,6 +8,11 @@ on:
         description: NPM OTP
         required: true
         type: string
+      dry-run:
+        description: dry-run
+        required: false
+        type: boolean
+        default: false
     
 jobs:
   release:
@@ -42,4 +47,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release --otp=${{ inputs.otp }} -d
+        run: npx semantic-release --otp=${{ inputs.otp }} ${{ inputs.dry-run && '-d' || '' }}
