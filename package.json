@@ -16,8 +16,9 @@
     "types": "lib/index.d.ts",
     "scripts": {
         "clean": "rimraf coverage lib",
-        "test": "vitest run --coverage",
+        "test:src": "vitest run --coverage",
         "test:example": "cd example && pnpm run test",
+        "test": "pnpm run test:src && pnpm run test:example",
         "build": "pnpm run clean && tsc -p tsconfig.lib.json",
         "semantic-release": "semantic-release"
     },
