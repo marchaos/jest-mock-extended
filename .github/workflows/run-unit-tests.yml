@@ -1,8 +1,14 @@
 name: Run Unit-Tests
-on: [pull_request]
+on: 
+  pull_request:
+  push:
+    branches:
+      - "main"
+
 concurrency:
     group: ${{ github.workflow }} - ${{ github.event.pull_request.id }}
     cancel-in-progress: true
+
 jobs:
     unit-tests:
         name: Run Unit-Tests
