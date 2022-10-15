@@ -1,6 +1,6 @@
 {
     "name": "vitest-mock-extended",
-    "version": "0.0.0-development",
+    "version": "0.1.16",
     "author": "Eike Lurz <eike.lurz@tuta.io>",
     "license": "MIT",
     "homepage": "https://github.com/eratio08/vitest-mock-extended",
