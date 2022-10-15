@@ -3,7 +3,12 @@ run-name: Release by ${{ github.actor }}
 
 on:
   workflow_dispatch:
-
+    inputs:
+      otp:
+        description: NPM OTP
+        required: true
+        type: string
+    
 jobs:
   release:
     name: Release
@@ -37,4 +42,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+        run: npx semantic-release --otp=${{ inputs.otp }} -d

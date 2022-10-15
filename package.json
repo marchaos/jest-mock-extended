@@ -20,7 +20,7 @@
         "test:example": "cd example && pnpm run test",
         "test": "pnpm run test:src && pnpm run test:example",
         "build": "pnpm run clean && tsc -p tsconfig.lib.json",
-        "semantic-release": "semantic-release -d"
+        "semantic-release": "semantic-release"
     },
     "dependencies": {
         "ts-essentials": "^9.3.0"
