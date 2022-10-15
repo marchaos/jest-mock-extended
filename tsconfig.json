@@ -3,8 +3,6 @@
         "target": "ES2022",
         "module": "ES2022",
         "moduleResolution": "NodeNext",
-        "declaration": true,
-        "outDir": "lib/",
         "lib": ["ES2022"],
         "strict": true,
         "noImplicitAny": true,
@@ -12,7 +10,12 @@
         "alwaysStrict": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "declaration": true,
+        "declarationMap": true,
+        "outDir": "lib/",
+        "declarationDir": "lib/types"
     },
     "include": ["src"],
     "exclude": ["node_modules"]
