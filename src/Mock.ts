@@ -32,11 +32,15 @@ interface CalledWithMock<T, Y extends any[]> extends Mock<Y, T> {
 }
 
 type MockProxy<T> = {
-    // This supports deep mocks in the else branch
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : T[K];
 } & T;
 
 type DeepMockProxy<T> = {
+    // This supports deep mocks in the else branch
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : DeepMockProxy<T[K]>;
+} & T;
+
+type DeepMockProxyWithFuncPropSupport<T> = {
     // This supports deep mocks in the else branch
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> & DeepMockProxy<T[K]> : DeepMockProxy<T[K]>;
 } & T;
@@ -88,7 +92,11 @@ const mockReset = (mock: MockProxy<any>) => {
     }
 };
 
-const mockDeep = <T>(mockImplementation?: DeepPartial<T>) => mock<T, DeepMockProxy<T> & T>(mockImplementation, { deep: true });
+function mockDeep<T>(opts: { funcPropSupport: true }, mockImplementation?: DeepPartial<T>): DeepMockProxyWithFuncPropSupport<T>;
+function mockDeep<T>(mockImplementation?: DeepPartial<T>): DeepMockProxy<T>;
+function mockDeep(arg1: any, arg2?: any) {
+    return mock(arg1 && 'funcPropSupport' in arg1 ? arg2 : arg1, { deep: true });
+}
 
 const overrideMockImp = (obj: DeepPartial<any>, opts?: MockOpts) => {
     const proxy = new Proxy<MockProxy<any>>(obj, handler(opts));

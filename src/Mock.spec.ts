@@ -232,7 +232,7 @@ describe('vitest-mock-extended', () => {
             mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(3);
 
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
-        })
+        });
 
         test('Support vitest matcher', () => {
             const mockObj = mock<MockInt>();
@@ -280,7 +280,7 @@ describe('vitest-mock-extended', () => {
 
     describe('Deep mock support for class variables which are functions but also have nested properties and functions', () => {
         test('can deep mock members', () => {
-            const mockObj = mockDeep<Test6>();
+            const mockObj = mockDeep<Test6>({ funcPropSupport: true });
             const input = new Test1(1);
             mockObj.funcValueProp.nonDeepProp.calledWith(input).mockReturnValue(4);
 
@@ -288,14 +288,14 @@ describe('vitest-mock-extended', () => {
         });
 
         test('three or more level deep mock', () => {
-            const mockObj = mockDeep<Test6>();
+            const mockObj = mockDeep<Test6>({ funcPropSupport: true });
             mockObj.funcValueProp.deepProp.deeperProp.getNumber.calledWith(1).mockReturnValue(4);
 
             expect(mockObj.funcValueProp.deepProp.deeperProp.getNumber(1)).toBe(4);
         });
 
         test('maintains API for deep mocks', () => {
-            const mockObj = mockDeep<Test6>();
+            const mockObj = mockDeep<Test6>({ funcPropSupport: true });
             mockObj.funcValueProp.deepProp.getNumber(100);
 
             expect(mockObj.funcValueProp.deepProp.getNumber.mock.calls[0][0]).toBe(100);
