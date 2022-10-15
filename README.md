@@ -3,7 +3,7 @@
 > Type safe mocking extensions for Vitest ✅
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Run Unit-Tests](https://github.com/eratio08/vitest-mock-extended/actions/workflows/run-unit-tests.yml/badge.svg?event=push)](https://github.com/eratio08/vitest-mock-extended/actions/workflows/run-unit-tests.yml)
+[![Tests](https://github.com/eratio08/vitest-mock-extended/actions/workflows/run-unit-tests.yml/badge.svg)](https://github.com/eratio08/vitest-mock-extended/actions/workflows/run-unit-tests.yml)
 [![npm downloads](https://badgen.net/npm/dw/vitest-mock-extended)](https://www.npmjs.com/package/vitest-mock-extended)
 
 THIS IS A FORK OF [jest-mock-extended](https://github.com/marchaos/jest-mock-extended) ALL CREDITS GO TO THE ORIGINAL AUTHOR
