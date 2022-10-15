@@ -226,6 +226,14 @@ describe('vitest-mock-extended', () => {
             expect(mockObj.getSomethingWithArgs(7, 2)).toBe(undefined);
         });
 
+        test('supports overriding with same args', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(4);
+            mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(3);
+
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+        })
+
         test('Support vitest matcher', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs.calledWith(expect.anything(), expect.anything()).mockReturnValue(3);
