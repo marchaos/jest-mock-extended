@@ -2,13 +2,9 @@
 
 > Type safe mocking extensions for Vitest ✅
 
-<!-- [![Build Status](https://travis-ci.com/marchaos/jest-mock-extended.svg?branch=master)](https://travis-ci.com/marchaos/jest-mock-extended) -->
-<!-- [![Coverage Status](https://coveralls.io/repos/github/marchaos/jest-mock-extended/badge.svg?branch=master)](https://coveralls.io/github/marchaos/jest-mock-extended?branch=master) -->
-<!-- [![npm version](https://badge.fury.io/js/jest-mock-extended.svg)](https://badge.fury.io/js/jest-mock-extended) -->
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-<!-- [![npm downloads](https://badgen.net/npm/dw/jest-mock-extended)](https://badge.fury.io/js/jest-mock-extended) -->
+[![Run Unit-Tests](https://github.com/eratio08/vitest-mock-extended/actions/workflows/run-unit-tests.yml/badge.svg?event=push)](https://github.com/eratio08/vitest-mock-extended/actions/workflows/run-unit-tests.yml)
+[![npm downloads](https://badgen.net/npm/dw/vitest-mock-extended)](https://www.npmjs.com/package/vitest-mock-extended)
 
 THIS IS A FORK OF [jest-mock-extended](https://github.com/marchaos/jest-mock-extended) ALL CREDITS GO TO THE ORIGINAL AUTHOR
 
@@ -144,7 +140,7 @@ if you also need support for properties on functions, you can pass in an option 
 ```ts
 import { mockDeep } from 'jest-mock-extended';
 const mockObj: DeepMockProxy<Test1> = mockDeep<Test1>({ funcPropSupport: true });
-mockObj.deepProp.calledWith(1).mockReturnValue(3)
+mockObj.deepProp.calledWith(1).mockReturnValue(3);
 mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
 expect(mockObj.deepProp(1)).toBe(3);
 expect(mockObj.deepProp.getNumber(1)).toBe(4);
