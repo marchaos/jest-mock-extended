@@ -4,7 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "vitest run --coverage"
+        "test": "tsc && vitest run --coverage",
+        "build": "tsc"
     },
     "keywords": [],
     "author": "",

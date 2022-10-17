@@ -15,7 +15,7 @@
         "declaration": true,
         "declarationMap": true,
         "outDir": "lib/",
-        "declarationDir": "lib/types"
+        "declarationDir": "lib/types/"
     },
     "include": ["src"],
     "exclude": ["node_modules"]

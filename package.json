@@ -13,7 +13,7 @@
         "lib/**/*"
     ],
     "main": "lib/index.js",
-    "types": "lib/index.d.ts",
+    "types": "lib/types/index.d.ts",
     "scripts": {
         "clean": "rimraf coverage lib",
         "test:src": "vitest run --coverage",
@@ -37,14 +37,6 @@
     "peerDependencies": {
         "typescript": "3.x || 4.x",
         "vitest": ">=0.24.3"
-    },
-    "exports": {
-        ".": {
-            "import": {
-                "types": "./lib/types/index.d.ts",
-                "default": "./lib/index.js"
-            }
-        }
     },
     "release": {
         "branches": [
