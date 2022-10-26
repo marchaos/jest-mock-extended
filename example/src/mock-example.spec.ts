@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { mock } from 'vitest-mock-extended';
+import { mock, mockDeep } from 'vitest-mock-extended';
 
 describe('Use mock example', () => {
     type SomeType = { fieldC: string };
@@ -13,5 +13,12 @@ describe('Use mock example', () => {
 
         expect(mockedInterface.fieldA).toBe('valueA');
         expect(mockedInterface.fieldB).toContain({ fieldC: 'valueC' });
+    });
+
+    it('should mock returned object', () => {
+        const mockedInterface = mockDeep<SomeInterface>({ fieldA: 'valueA' });
+
+        expect(mockedInterface.fieldA).toBe('valueA');
+        expect(mockedInterface.fieldB.fieldC).not.toBeNull(); // returns spy function
     });
 });
