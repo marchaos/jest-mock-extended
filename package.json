@@ -1,6 +1,6 @@
 {
     "name": "vitest-mock-extended",
-    "version": "0.1.16",
+    "version": "1.0.3",
     "author": "Eike Lurz <eike.lurz@tuta.io>",
     "license": "MIT",
     "homepage": "https://github.com/eratio08/vitest-mock-extended",
@@ -9,11 +9,19 @@
         "type": "git",
         "url": "https://github.com/eratio08/vitest-mock-extended"
     },
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
     "files": [
         "lib/**/*"
     ],
-    "main": "lib/index.js",
-    "types": "lib/types/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./lib/index.d.ts",
+            "import": "./lib/index.js",
+            "require": null
+        },
+        "./package.json": "./package.json"
+    },
     "scripts": {
         "clean": "rimraf coverage lib",
         "test:src": "vitest run --coverage",
