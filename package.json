@@ -1,6 +1,6 @@
 {
     "name": "vitest-mock-extended",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "homepage": "https://github.com/eratio08/vitest-mock-extended",
     "description": "Type safe mocking extensions for vitest, forked from jest-mock-extended",
     "repository": {
@@ -39,17 +39,20 @@
         "test:src": "vitest run --coverage",
         "test:example": "cd example && pnpm run test",
         "clean": "rimraf coverage lib",
-        "build": "pnpm run clean && pnpm run build:esm && pnpm run build:cjs",
-        "build:esm": "tsc -p tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
-        "build:cjs": "tsc -p tsconfig.cjs.json"
+        "build":"pnpm clean && pnpm build:types && pnpm build:rollup",
+        "build:rollup": "rollup --config",
+        "build:types": "tsc --emitDeclarationOnly && mkdir -p lib/cjs/types && cp -r lib/esm/types lib/cjs/types"
     },
     "dependencies": {
         "ts-essentials": "^9.3.0"
     },
     "devDependencies": {
         "@vitest/coverage-c8": "0.24.3",
+        "esbuild": "^0.15.12",
         "prettier": "2.7.1",
         "rimraf": "3.0.2",
+        "rollup": "^3.2.3",
+        "rollup-plugin-esbuild": "^4.10.1",
         "semantic-release": "^19.0.5",
         "typescript": "4.8.4",
         "vite": "^3.1.8",

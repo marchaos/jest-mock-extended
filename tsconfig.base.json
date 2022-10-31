@@ -9,9 +9,7 @@
         "allowSyntheticDefaultImports": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
-        "alwaysStrict": true,
+        "alwaysStrict": true
     },
-    "files": [
-        "src/index.ts"
-    ]
+    "files": ["src/index.ts"]
 }
