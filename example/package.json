@@ -3,15 +3,20 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
+    "type": "module",
     "scripts": {
-        "test": "tsc --noEmit && vitest run --coverage",
-        "build": "tsc"
+        "test": "pnpm type-check && vitest run --coverage",
+        "ts-node-dev": "ts-node --esm src/index.ts",
+        "tsm-dev": "tsm src/index.ts",
+        "type-check": "tsc --noEmit"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
         "@vitest/coverage-c8": "0.24.3",
+        "ts-node": "^10.9.1",
+        "tsm": "^2.2.2",
         "typescript": "4.8.4",
         "vitest": "0.24.3",
         "vitest-mock-extended": "link:.."

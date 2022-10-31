@@ -1,34 +1,47 @@
 {
     "name": "vitest-mock-extended",
-    "version": "1.0.3",
-    "author": "Eike Lurz <eike.lurz@tuta.io>",
-    "license": "MIT",
+    "version": "1.0.4",
     "homepage": "https://github.com/eratio08/vitest-mock-extended",
     "description": "Type safe mocking extensions for vitest, forked from jest-mock-extended",
     "repository": {
         "type": "git",
         "url": "https://github.com/eratio08/vitest-mock-extended"
     },
-    "main": "lib/index.js",
-    "types": "lib/index.d.ts",
+    "author": "Eike Lurz <eike.lurz@tuta.io>",
+    "license": "MIT",
+    "types": "./lib/cjs/types/index.d.ts",
+    "main": "./lib/cjs/index.js",
     "files": [
         "lib/**/*"
     ],
     "exports": {
         ".": {
-            "types": "./lib/index.d.ts",
-            "import": "./lib/index.js",
-            "require": null
-        },
-        "./package.json": "./package.json"
+            "import": {
+                "types": "./lib/esm/types/index.d.ts",
+                "default": "./lib/esm/index.mjs"
+            },
+            "require": {
+                "types": "./lib/cjs/types/index.d.ts",
+                "default": "./lib/cjs/index.js"
+            }
+        }
+    },
+    "release": {
+        "branches": [
+            "main"
+        ]
+    },
+    "publishConfig": {
+        "access": "public"
     },
     "scripts": {
-        "clean": "rimraf coverage lib",
+        "test": "pnpm test:src && pnpm test:example",
         "test:src": "vitest run --coverage",
         "test:example": "cd example && pnpm run test",
-        "test": "pnpm run test:src && pnpm run test:example",
-        "build": "pnpm run clean && tsc -p tsconfig.lib.json",
-        "semantic-release": "semantic-release"
+        "clean": "rimraf coverage lib",
+        "build": "pnpm run clean && pnpm run build:esm && pnpm run build:cjs",
+        "build:esm": "tsc -p tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
+        "build:cjs": "tsc -p tsconfig.cjs.json"
     },
     "dependencies": {
         "ts-essentials": "^9.3.0"
@@ -45,13 +58,5 @@
     "peerDependencies": {
         "typescript": "3.x || 4.x",
         "vitest": ">=0.24.3"
-    },
-    "release": {
-        "branches": [
-            "main"
-        ]
-    },
-    "publishConfig": {
-        "access": "public"
     }
 }
