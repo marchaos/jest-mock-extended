@@ -138,7 +138,7 @@ expect(mockObj.deepProp.getNumber(1)).toBe(4);
 if you also need support for properties on functions, you can pass in an option to enable this
 
 ```ts
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 const mockObj: DeepMockProxy<Test1> = mockDeep<Test1>({ funcPropSupport: true });
 mockObj.deepProp.calledWith(1).mockReturnValue(3);
 mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
