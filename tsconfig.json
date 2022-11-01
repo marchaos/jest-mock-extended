@@ -6,7 +6,7 @@
         "module": "ESNext",
         "moduleResolution": "NodeNext",
         "isolatedModules": true,
-        "outDir": "lib/esm",
-        "declarationDir": "lib/esm/types"
+        "outDir": "lib",
+        "declarationDir": "lib/types"
     }
 }
