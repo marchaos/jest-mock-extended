@@ -39,9 +39,9 @@
         "test:src": "vitest run --coverage",
         "test:example": "cd example && pnpm run test",
         "clean": "rimraf coverage lib",
-        "build":"pnpm clean && pnpm build:types && pnpm build:rollup",
+        "build": "pnpm clean && pnpm build:types && pnpm build:rollup",
         "build:rollup": "rollup --config",
-        "build:types": "tsc --emitDeclarationOnly && mkdir -p lib/cjs/types && cp -r lib/esm/types lib/cjs/types"
+        "build:types": "tsc --emitDeclarationOnly && mkdir -p lib/cjs/types && cp -r lib/esm/types lib/cjs"
     },
     "dependencies": {
         "ts-essentials": "^9.3.0"
