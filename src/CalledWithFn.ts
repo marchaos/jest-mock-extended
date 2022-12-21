@@ -1,9 +1,11 @@
+import { jest } from "@jest/globals"
+
 import { CalledWithMock } from './Mock';
 import { Matcher, MatchersOrLiterals } from './Matchers';
 
 interface CalledWithStackItem<T, Y extends any[]> {
     args: MatchersOrLiterals<Y>;
-    calledWithFn: jest.Mock<T, Y>;
+    calledWithFn: jest.Mock<(...args: Y) => T>;
 }
 
 interface JestAsymmetricMatcher {
@@ -33,7 +35,7 @@ const checkCalledWith = <T, Y extends any[]>(calledWithStack: CalledWithStackIte
 };
 
 export const calledWithFn = <T, Y extends any[]>(): CalledWithMock<T, Y> => {
-    const fn: jest.Mock<T, Y> = jest.fn();
+    const fn: jest.Mock<(...args: Y) => T> = jest.fn();
     let calledWithStack: CalledWithStackItem<T, Y>[] = [];
 
     (fn as CalledWithMock<T, Y>).calledWith = (...args) => {

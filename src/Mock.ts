@@ -1,3 +1,4 @@
+import { jest } from "@jest/globals"
 import calledWithFn from './CalledWithFn';
 import { MatchersOrLiterals } from './Matchers';
 import { DeepPartial } from 'ts-essentials';
@@ -26,9 +27,14 @@ export const JestMockExtended = {
     },
 };
 
-export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
-    calledWith: (...args: Y | MatchersOrLiterals<Y>) => jest.Mock<T, Y>;
+export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<(...args: Y) => T> {
+    calledWith: (...args: Y | MatchersOrLiterals<Y>) => jest.Mock<(...args: Y) => T>;
 }
+
+
+// export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
+//     calledWith: (...args: Y | MatchersOrLiterals<Y>) => jest.Mock<T, Y>;
+// }
 
 export type MockProxy<T> = {
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : T[K];

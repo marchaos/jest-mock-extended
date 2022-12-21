@@ -1,3 +1,5 @@
+import { jest } from "@jest/globals"
+
 import mock, { mockClear, mockDeep, mockReset, mockFn, JestMockExtended } from './Mock';
 import { anyNumber } from './Matchers';
 import calledWithFn from './CalledWithFn';
