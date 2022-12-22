@@ -43,7 +43,7 @@
     },
     "devDependencies": {
         "@vitest/coverage-c8": "0.26.2",
-        "esbuild": "^0.15.12",
+        "esbuild": "^0.16.10",
         "prettier": "2.8.1",
         "rimraf": "3.0.2",
         "rollup": "^3.2.3",
