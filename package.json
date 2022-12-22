@@ -42,7 +42,7 @@
         "ts-essentials": "^9.3.0"
     },
     "devDependencies": {
-        "@vitest/coverage-c8": "0.25.7",
+        "@vitest/coverage-c8": "0.26.2",
         "esbuild": "^0.15.12",
         "prettier": "2.8.1",
         "rimraf": "3.0.2",
