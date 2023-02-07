@@ -50,7 +50,19 @@ describe('Party Tests', () => {
        
        expect(mock.getPartyType()).toBe('west coast party');
    });
-});
+
+    test('throwing an error if we forget to specify the return value')
+        const mock = mock<PartyProvider>(
+            {},
+            {
+                fallbackMockImplementation: () => {
+                    throw new Error('not mocked');
+                },
+            }
+        );
+
+        expect(() => mock.getPartyType()).toThrowError('not mocked');
+    });
 ```
 
 ## Assigning Mocks with a Type

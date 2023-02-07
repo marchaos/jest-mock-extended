@@ -124,6 +124,19 @@ describe('jest-mock-extended', () => {
         expect(mockObj.getSomethingWithArgs(1, 2)).toBe(1);
     });
 
+    test('Can specify fallbackMockImplementation', () => {
+        const mockObj = mock<MockInt>(
+            {},
+            {
+                fallbackMockImplementation: () => {
+                    throw new Error('not mocked');
+                },
+            }
+        );
+
+        expect(() => mockObj.getSomethingWithArgs(1, 2)).toThrowError('not mocked');
+    });
+
     test('Can specify multiple calledWith', () => {
         const mockObj = mock<MockInt>();
         mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(3);
