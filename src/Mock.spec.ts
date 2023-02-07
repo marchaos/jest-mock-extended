@@ -308,6 +308,32 @@ describe('jest-mock-extended', () => {
             mockObj.deepProp.getNumber(2);
             expect(mockObj.deepProp.getNumber).toHaveBeenCalledTimes(1);
         });
+
+        test('fallback mock implementation can be overridden', () => {
+            const mockObj = mockDeep<Test1>({
+                fallbackMockImplementation: () => {
+                    throw new Error('not mocked');
+                },
+            });
+            expect(() => mockObj.getNumber()).toThrowError('not mocked');
+        });
+
+        test('fallback mock implementation can be overridden while also providing a mock implementation', () => {
+            const mockObj = mockDeep<Test1>(
+                {
+                    fallbackMockImplementation: () => {
+                        throw new Error('not mocked');
+                    },
+                },
+                {
+                    getNumber: () => {
+                        return 150;
+                    },
+                }
+            );
+            expect(mockObj.getNumber()).toBe(150);
+            expect(() => mockObj.deepProp.getNumber(1)).toThrowError('not mocked');
+        });
     });
 
     describe('Deep mock support for class variables which are functions but also have nested properties and functions', () => {

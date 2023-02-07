@@ -32,14 +32,16 @@ const checkCalledWith = <T, Y extends any[]>(calledWithStack: CalledWithStackIte
     return calledWithInstance ? calledWithInstance.calledWithFn(...actualArgs) : undefined;
 };
 
-export const calledWithFn = <T, Y extends any[]>(): CalledWithMock<T, Y> => {
-    const fn: jest.Mock<T, Y> = jest.fn();
+export const calledWithFn = <T, Y extends any[]>({
+    fallbackMockImplementation,
+}: { fallbackMockImplementation?: (...args: Y) => T } = {}): CalledWithMock<T, Y> => {
+    const fn: jest.Mock<T, Y> = jest.fn(fallbackMockImplementation);
     let calledWithStack: CalledWithStackItem<T, Y>[] = [];
 
     (fn as CalledWithMock<T, Y>).calledWith = (...args) => {
         // We create new function to delegate any interactions (mockReturnValue etc.) to for this set of args.
         // If that set of args is matched, we just call that jest.fn() for the result.
-        const calledWithFn = jest.fn();
+        const calledWithFn = jest.fn(fallbackMockImplementation);
         if (!fn.getMockImplementation()) {
             // Our original function gets a mock implementation which handles the matching
             fn.mockImplementation((...args: Y) => checkCalledWith(calledWithStack, args));
