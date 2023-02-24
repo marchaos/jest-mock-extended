@@ -124,6 +124,19 @@ describe('jest-mock-extended', () => {
         expect(mockObj.getSomethingWithArgs(1, 2)).toBe(1);
     });
 
+    test('Can specify fallbackMockImplementation', () => {
+        const mockObj = mock<MockInt>(
+            {},
+            {
+                fallbackMockImplementation: () => {
+                    throw new Error('not mocked');
+                },
+            }
+        );
+
+        expect(() => mockObj.getSomethingWithArgs(1, 2)).toThrowError('not mocked');
+    });
+
     test('Can specify multiple calledWith', () => {
         const mockObj = mock<MockInt>();
         mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(3);
@@ -307,6 +320,32 @@ describe('jest-mock-extended', () => {
             const mockObj = mockDeep<Test1>();
             mockObj.deepProp.getNumber(2);
             expect(mockObj.deepProp.getNumber).toHaveBeenCalledTimes(1);
+        });
+
+        test('fallback mock implementation can be overridden', () => {
+            const mockObj = mockDeep<Test1>({
+                fallbackMockImplementation: () => {
+                    throw new Error('not mocked');
+                },
+            });
+            expect(() => mockObj.getNumber()).toThrowError('not mocked');
+        });
+
+        test('fallback mock implementation can be overridden while also providing a mock implementation', () => {
+            const mockObj = mockDeep<Test1>(
+                {
+                    fallbackMockImplementation: () => {
+                        throw new Error('not mocked');
+                    },
+                },
+                {
+                    getNumber: () => {
+                        return 150;
+                    },
+                }
+            );
+            expect(mockObj.getNumber()).toBe(150);
+            expect(() => mockObj.deepProp.getNumber(1)).toThrowError('not mocked');
         });
     });
 
