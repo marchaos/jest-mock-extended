@@ -244,7 +244,7 @@ describe('jest-mock-extended', () => {
             mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(3);
 
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
-        })
+        });
 
         test('Support jest matcher', () => {
             const mockObj = mock<MockInt>();
@@ -328,7 +328,9 @@ describe('jest-mock-extended', () => {
                     throw new Error('not mocked');
                 },
             });
+            mockObj.deepProp.getAnotherString.calledWith('foo'); // no mock implementation
             expect(() => mockObj.getNumber()).toThrowError('not mocked');
+            expect(() => mockObj.deepProp.getAnotherString('foo')).toThrowError('not mocked');
         });
 
         test('fallback mock implementation can be overridden while also providing a mock implementation', () => {
@@ -344,8 +346,12 @@ describe('jest-mock-extended', () => {
                     },
                 }
             );
+            mockObj.deepProp.getAnotherString.calledWith('?').mockReturnValue('mocked');
             expect(mockObj.getNumber()).toBe(150);
+            expect(mockObj.deepProp.getAnotherString('?')).toBe('mocked');
+
             expect(() => mockObj.deepProp.getNumber(1)).toThrowError('not mocked');
+            expect(() => mockObj.deepProp.getAnotherString('!')).toThrowError('not mocked');
         });
     });
 
