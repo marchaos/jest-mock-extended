@@ -569,7 +569,7 @@ describe('vitest-mock-extended', () => {
         });
     });
 
-    describe('JestMockExtended config', () => {
+    describe('VitestMockExtended config', () => {
         test('can mock then', async () => {
             VitestMockExtended.configure({ ignoreProps: [] });
             const mockObj = mock<{ then: () => void }>();
