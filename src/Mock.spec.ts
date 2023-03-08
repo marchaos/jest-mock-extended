@@ -134,6 +134,19 @@ describe('vitest-mock-extended', () => {
         expect(mockObj.getSomethingWithArgs(6, 7)).toBe(13);
     });
 
+    test('Can specify fallbackMockImplementation', () => {
+        const mockObj = mock<MockInt>(
+            {},
+            {
+                fallbackMockImplementation: () => {
+                    throw new Error('not mocked');
+                },
+            }
+        );
+
+        expect(() => mockObj.getSomethingWithArgs(1, 2)).toThrowError('not mocked');
+    });
+
     test('Can set props', () => {
         const mockObj = mock<MockInt>();
         mockObj.id = 17;
@@ -353,6 +366,38 @@ describe('vitest-mock-extended', () => {
             const mockObj = mockDeep<Test1>();
             mockObj.deepProp.getNumber(2);
             expect(mockObj.deepProp.getNumber).toHaveBeenCalledTimes(1);
+        });
+
+        test('fallback mock implementation can be overridden', () => {
+            const mockObj = mockDeep<Test1>({
+                fallbackMockImplementation: () => {
+                    throw new Error('not mocked');
+                },
+            });
+            mockObj.deepProp.getAnotherString.calledWith('foo'); // no mock implementation
+            expect(() => mockObj.getNumber()).toThrowError('not mocked');
+            expect(() => mockObj.deepProp.getAnotherString('foo')).toThrowError('not mocked');
+        });
+
+        test('fallback mock implementation can be overridden while also providing a mock implementation', () => {
+            const mockObj = mockDeep<Test1>(
+                {
+                    fallbackMockImplementation: () => {
+                        throw new Error('not mocked');
+                    },
+                },
+                {
+                    getNumber: () => {
+                        return 150;
+                    },
+                }
+            );
+
+            mockObj.deepProp.getAnotherString.calledWith('?').mockReturnValue('mocked');
+            expect(mockObj.getNumber()).toBe(150);
+            expect(mockObj.deepProp.getAnotherString('?')).toBe('mocked');
+            expect(() => mockObj.deepProp.getNumber(1)).toThrowError('not mocked');
+            expect(() => mockObj.deepProp.getAnotherString('!')).toThrowError('not mocked');
         });
     });
 

@@ -3,7 +3,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-node",
+            "type": "node",
             "request": "launch",
             "name": "Debug Current Test File",
             "autoAttachChildProcesses": true,
@@ -12,7 +12,6 @@
             "args": ["run", "${relativeFile}"],
             "smartStep": true,
             "console": "integratedTerminal",
-            "runtimeExecutable": "/Users/eikelurz/.nvm/versions/node/v17.8.0/bin/node"
         }
     ]
 }
