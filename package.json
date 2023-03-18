@@ -9,25 +9,13 @@
   },
   "author": "Eike Lurz <eike.lurz@tuta.io>",
   "license": "MIT",
-  "main": "./lib/index.js",
-  "types": "./lib/types/index.d.ts",
   "files": [
     "lib/**/*"
   ],
-  "release": {
-    "branches": [
-      "main"
-    ]
-  },
-  "publishConfig": {
-    "access": "public"
-  },
   "exports": {
-    ".": {
-      "types": "./lib/types/index.d.ts",
-      "import": "./lib/index.js",
-      "require": null
-    }
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/index.js",
+    "require": null
   },
   "scripts": {
     "test": "pnpm test:src && pnpm test:example",
@@ -56,5 +44,13 @@
   "peerDependencies": {
     "typescript": "3.x || 4.x || 5.x",
     "vitest": ">=0.29.2"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
