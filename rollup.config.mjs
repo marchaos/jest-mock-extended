@@ -10,7 +10,7 @@ const config = defineConfig({
             format: 'es',
         },
     ],
-    external: Object.keys(pkg.dependencies),
+    external: [ ...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies) ],
     plugins: [
         esbuild({
             target: 'node18',
