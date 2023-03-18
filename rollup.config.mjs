@@ -1,22 +1,50 @@
 import pkg from './package.json' assert { type: 'json' };
 import esbuild from 'rollup-plugin-esbuild';
+import dts from 'rollup-plugin-dts';
 import { defineConfig } from 'rollup';
 
-const config = defineConfig({
-    input: 'src/index.ts',
-    output: [
-        {
-            file: 'lib/index.js',
-            format: 'es',
-        },
-    ],
-    external: [ ...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies) ],
-    plugins: [
-        esbuild({
-            target: 'node18',
-            tsconfig: 'tsconfig.json',
-        }),
-    ],
-});
+const external = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies)]
+const input = "src/index.ts"
 
-export default config;
+const configs = [
+    defineConfig({
+        input,
+        plugins: [
+            esbuild({
+                tsconfig: 'tsconfig.json',
+            }),
+        ],
+        output: [
+            {
+                file: 'lib/esm/index.js',
+                format: 'es',
+                sourcemap: true,
+            },
+            {
+                file: 'lib/index.cjs',
+                format: 'cjs',
+                sourcemap: true,
+            },
+        ],
+        external
+    }),
+    defineConfig({
+        input,
+        plugins: [dts()],
+        output: [
+            {
+                file: `lib/esm/index.d.ts`,
+                format: 'es',
+                sourcemap: true,
+            },
+            {
+                file: `lib/index.d.cts`,
+                format: 'cjs',
+                sourcemap: true,
+            },
+        ],
+        external
+    }),
+];
+
+export default configs;

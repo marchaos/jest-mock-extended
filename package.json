@@ -1,58 +1,65 @@
 {
-  "name": "vitest-mock-extended",
-  "version": "1.1.1",
-  "homepage": "https://github.com/eratio08/vitest-mock-extended",
-  "description": "Type safe mocking extensions for vitest, forked from jest-mock-extended",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/eratio08/vitest-mock-extended"
-  },
-  "author": "Eike Lurz <eike.lurz@tuta.io>",
-  "license": "MIT",
-  "files": [
-    "lib/**/*"
-  ],
-  "main": "./lib/index.js",
-  "types": "./lib/types/index.d.ts",
-  "exports": {
-    "types": "./lib/types/index.d.ts",
-    "import": "./lib/index.js",
-    "require": null
-  },
-  "scripts": {
-    "test": "pnpm test:src && pnpm test:example",
-    "test:src": "vitest run --coverage",
-    "test:example": "cd example && pnpm run test",
-    "clean": "rimraf coverage lib",
-    "build": "pnpm clean && pnpm build:types && pnpm build:rollup",
-    "build:rollup": "rollup -c",
-    "build:types": "tsc --emitDeclarationOnly"
-  },
-  "dependencies": {
-    "ts-essentials": "^9.3.1"
-  },
-  "devDependencies": {
-    "@vitest/coverage-c8": "^0.29.3",
-    "esbuild": "^0.17.12",
-    "prettier": "2.8.4",
-    "rimraf": "4.4.0",
-    "rollup": "^3.19.1",
-    "rollup-plugin-esbuild": "^5.0.0",
-    "semantic-release": "^20.1.1",
-    "typescript": "5.0.2",
-    "vite": "^4.2.0",
-    "vitest": "0.29.3"
-  },
-  "peerDependencies": {
-    "typescript": "3.x || 4.x || 5.x",
-    "vitest": ">=0.29.2"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ]
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "vitest-mock-extended",
+    "version": "1.1.2",
+    "homepage": "https://github.com/eratio08/vitest-mock-extended",
+    "description": "Type safe mocking extensions for vitest, forked from jest-mock-extended",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/eratio08/vitest-mock-extended"
+    },
+    "author": "Eike Lurz <eike.lurz@tuta.io>",
+    "license": "MIT",
+    "files": [
+        "lib/**/*"
+    ],
+    "main": "./lib/index.cjs",
+    "types": "./lib/index.d.cts",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./lib/esm/index.d.ts",
+                "default": "./lib/esm/index.js"
+            },
+            "require": {
+                "types": "./lib/index.d.cts",
+                "default": "./lib/index.cjs"
+            }
+        }
+    },
+    "scripts": {
+        "test": "pnpm test:src && pnpm test:example",
+        "test:src": "vitest run --coverage",
+        "test:example": "cd example && pnpm run test",
+        "clean": "rimraf coverage lib",
+        "build": "pnpm clean && pnpm build:rollup",
+        "build:rollup": "rollup -c"
+    },
+    "dependencies": {
+        "ts-essentials": "^9.3.1"
+    },
+    "devDependencies": {
+        "@vitest/coverage-c8": "^0.29.3",
+        "esbuild": "^0.17.12",
+        "prettier": "2.8.4",
+        "rimraf": "4.4.0",
+        "rollup": "^3.19.1",
+        "rollup-plugin-dts": "^5.3.0",
+        "rollup-plugin-esbuild": "^5.0.0",
+        "semantic-release": "^20.1.1",
+        "typescript": "5.0.2",
+        "vite": "^4.2.0",
+        "vitest": "0.29.3"
+    },
+    "peerDependencies": {
+        "typescript": "3.x || 4.x || 5.x",
+        "vitest": ">=0.29.2"
+    },
+    "release": {
+        "branches": [
+            "main"
+        ]
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }
