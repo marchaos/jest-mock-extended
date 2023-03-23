@@ -50,7 +50,19 @@ describe('Party Tests', () => {
        
        expect(mock.getPartyType()).toBe('west coast party');
    });
-});
+
+    test('throwing an error if we forget to specify the return value')
+        const mock = mock<PartyProvider>(
+            {},
+            {
+                fallbackMockImplementation: () => {
+                    throw new Error('not mocked');
+                },
+            }
+        );
+
+        expect(() => mock.getPartyType()).toThrowError('not mocked');
+    });
 ```
 
 ## Assigning Mocks with a Type
@@ -128,6 +140,31 @@ const mockObj: DeepMockProxy<Test1> = mockDeep<Test1>();
 mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
 expect(mockObj.deepProp.getNumber(1)).toBe(4);
 ```
+if you also need support for properties on functions, you can pass in an option to enable this
+
+```ts
+import { mockDeep } from 'jest-mock-extended';
+
+const mockObj: DeepMockProxy<Test1> = mockDeep<Test1>({ funcPropSupport: true });
+mockObj.deepProp.calledWith(1).mockReturnValue(3)
+mockObj.deepProp.getNumber.calledWith(1).mockReturnValue(4);
+
+expect(mockObj.deepProp(1)).toBe(3);
+expect(mockObj.deepProp.getNumber(1)).toBe(4);
+```
+
+Can can provide a fallback mock implementation used if you do not define a return value using `calledWith`.
+
+```ts
+import { mockDeep } from 'jest-mock-extended';
+const mockObj = mockDeep<Test1>({
+    fallbackMockImplementation: () => {
+        throw new Error('please add expected return value using calledWith');
+    },
+});
+expect(() => mockObj.getNumber()).toThrowError('not mocked');
+```
+
 
 ## Available Matchers
 

@@ -124,6 +124,19 @@ describe('jest-mock-extended', () => {
         expect(mockObj.getSomethingWithArgs(1, 2)).toBe(1);
     });
 
+    test('Can specify fallbackMockImplementation', () => {
+        const mockObj = mock<MockInt>(
+            {},
+            {
+                fallbackMockImplementation: () => {
+                    throw new Error('not mocked');
+                },
+            }
+        );
+
+        expect(() => mockObj.getSomethingWithArgs(1, 2)).toThrowError('not mocked');
+    });
+
     test('Can specify multiple calledWith', () => {
         const mockObj = mock<MockInt>();
         mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(3);
@@ -225,6 +238,14 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getSomethingWithArgs(7, 2)).toBe(undefined);
         });
 
+        test('supports overriding with same args', () => {
+            const mockObj = mock<MockInt>();
+            mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(4);
+            mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(3);
+
+            expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+        });
+
         test('Support jest matcher', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs.calledWith(expect.anything(), expect.anything()).mockReturnValue(3);
@@ -300,11 +321,43 @@ describe('jest-mock-extended', () => {
             mockObj.deepProp.getNumber(2);
             expect(mockObj.deepProp.getNumber).toHaveBeenCalledTimes(1);
         });
+
+        test('fallback mock implementation can be overridden', () => {
+            const mockObj = mockDeep<Test1>({
+                fallbackMockImplementation: () => {
+                    throw new Error('not mocked');
+                },
+            });
+            mockObj.deepProp.getAnotherString.calledWith('foo'); // no mock implementation
+            expect(() => mockObj.getNumber()).toThrowError('not mocked');
+            expect(() => mockObj.deepProp.getAnotherString('foo')).toThrowError('not mocked');
+        });
+
+        test('fallback mock implementation can be overridden while also providing a mock implementation', () => {
+            const mockObj = mockDeep<Test1>(
+                {
+                    fallbackMockImplementation: () => {
+                        throw new Error('not mocked');
+                    },
+                },
+                {
+                    getNumber: () => {
+                        return 150;
+                    },
+                }
+            );
+            mockObj.deepProp.getAnotherString.calledWith('?').mockReturnValue('mocked');
+            expect(mockObj.getNumber()).toBe(150);
+            expect(mockObj.deepProp.getAnotherString('?')).toBe('mocked');
+
+            expect(() => mockObj.deepProp.getNumber(1)).toThrowError('not mocked');
+            expect(() => mockObj.deepProp.getAnotherString('!')).toThrowError('not mocked');
+        });
     });
 
     describe('Deep mock support for class variables which are functions but also have nested properties and functions', () => {
         test('can deep mock members', () => {
-            const mockObj = mockDeep<Test6>();
+            const mockObj = mockDeep<Test6>({ funcPropSupport: true });
             const input = new Test1(1);
             mockObj.funcValueProp.nonDeepProp.calledWith(input).mockReturnValue(4);
 
@@ -312,14 +365,14 @@ describe('jest-mock-extended', () => {
         });
 
         test('three or more level deep mock', () => {
-            const mockObj = mockDeep<Test6>();
+            const mockObj = mockDeep<Test6>({ funcPropSupport: true });
             mockObj.funcValueProp.deepProp.deeperProp.getNumber.calledWith(1).mockReturnValue(4);
 
             expect(mockObj.funcValueProp.deepProp.deeperProp.getNumber(1)).toBe(4);
         });
 
         test('maintains API for deep mocks', () => {
-            const mockObj = mockDeep<Test6>();
+            const mockObj = mockDeep<Test6>({ funcPropSupport: true });
             mockObj.funcValueProp.deepProp.getNumber(100);
 
             expect(mockObj.funcValueProp.deepProp.getNumber.mock.calls[0][0]).toBe(100);

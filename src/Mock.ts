@@ -31,17 +31,25 @@ export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
 }
 
 export type MockProxy<T> = {
-    // This supports deep mocks in the else branch
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : T[K];
-} & T;
+} &
+    T;
 
 export type DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : DeepMockProxy<T[K]>;
+} &
+    T;
+
+export type DeepMockProxyWithFuncPropSupport<T> = {
+    // This supports deep mocks in the else branch
     [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> & DeepMockProxy<T[K]> : DeepMockProxy<T[K]>;
-} & T;
+} &
+    T;
 
 export interface MockOpts {
     deep?: boolean;
+    fallbackMockImplementation?: (...args: any[]) => any;
 }
 
 export const mockClear = (mock: MockProxy<any>) => {
@@ -87,7 +95,18 @@ export const mockReset = (mock: MockProxy<any>) => {
     }
 };
 
-export const mockDeep = <T>(mockImplementation?: DeepPartial<T>) => mock<T, DeepMockProxy<T> & T>(mockImplementation, { deep: true });
+export function mockDeep<T>(
+    opts: { funcPropSupport?: true; fallbackMockImplementation?: MockOpts['fallbackMockImplementation'] },
+    mockImplementation?: DeepPartial<T>
+): DeepMockProxyWithFuncPropSupport<T>;
+export function mockDeep<T>(mockImplementation?: DeepPartial<T>): DeepMockProxy<T>;
+export function mockDeep(arg1: any, arg2?: any) {
+    const [opts, mockImplementation] =
+        typeof arg1 === 'object' && (typeof arg1.fallbackMockImplementation === 'function' || arg1.funcPropSupport === true)
+            ? [arg1, arg2]
+            : [{}, arg1];
+    return mock(mockImplementation, { deep: true, fallbackMockImplementation: opts.fallbackMockImplementation });
+}
 
 const overrideMockImp = (obj: DeepPartial<any>, opts?: MockOpts) => {
     const proxy = new Proxy<MockProxy<any>>(obj, handler(opts));
@@ -114,7 +133,7 @@ const handler = (opts?: MockOpts) => ({
     },
 
     get: (obj: MockProxy<any>, property: ProxiedProperty) => {
-        let fn = calledWithFn();
+        let fn = calledWithFn({ fallbackMockImplementation: opts?.fallbackMockImplementation });
 
         // @ts-ignore
         if (!(property in obj)) {
@@ -137,7 +156,7 @@ const handler = (opts?: MockOpts) => ({
                 obj[property]._isMockObject = true;
             } else {
                 // @ts-ignore
-                obj[property] = calledWithFn();
+                obj[property] = calledWithFn({ fallbackMockImplementation: opts?.fallbackMockImplementation });
             }
         }
 
