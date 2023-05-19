@@ -1,6 +1,8 @@
 import calledWithFn from './CalledWithFn';
 import { MatchersOrLiterals } from './Matchers';
 import { DeepPartial } from 'ts-essentials';
+import { jest } from '@jest/globals';
+import type { FunctionLike } from 'jest-mock';
 
 type ProxiedProperty = string | number | symbol;
 
@@ -26,26 +28,23 @@ export const JestMockExtended = {
     },
 };
 
-export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
-    calledWith: (...args: Y | MatchersOrLiterals<Y>) => jest.Mock<T, Y>;
+export interface CalledWithMock<T extends FunctionLike> extends jest.Mock<T> {
+    calledWith: (...args: [...Parameters<T>] | MatchersOrLiterals<[...Parameters<T>]>) => jest.Mock<T>;
 }
 
 export type MockProxy<T> = {
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : T[K];
-} &
-    T;
+    [K in keyof T]: T[K] extends FunctionLike ? CalledWithMock<T[K]> : T[K];
+} & T;
 
 export type DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : DeepMockProxy<T[K]>;
-} &
-    T;
+    [K in keyof T]: T[K] extends FunctionLike ? CalledWithMock<T[K]> : DeepMockProxy<T[K]>;
+} & T;
 
 export type DeepMockProxyWithFuncPropSupport<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> & DeepMockProxy<T[K]> : DeepMockProxy<T[K]>;
-} &
-    T;
+    [K in keyof T]: T[K] extends FunctionLike ? CalledWithMock<T[K]> & DeepMockProxy<T[K]> : DeepMockProxy<T[K]>;
+} & T;
 
 export interface MockOpts {
     deep?: boolean;
@@ -180,11 +179,7 @@ const mock = <T, MockedReturn extends MockProxy<T> & T = MockProxy<T> & T>(
     return overrideMockImp(mockImplementation, opts);
 };
 
-export const mockFn = <
-    T extends Function,
-    A extends any[] = T extends (...args: infer AReal) => any ? AReal : any[],
-    R = T extends (...args: any) => infer RReal ? RReal : any
->(): CalledWithMock<R, A> & T => {
+export const mockFn = <T extends FunctionLike>(): CalledWithMock<T> & T => {
     // @ts-ignore
     return calledWithFn();
 };
