@@ -14,12 +14,12 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@types/node": "^18.15.3",
-        "@vitest/coverage-c8": "0.29.3",
+        "@types/node": "^20.2.1",
+        "@vitest/coverage-c8": "0.31.1",
         "ts-node": "^10.9.1",
         "tsm": "^2.3.0",
-        "typescript": "5.0.2",
-        "vitest": "0.29.3",
+        "typescript": "5.0.4",
+        "vitest": "0.31.1",
         "vitest-mock-extended": "link:.."
     }
 }

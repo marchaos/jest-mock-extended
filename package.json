@@ -36,24 +36,23 @@
         "build:rollup": "rollup -c"
     },
     "dependencies": {
-        "ts-essentials": "^9.3.1"
+        "ts-essentials": "^9.3.2"
     },
     "devDependencies": {
-        "@vitest/coverage-c8": "^0.29.3",
-        "esbuild": "^0.17.12",
+        "@vitest/coverage-c8": "^0.31.1",
+        "esbuild": "^0.17.19",
         "prettier": "2.8.8",
-        "rimraf": "4.4.1",
-        "rollup": "^3.19.1",
+        "rimraf": "5.0.1",
+        "rollup": "^3.22.0",
         "rollup-plugin-dts": "^5.3.0",
         "rollup-plugin-esbuild": "^5.0.0",
-        "semantic-release": "^20.1.1",
+        "semantic-release": "^21.0.2",
         "typescript": "5.0.4",
-        "vite": "^4.2.0",
-        "vitest": "0.29.7"
+        "vitest": "0.31.1"
     },
     "peerDependencies": {
         "typescript": "3.x || 4.x || 5.x",
-        "vitest": ">=0.29.2"
+        "vitest": ">=0.31.1"
     },
     "release": {
         "branches": [
