@@ -9,19 +9,11 @@ on:
         required: true
         type: boolean
         default: true
-  workflow_run:
-    workflows:
-      - "Run Unit-Tests"
-    branches:
-      - main
-    types:
-      - completed
-    
+
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       ## Setup
       # https://github.com/marketplace/actions/checkout
