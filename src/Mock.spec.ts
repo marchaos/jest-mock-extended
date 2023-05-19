@@ -2,6 +2,8 @@ import mock, { mockClear, mockDeep, mockReset, mockFn, JestMockExtended } from '
 import { anyNumber } from './Matchers';
 import calledWithFn from './CalledWithFn';
 import { MockProxy } from './Mock';
+import { describe, expect, jest, test } from '@jest/globals';
+import { fail } from 'assert';
 
 interface MockInt {
     id: number;
@@ -248,14 +250,20 @@ describe('jest-mock-extended', () => {
 
         test('Support jest matcher', () => {
             const mockObj = mock<MockInt>();
-            mockObj.getSomethingWithArgs.calledWith(expect.anything(), expect.anything()).mockReturnValue(3);
+            mockObj.getSomethingWithArgs
+                // @ts-expect-error Type 'AsymmetricMatcher_2' is missing the following properties from type 'Matcher<number>': $$typeof, description
+                .calledWith(expect.anything(), expect.anything())
+                .mockReturnValue(3);
 
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         });
 
         test('Suport mix Matchers with literals and with jest matcher', () => {
             const mockObj = mock<MockInt>();
-            mockObj.getSomethingWithMoreArgs.calledWith(anyNumber(), expect.anything(), 3).mockReturnValue(4);
+            mockObj.getSomethingWithMoreArgs
+                // @ts-expect-error Type 'AsymmetricMatcher_2' is not assignable to type 'number | Matcher<number>'
+                .calledWith(anyNumber(), expect.anything(), 3)
+                .mockReturnValue(4);
 
             expect(mockObj.getSomethingWithMoreArgs(1, 2, 3)).toBe(4);
             expect(mockObj.getSomethingWithMoreArgs(1, 2, 4)).toBeUndefined;

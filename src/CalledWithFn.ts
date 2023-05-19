@@ -1,9 +1,11 @@
 import { CalledWithMock } from './Mock';
 import { Matcher, MatchersOrLiterals } from './Matchers';
+import { jest } from '@jest/globals';
+import type { FunctionLike } from 'jest-mock';
 
-interface CalledWithStackItem<T, Y extends any[]> {
-    args: MatchersOrLiterals<Y>;
-    calledWithFn: jest.Mock<T, Y>;
+interface CalledWithStackItem<T extends FunctionLike> {
+    args: MatchersOrLiterals<[...Parameters<T>]>;
+    calledWithFn: jest.Mock<T>;
 }
 
 interface JestAsymmetricMatcher {
@@ -13,11 +15,11 @@ function isJestAsymmetricMatcher(obj: any): obj is JestAsymmetricMatcher {
     return !!obj && typeof obj === 'object' && 'asymmetricMatch' in obj && typeof obj.asymmetricMatch === 'function';
 }
 
-const checkCalledWith = <T, Y extends any[]>(
-    calledWithStack: CalledWithStackItem<T, Y>[],
-    actualArgs: Y,
-    fallbackMockImplementation?: (...args: Y) => T
-): T => {
+const checkCalledWith = <T extends FunctionLike>(
+    calledWithStack: CalledWithStackItem<T>[],
+    actualArgs: [...Parameters<T>],
+    fallbackMockImplementation?: T
+): ReturnType<T> => {
     const calledWithInstance = calledWithStack.find((instance) =>
         instance.args.every((matcher, i) => {
             if (matcher instanceof Matcher) {
@@ -32,26 +34,26 @@ const checkCalledWith = <T, Y extends any[]>(
         })
     );
 
-    // @ts-ignore cannot return undefined, but this will fail the test if there is an expectation which is what we want
     return calledWithInstance
         ? calledWithInstance.calledWithFn(...actualArgs)
         : fallbackMockImplementation && fallbackMockImplementation(...actualArgs);
 };
 
-export const calledWithFn = <T, Y extends any[]>({
+export const calledWithFn = <T extends FunctionLike>({
     fallbackMockImplementation,
-}: { fallbackMockImplementation?: (...args: Y) => T } = {}): CalledWithMock<T, Y> => {
-    const fn: jest.Mock<T, Y> = jest.fn(fallbackMockImplementation);
-    let calledWithStack: CalledWithStackItem<T, Y>[] = [];
+}: { fallbackMockImplementation?: T } = {}): CalledWithMock<T> => {
+    const fn = jest.fn(fallbackMockImplementation);
+    let calledWithStack: CalledWithStackItem<T>[] = [];
 
-    (fn as CalledWithMock<T, Y>).calledWith = (...args) => {
+    (fn as CalledWithMock<T>).calledWith = (...args) => {
         // We create new function to delegate any interactions (mockReturnValue etc.) to for this set of args.
         // If that set of args is matched, we just call that jest.fn() for the result.
         const calledWithFn = jest.fn(fallbackMockImplementation);
         const mockImplementation = fn.getMockImplementation();
         if (!mockImplementation || mockImplementation === fallbackMockImplementation) {
             // Our original function gets a mock implementation which handles the matching
-            fn.mockImplementation((...args: Y) => checkCalledWith(calledWithStack, args, fallbackMockImplementation));
+            // @ts-expect-error '(...args: any) => ReturnType<T>' is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of constraint 'FunctionLike'.
+            fn.mockImplementation((...args) => checkCalledWith(calledWithStack, args, fallbackMockImplementation));
             calledWithStack = [];
         }
         calledWithStack.unshift({ args, calledWithFn });
@@ -59,7 +61,7 @@ export const calledWithFn = <T, Y extends any[]>({
         return calledWithFn;
     };
 
-    return fn as CalledWithMock<T, Y>;
+    return fn as CalledWithMock<T>;
 };
 
 export default calledWithFn;
