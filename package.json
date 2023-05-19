@@ -41,7 +41,7 @@
     "devDependencies": {
         "@vitest/coverage-c8": "^0.29.3",
         "esbuild": "^0.17.12",
-        "prettier": "2.8.6",
+        "prettier": "2.8.8",
         "rimraf": "4.4.1",
         "rollup": "^3.19.1",
         "rollup-plugin-dts": "^5.3.0",
