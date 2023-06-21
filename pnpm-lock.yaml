@@ -7,8 +7,8 @@ dependencies:
 
 devDependencies:
   '@vitest/coverage-c8':
-    specifier: ^0.31.1
-    version: 0.31.1(vitest@0.31.1)
+    specifier: ^0.32.2
+    version: 0.32.2(vitest@0.31.1)
   esbuild:
     specifier: ^0.18.3
     version: 0.18.6
@@ -837,8 +837,8 @@ packages:
     resolution: {integrity: sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==}
     dev: true
 
-  /@vitest/coverage-c8@0.31.1(vitest@0.31.1):
-    resolution: {integrity: sha512-6TkjQpmgYez7e3dbAUoYdRXxWN81BojCmUILJwgCy39uZFG33DsQ0rSRSZC9beAEdCZTpxR63nOvd9hxDQcJ0g==}
+  /@vitest/coverage-c8@0.32.2(vitest@0.31.1):
+    resolution: {integrity: sha512-z07kMTN6e4t1jDY4XXU6W1LxCb3V5Rw7KAZId4VM6BCIGLGz1QqwH9UWYWv7LemqQVnARl5CwaDDwVrkcYgwPg==}
     peerDependencies:
       vitest: '>=0.30.0 <1'
     dependencies:
