@@ -36,39 +36,39 @@ interface PartyProvider {
 }
 
 describe('Party Tests', () => {
-   test('Mock out an interface', () => {
-       const mock = mock<PartyProvider>();
-       mock.start('disco party');
-       
-       expect(mock.start).toHaveBeenCalledWith('disco party');
-   });
-   
-   
-   test('mock out a return type', () => {
-       const mock = mock<PartyProvider>();
-       mock.getPartyType.mockReturnValue('west coast party');
-       
-       expect(mock.getPartyType()).toBe('west coast party');
-   });
+	test('Mock out an interface', () => {
+		const mock = mock<PartyProvider>();
+		mock.start('disco party');
 
-    test('throwing an error if we forget to specify the return value')
-        const mock = mock<PartyProvider>(
-            {},
-            {
-                fallbackMockImplementation: () => {
-                    throw new Error('not mocked');
-                },
-            }
-        );
+		expect(mock.start).toHaveBeenCalledWith('disco party');
+	});
 
-        expect(() => mock.getPartyType()).toThrowError('not mocked');
-    });
+	test('mock out a return type', () => {
+		const mock = mock<PartyProvider>();
+		mock.getPartyType.mockReturnValue('west coast party');
+
+		expect(mock.getPartyType()).toBe('west coast party');
+	});
+
+	test('throwing an error if we forget to specify the return value', () => {
+		const mock = mock<PartyProvider>(
+			{},
+			{
+				fallbackMockImplementation: () => {
+					throw new Error('not mocked');
+				},
+			},
+		);
+
+		expect(() => mock.getPartyType()).toThrowError('not mocked');
+	});
+});
 ```
 
 ## Assigning Mocks with a Type
 
-If you wish to assign a mock to a variable that requires a type in your test, then you should use the MockProxy<> type
-given that this will provide the apis for calledWith() and other built-in jest types for providing test functionality.
+If you wish to assign a mock to a variable that requires a type in your test, then you should use the `MockProxy<>` type
+given that this will provide the apis for `calledWith()` and other built-in jest types for providing test functionality.
 
 ```ts
 import { MockProxy, mock } from 'jest-mock-extended';
@@ -100,14 +100,14 @@ expect(provider.getSongs('disco party')).toEqual(['Dance the night away', 'Stayi
 // Matchers
 provider.getSongs.calledWith(any()).mockReturnValue(['Saw her standing there']);
 provider.getSongs.calledWith(anyString()).mockReturnValue(['Saw her standing there']);
-
 ```
-You can also use ```mockFn()``` to create a ```jest.fn()``` with the calledWith extension:
+
+You can also use ```mockFn()``` to create a ```jest.fn()``` with the `calledWith()` extension:
 
 ```ts
- type MyFn = (x: number, y: number) => Promise<string>;
- const fn = mockFn<MyFn>();
- fn.calledWith(1, 2).mockReturnValue('str');
+type MyFn = (x: number, y: number) => Promise<string>;
+const fn = mockFn<MyFn>();
+fn.calledWith(1, 2).mockReturnValue('str');
 ```
 
 ## Clearing / Resetting Mocks
@@ -153,15 +153,17 @@ expect(mockObj.deepProp(1)).toBe(3);
 expect(mockObj.deepProp.getNumber(1)).toBe(4);
 ```
 
-Can can provide a fallback mock implementation used if you do not define a return value using `calledWith`.
+Can provide a fallback mock implementation used if you do not define a return value using `calledWith`.
 
 ```ts
 import { mockDeep } from 'jest-mock-extended';
+
 const mockObj = mockDeep<Test1>({
     fallbackMockImplementation: () => {
         throw new Error('please add expected return value using calledWith');
     },
 });
+
 expect(() => mockObj.getNumber()).toThrowError('not mocked');
 ```
 
