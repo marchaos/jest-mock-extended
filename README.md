@@ -105,9 +105,9 @@ provider.getSongs.calledWith(anyString()).mockReturnValue(['Saw her standing the
 You can also use ```mockFn()``` to create a ```jest.fn()``` with the `calledWith()` extension:
 
 ```ts
- type MyFn = (x: number, y: number) => Promise<string>;
- const fn = mockFn<MyFn>();
- fn.calledWith(1, 2).mockReturnValue('str');
+type MyFn = (x: number, y: number) => Promise<string>;
+const fn = mockFn<MyFn>();
+fn.calledWith(1, 2).mockReturnValue('str');
 ```
 
 ## Clearing / Resetting Mocks
