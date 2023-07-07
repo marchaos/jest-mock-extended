@@ -98,7 +98,7 @@ function mockDeep<T>(
         funcPropSupport?: true;
         fallbackMockImplementation?: MockOpts['fallbackMockImplementation'];
     },
-    mockImplementation?: DeepPartial<T>
+    mockImplementation?: DeepPartial<T>,
 ): DeepMockProxyWithFuncPropSupport<T>;
 function mockDeep<T>(mockImplementation?: DeepPartial<T>): DeepMockProxy<T>;
 function mockDeep(arg1: any, arg2?: any) {
@@ -177,7 +177,7 @@ const handler = (opts?: MockOpts) => ({
 
 const mock = <T, MockedReturn extends MockProxy<T> & T = MockProxy<T> & T>(
     mockImplementation: DeepPartial<T> = {} as DeepPartial<T>,
-    opts?: MockOpts
+    opts?: MockOpts,
 ): MockedReturn => {
     // @ts-ignore private
     mockImplementation!._isMockObject = true;
@@ -187,7 +187,7 @@ const mock = <T, MockedReturn extends MockProxy<T> & T = MockProxy<T> & T>(
 const mockFn = <
     T extends Function,
     A extends any[] = T extends (...args: infer AReal) => any ? AReal : any[],
-    R = T extends (...args: any) => infer RReal ? RReal : any
+    R = T extends (...args: any) => infer RReal ? RReal : any,
 >(): CalledWithMock<R, A> & T => {
     // @ts-ignore
     return calledWithFn();

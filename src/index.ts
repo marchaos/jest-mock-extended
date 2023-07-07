@@ -1,4 +1,4 @@
-export { VitestMockExtended, mockDeep, mockClear, mockReset, mockFn, stub, mock } from './Mock';
-export type { GlobalConfig, MockProxy, DeepMockProxy, CalledWithMock } from './Mock';
-export { calledWithFn } from './CalledWithFn';
+export * from './Mock';
+export type * from './Mock';
+export * from './CalledWithFn';
 export * from './Matchers';
