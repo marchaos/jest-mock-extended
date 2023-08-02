@@ -31,21 +31,24 @@ export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
 }
 
 export type MockProxy<T> = {
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : T[K];
-} &
-    T;
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B
+                    ? T[K] & CalledWithMock<B, A>
+                    : T[K];
+};
 
 export type DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : DeepMockProxy<T[K]>;
-} &
-    T;
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B
+                    ? T[K] & CalledWithMock<B, A>
+                    : T[K] & DeepMockProxy<T[K]>;
+};
 
 export type DeepMockProxyWithFuncPropSupport<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> & DeepMockProxy<T[K]> : DeepMockProxy<T[K]>;
-} &
-    T;
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B
+                    ? T[K] & CalledWithMock<B, A> & DeepMockProxy<T[K]>
+                    : T[K] & DeepMockProxy<T[K]>;
+}
 
 export interface MockOpts {
     deep?: boolean;
