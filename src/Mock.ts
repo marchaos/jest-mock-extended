@@ -30,25 +30,35 @@ export interface CalledWithMock<T, Y extends any[]> extends jest.Mock<T, Y> {
     calledWith: (...args: Y | MatchersOrLiterals<Y>) => jest.Mock<T, Y>;
 }
 
-export type MockProxy<T> = {
+export type _MockProxy<T> = {
     [K in keyof T]: T[K] extends (...args: infer A) => infer B
                     ? T[K] & CalledWithMock<B, A>
                     : T[K];
 };
 
-export type DeepMockProxy<T> = {
+export type MockProxy<T> = _MockProxy<T> & T;
+
+export type _DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
     [K in keyof T]: T[K] extends (...args: infer A) => infer B
                     ? T[K] & CalledWithMock<B, A>
-                    : T[K] & DeepMockProxy<T[K]>;
+                    : T[K] & _DeepMockProxy<T[K]>;
 };
 
-export type DeepMockProxyWithFuncPropSupport<T> = {
+// we intersect with T here instead of on the mapped type above to
+// prevent immediate type resolution on a recursive type, this will
+// help to improve performance for deeply nested recursive mocking
+// at the same time, this intersection preserves private properties
+export type DeepMockProxy<T> = _DeepMockProxy<T> & T;
+
+export type _DeepMockProxyWithFuncPropSupport<T> = {
     // This supports deep mocks in the else branch
     [K in keyof T]: T[K] extends (...args: infer A) => infer B
-                    ? T[K] & CalledWithMock<B, A> & DeepMockProxy<T[K]>
-                    : T[K] & DeepMockProxy<T[K]>;
-}
+                    ? CalledWithMock<B, A> & DeepMockProxy<T[K]>
+                    : DeepMockProxy<T[K]>;
+};
+
+export type DeepMockProxyWithFuncPropSupport<T> = _DeepMockProxyWithFuncPropSupport<T> & T;
 
 export interface MockOpts {
     deep?: boolean;
