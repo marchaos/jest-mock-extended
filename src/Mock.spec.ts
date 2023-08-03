@@ -141,7 +141,7 @@ describe('vitest-mock-extended', () => {
                 fallbackMockImplementation: () => {
                     throw new Error('not mocked');
                 },
-            }
+            },
         );
 
         expect(() => mockObj.getSomethingWithArgs(1, 2)).toThrowError('not mocked');
@@ -390,7 +390,7 @@ describe('vitest-mock-extended', () => {
                     getNumber: () => {
                         return 150;
                     },
-                }
+                },
             );
 
             mockObj.deepProp.getAnotherString.calledWith('?').mockReturnValue('mocked');
@@ -637,6 +637,18 @@ describe('vitest-mock-extended', () => {
             expect(mockObj.date.getFullYear()).toBe(2000);
             expect(mockObj.date.getMonth()).toBe(0);
             expect(mockObj.date.getDate()).toBe(15);
+        });
+    });
+
+    describe('toJSON', () => {
+        test('should properly stringify mock', () => {
+            interface Test {
+                test: string;
+                hello: number;
+            }
+            const mocked = mock<Test>({ test: 'default' });
+            const stringified = JSON.stringify(mocked);
+            expect(stringified).toStrictEqual('{"test":"default","_isMockObject":true}');
         });
     });
 });

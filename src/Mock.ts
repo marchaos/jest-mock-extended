@@ -170,6 +170,10 @@ const handler = (opts?: MockOpts) => ({
             return obj[property].bind(obj);
         }
 
+        if (property === 'toJSON') {
+            return JSON.stringify(obj);
+        }
+
         // @ts-ignore
         return obj[property];
     },
