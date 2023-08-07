@@ -24,13 +24,13 @@ devDependencies:
     version: 5.0.1
   rollup:
     specifier: ^3.27.1
-    version: 3.27.1
+    version: 3.27.2
   rollup-plugin-dts:
     specifier: ^5.3.1
-    version: 5.3.1(rollup@3.27.1)(typescript@5.1.6)
+    version: 5.3.1(rollup@3.27.2)(typescript@5.1.6)
   rollup-plugin-esbuild:
     specifier: ^5.0.0
-    version: 5.0.0(esbuild@0.18.18)(rollup@3.27.1)
+    version: 5.0.0(esbuild@0.18.18)(rollup@3.27.2)
   semantic-release:
     specifier: ^21.0.7
     version: 21.0.7
@@ -725,7 +725,7 @@ packages:
       config-chain: 1.1.13
     dev: true
 
-  /@rollup/pluginutils@5.0.2(rollup@3.27.1):
+  /@rollup/pluginutils@5.0.2(rollup@3.27.2):
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -737,7 +737,7 @@ packages:
       '@types/estree': 1.0.0
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 3.27.1
+      rollup: 3.27.2
     dev: true
 
   /@semantic-release/commit-analyzer@10.0.1(semantic-release@21.0.7):
@@ -2802,7 +2802,7 @@ packages:
       glob: 10.2.5
     dev: true
 
-  /rollup-plugin-dts@5.3.1(rollup@3.27.1)(typescript@5.1.6):
+  /rollup-plugin-dts@5.3.1(rollup@3.27.2)(typescript@5.1.6):
     resolution: {integrity: sha512-gusMi+Z4gY/JaEQeXnB0RUdU82h1kF0WYzCWgVmV4p3hWXqelaKuCvcJawfeg+EKn2T1Ie+YWF2OiN1/L8bTVg==}
     engines: {node: '>=v14.21.3'}
     peerDependencies:
@@ -2810,32 +2810,32 @@ packages:
       typescript: ^4.1 || ^5.0
     dependencies:
       magic-string: 0.30.2
-      rollup: 3.27.1
+      rollup: 3.27.2
       typescript: 5.1.6
     optionalDependencies:
       '@babel/code-frame': 7.22.5
     dev: true
 
-  /rollup-plugin-esbuild@5.0.0(esbuild@0.18.18)(rollup@3.27.1):
+  /rollup-plugin-esbuild@5.0.0(esbuild@0.18.18)(rollup@3.27.2):
     resolution: {integrity: sha512-1cRIOHAPh8WQgdQQyyvFdeOdxuiyk+zB5zJ5+YOwrZP4cJ0MT3Fs48pQxrZeyZHcn+klFherytILVfE4aYrneg==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     peerDependencies:
       esbuild: '>=0.10.1'
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0
     dependencies:
-      '@rollup/pluginutils': 5.0.2(rollup@3.27.1)
+      '@rollup/pluginutils': 5.0.2(rollup@3.27.2)
       debug: 4.3.4
       es-module-lexer: 1.1.0
       esbuild: 0.18.18
       joycon: 3.1.1
       jsonc-parser: 3.2.0
-      rollup: 3.27.1
+      rollup: 3.27.2
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /rollup@3.27.1:
-    resolution: {integrity: sha512-tXNDFwOkN6C2w5Blj1g6ForKeFw6c1mDu5jxoeDO3/pmYjgt+8yvIFjKzH5FQUq70OKZBkOt0zzv0THXL7vwzQ==}
+  /rollup@3.27.2:
+    resolution: {integrity: sha512-YGwmHf7h2oUHkVBT248x0yt6vZkYQ3/rvE5iQuVBh3WO8GcJ6BNeOkpoX1yMHIiBm18EMLjBPIoUDkhgnyxGOQ==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
@@ -3370,7 +3370,7 @@ packages:
       esbuild: 0.17.19
       postcss: 8.4.21
       resolve: 1.22.1
-      rollup: 3.27.1
+      rollup: 3.27.2
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
