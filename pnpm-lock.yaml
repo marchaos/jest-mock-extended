@@ -12,7 +12,7 @@ dependencies:
 devDependencies:
   '@vitest/coverage-v8':
     specifier: ^0.34.1
-    version: 0.34.1(vitest@0.34.2)
+    version: 0.34.2(vitest@0.34.2)
   esbuild:
     specifier: ^0.19.0
     version: 0.19.2
@@ -837,7 +837,7 @@ packages:
       read-pkg: 8.0.0
       registry-auth-token: 5.0.2
       semantic-release: 21.0.7
-      semver: 7.3.8
+      semver: 7.5.4
       tempy: 3.0.0
     dev: true
 
@@ -896,8 +896,8 @@ packages:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
 
-  /@vitest/coverage-v8@0.34.1(vitest@0.34.2):
-    resolution: {integrity: sha512-lRgUwjTMr8idXEbUPSNH4jjRZJXJCVY3BqUa+LDXyJVe3pldxYMn/r0HMqatKUGTp0Kyf1j5LfFoY6kRqRp7jw==}
+  /@vitest/coverage-v8@0.34.2(vitest@0.34.2):
+    resolution: {integrity: sha512-3VuDZPeGGd1zWtc0Tdj9cHSbFc8IQ0ffnWp9MlhItOkziN6HEf219meZ9cZheg/hJXrXb+Fi2bMu7GeCAfL4yA==}
     peerDependencies:
       vitest: '>=0.32.0 <1'
     dependencies:
@@ -2320,7 +2320,7 @@ packages:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.11.0
-      semver: 7.3.8
+      semver: 7.5.4
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -2330,7 +2330,7 @@ packages:
     dependencies:
       hosted-git-info: 6.1.1
       is-core-module: 2.11.0
-      semver: 7.3.8
+      semver: 7.5.4
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -2926,7 +2926,7 @@ packages:
     resolution: {integrity: sha512-0Ju4+6A8iOnpL/Thra7dZsSlOHYAHIeMxfhWQRI1/VLcT3WDBZKKtQt/QkBOsiIN9ZpuvHE6cGZ0x4glCMmfiA==}
     engines: {node: '>=12'}
     dependencies:
-      semver: 7.3.8
+      semver: 7.5.4
     dev: true
 
   /semver-regex@4.0.5:
