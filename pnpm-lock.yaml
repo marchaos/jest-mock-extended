@@ -7,7 +7,7 @@ settings:
 dependencies:
   ts-essentials:
     specifier: ^9.3.2
-    version: 9.3.2(typescript@5.1.6)
+    version: 9.3.2(typescript@5.2.2)
 
 devDependencies:
   '@vitest/coverage-v8':
@@ -27,7 +27,7 @@ devDependencies:
     version: 3.28.1
   rollup-plugin-dts:
     specifier: ^6.0.0
-    version: 6.0.0(rollup@3.28.1)(typescript@5.1.6)
+    version: 6.0.0(rollup@3.28.1)(typescript@5.2.2)
   rollup-plugin-esbuild:
     specifier: ^5.0.0
     version: 5.0.0(esbuild@0.19.2)(rollup@3.28.1)
@@ -35,8 +35,8 @@ devDependencies:
     specifier: ^21.0.7
     version: 21.1.1
   typescript:
-    specifier: 5.1.6
-    version: 5.1.6
+    specifier: 5.2.2
+    version: 5.2.2
   vitest:
     specifier: 0.34.2
     version: 0.34.2
@@ -2847,7 +2847,7 @@ packages:
       glob: 10.2.5
     dev: true
 
-  /rollup-plugin-dts@6.0.0(rollup@3.28.1)(typescript@5.1.6):
+  /rollup-plugin-dts@6.0.0(rollup@3.28.1)(typescript@5.2.2):
     resolution: {integrity: sha512-A996xSZDAqnx/KfFttzC8mDEuyMjsRpiLCrlGc8effhK8KhE3AG0g1woQiITgFc5HSE8HWU7ccR9CiQ3vXgUlQ==}
     engines: {node: '>=v18.17.1'}
     peerDependencies:
@@ -2856,7 +2856,7 @@ packages:
     dependencies:
       magic-string: 0.30.2
       rollup: 3.28.1
-      typescript: 5.1.6
+      typescript: 5.2.2
     optionalDependencies:
       '@babel/code-frame': 7.22.10
     dev: true
@@ -3257,12 +3257,12 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /ts-essentials@9.3.2(typescript@5.1.6):
+  /ts-essentials@9.3.2(typescript@5.2.2):
     resolution: {integrity: sha512-JxKJzuWqH1MmH4ZFHtJzGEhkfN3QvVR3C3w+4BIoWeoY68UVVoA2Np/Bca9z0IPSErVCWhv439aT0We4Dks8kQ==}
     peerDependencies:
       typescript: '>=4.1.0'
     dependencies:
-      typescript: 5.1.6
+      typescript: 5.2.2
     dev: false
 
   /type-detect@4.0.8:
@@ -3300,8 +3300,8 @@ packages:
     engines: {node: '>=14.16'}
     dev: true
 
-  /typescript@5.1.6:
-    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
+  /typescript@5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
 
