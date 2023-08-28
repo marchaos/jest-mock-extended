@@ -7,7 +7,7 @@ settings:
 dependencies:
   ts-essentials:
     specifier: ^9.3.2
-    version: 9.3.2(typescript@5.2.2)
+    version: 9.4.0(typescript@5.2.2)
 
 devDependencies:
   '@vitest/coverage-v8':
@@ -3257,10 +3257,13 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /ts-essentials@9.3.2(typescript@5.2.2):
-    resolution: {integrity: sha512-JxKJzuWqH1MmH4ZFHtJzGEhkfN3QvVR3C3w+4BIoWeoY68UVVoA2Np/Bca9z0IPSErVCWhv439aT0We4Dks8kQ==}
+  /ts-essentials@9.4.0(typescript@5.2.2):
+    resolution: {integrity: sha512-s4BzWZmTh926caZO7XF7MMbwCn1BioT3s3r9hT8ARnwW//30OD0XioEsMyq3ORAHP/deN4Zkst2ZvxXmL+tG6g==}
     peerDependencies:
       typescript: '>=4.1.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
     dependencies:
       typescript: 5.2.2
     dev: false
