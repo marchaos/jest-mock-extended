@@ -128,13 +128,11 @@ const handler = (opts?: MockOpts) => ({
     },
 
     set: (obj: MockProxy<any>, property: ProxiedProperty, value: any) => {
-        // @ts-ignore All of these ignores are due to https://github.com/microsoft/TypeScript/issues/1863
         obj[property] = value;
         return true;
     },
 
     get: (obj: MockProxy<any>, property: ProxiedProperty) => {
-        // @ts-ignore
         if (!(property in obj)) {
             if (property === '_isMockObject' || property === '_isMockFunction') {
                 return undefined;
@@ -145,21 +143,22 @@ const handler = (opts?: MockOpts) => ({
             }
             // Jest's internal equality checking does some wierd stuff to check for iterable equality
             if (property === Symbol.iterator) {
-                // @ts-ignore
                 return obj[property];
             }
+
+            if (property === 'toJSON') {
+                return JSON.stringify(obj);
+            }
+
             // So this calls check here is totally not ideal - jest internally does a
             // check to see if this is a spy - which we want to say no to, but blindly returning
             // an proxy for calls results in the spy check returning true. This is another reason
             // why deep is opt in.
             const fn = calledWithFn({ fallbackMockImplementation: opts?.fallbackMockImplementation });
             if (opts?.deep && property !== 'calls') {
-                // @ts-ignore
                 obj[property] = new Proxy<MockProxy<any>>(fn, handler(opts));
-                // @ts-ignore
                 obj[property]._isMockObject = true;
             } else {
-                // @ts-ignore
                 obj[property] = fn;
             }
         }
@@ -170,11 +169,6 @@ const handler = (opts?: MockOpts) => ({
             return obj[property].bind(obj);
         }
 
-        if (property === 'toJSON') {
-            return JSON.stringify(obj);
-        }
-
-        // @ts-ignore
         return obj[property];
     },
 });

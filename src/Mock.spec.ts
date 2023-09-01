@@ -651,42 +651,21 @@ describe('vitest-mock-extended', () => {
             expect(stringified).toStrictEqual('{"test":"default","_isMockObject":true}');
         });
 
-        //     test('should strictly equal', () => {
-        //         interface Test {
-        //             id: string;
-        //             cookie: string;
-        //         }
-        //         const data = mock<Test>({
-        //             id: 'test',
-        //             cookie: 'test',
-        //         });
-        //
-        //         const receiveSomehow = (data: Test) => ({
-        //             data: {
-        //                 id: data.id,
-        //                 cookie: data.cookie,
-        //             },
-        //         });
-        //
-        //         const receivedSomehow = receiveSomehow(data);
-        //
-        //         expect(receivedSomehow).toStrictEqual({ data });
-        //     });
-        //
-        //     test('should not modify the mock', () => {
-        //         interface Test {
-        //             cookie: {
-        //                 domain: string;
-        //             };
-        //         }
-        //         const cookie = { domain: 'dummy' };
-        //         const data = mock<Test>({ cookie });
-        //
-        //         console.log('cookie before stringifying data', cookie);
-        //         JSON.stringify(data);
-        //         console.log('cookie after stringifying data', cookie);
-        //
-        //         expect(1).toBe(1);
-        //     });
+        test('should stricktly equal after stringify', () => {
+            //given
+            interface Test {
+                cookie: {
+                    domain: string;
+                };
+            }
+            const cookie = { domain: 'dummy' };
+            const data = mock<Test>({ cookie });
+
+            //when
+            JSON.stringify(data);
+
+            //when
+            expect({ cookie: { domain: 'dummy' } }).toStrictEqual({ cookie });
+        });
     });
 });
