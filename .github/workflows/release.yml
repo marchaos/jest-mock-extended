@@ -24,15 +24,15 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-            version: latest
-            run_install: false
+          version: latest
+          run_install: false
       # https://github.com/marketplace/actions/setup-node-js-environment
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-            cache: pnpm
-            node-version: lts/*
-            check-latest: true
+          cache: pnpm
+          node-version: lts/*
+          check-latest: true
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 

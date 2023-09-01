@@ -32,6 +32,8 @@
         "test:src": "vitest run --coverage",
         "test:example": "cd example && pnpm run test",
         "clean": "rimraf coverage lib",
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix .",
         "build": "pnpm clean && pnpm build:rollup",
         "build:rollup": "rollup -c"
     },
@@ -39,8 +41,14 @@
         "ts-essentials": "^9.3.2"
     },
     "devDependencies": {
+        "@types/eslint-config-prettier": "^6.11.0",
+        "@typescript-eslint/eslint-plugin": "^6.5.0",
+        "@typescript-eslint/parser": "^6.5.0",
         "@vitest/coverage-v8": "^0.34.1",
         "esbuild": "^0.19.0",
+        "eslint": "^8.48.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-plugin-prettier": "^5.0.0",
         "prettier": "3.0.3",
         "rimraf": "5.0.1",
         "rollup": "^3.27.1",

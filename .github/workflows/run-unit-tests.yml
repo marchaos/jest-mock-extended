@@ -1,47 +1,50 @@
 name: Run Unit-Tests
-on: 
+on:
   pull_request:
   push:
     branches:
       - "main"
 
 concurrency:
-    group: ${{ github.workflow }} - ${{ github.event.pull_request.id }}
-    cancel-in-progress: true
+  group: ${{ github.workflow }} - ${{ github.event.pull_request.id }}
+  cancel-in-progress: true
 
 jobs:
-    unit-tests:
-        name: Run Unit-Tests
-        runs-on: ubuntu-latest
-        steps:
-            # https://github.com/marketplace/actions/checkout
-            - name: Checkout Repository
-              uses: actions/checkout@v3
+  unit-tests:
+    name: Run Unit-Tests
+    runs-on: ubuntu-latest
+    steps:
+      # https://github.com/marketplace/actions/checkout
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-            # https://github.com/marketplace/actions/setup-pnpm
-            - uses: pnpm/action-setup@v2.0.1
-              name: Install pnpm
-              id: pnpm-install
-              with:
-                  version: latest
-                  run_install: false
+      # https://github.com/marketplace/actions/setup-pnpm
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: latest
+          run_install: false
 
-            # https://github.com/marketplace/actions/setup-node-js-environment
-            - name: Setup NodeJS
-              uses: actions/setup-node@v3
-              with:
-                  cache: pnpm
-                  node-version: lts/*
-                  check-latest: true
+      # https://github.com/marketplace/actions/setup-node-js-environment
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          cache: pnpm
+          node-version: lts/*
+          check-latest: true
 
-            - name: Install dependencies
-              run: pnpm install ${{ github.actor != 'dependabot[bot]' && '--frozen-lockfile' || '--no-frozen-lockfile' }}
+      - name: Install dependencies
+        run: pnpm install ${{ github.actor != 'dependabot[bot]' && '--frozen-lockfile' || '--no-frozen-lockfile' }}
 
-            - name: Run Unit-Tests
-              run: pnpm test:src
+      - name: Lint
+        run: pnpm lint
 
-            - name: Type Check
-              run: pnpm build
+      - name: Run Unit-Tests
+        run: pnpm test:src
 
-            - name: Run example Unit-Tests
-              run: cd example && pnpm install ${{ github.actor != 'dependabot[bot]' && '--frozen-lockfile' || '--no-frozen-lockfile' }} && pnpm test
+      - name: Type Check
+        run: pnpm build
+
+      - name: Run example Unit-Tests
+        run: cd example && pnpm install ${{ github.actor != 'dependabot[bot]' && '--frozen-lockfile' || '--no-frozen-lockfile' }} && pnpm test

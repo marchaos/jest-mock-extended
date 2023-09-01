@@ -51,7 +51,7 @@ interface MockOpts {
 }
 
 const mockClear = (mock: MockProxy<any>) => {
-    for (let key of Object.keys(mock)) {
+    for (const key of Object.keys(mock)) {
         if (mock[key] === null || mock[key] === undefined) {
             continue;
         }
@@ -72,7 +72,7 @@ const mockClear = (mock: MockProxy<any>) => {
 };
 
 const mockReset = (mock: MockProxy<any>) => {
-    for (let key of Object.keys(mock)) {
+    for (const key of Object.keys(mock)) {
         if (mock[key] === null || mock[key] === undefined) {
             continue;
         }
@@ -111,7 +111,7 @@ function mockDeep(arg1: any, arg2?: any) {
 
 const overrideMockImp = (obj: DeepPartial<any>, opts?: MockOpts) => {
     const proxy = new Proxy<MockProxy<any>>(obj, handler(opts));
-    for (let name of Object.keys(obj)) {
+    for (const name of Object.keys(obj)) {
         if (typeof obj[name] === 'object' && obj[name] !== null) {
             proxy[name] = overrideMockImp(obj[name], opts);
         } else {
@@ -152,7 +152,7 @@ const handler = (opts?: MockOpts) => ({
             // check to see if this is a spy - which we want to say no to, but blindly returning
             // an proxy for calls results in the spy check returning true. This is another reason
             // why deep is opt in.
-            let fn = calledWithFn({ fallbackMockImplementation: opts?.fallbackMockImplementation });
+            const fn = calledWithFn({ fallbackMockImplementation: opts?.fallbackMockImplementation });
             if (opts?.deep && property !== 'calls') {
                 // @ts-ignore
                 obj[property] = new Proxy<MockProxy<any>>(fn, handler(opts));
@@ -189,7 +189,7 @@ const mock = <T, MockedReturn extends MockProxy<T> & T = MockProxy<T> & T>(
 };
 
 const mockFn = <
-    T extends Function,
+    T,
     A extends any[] = T extends (...args: infer AReal) => any ? AReal : any[],
     R = T extends (...args: any) => infer RReal ? RReal : any,
 >(): CalledWithMock<R, A> & T => {

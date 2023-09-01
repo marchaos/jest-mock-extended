@@ -5,7 +5,10 @@ class Matcher<T> {
     $$typeof: symbol;
     inverse?: boolean;
 
-    constructor(readonly asymmetricMatch: MatcherFn<T>, private readonly description: string) {
+    constructor(
+        readonly asymmetricMatch: MatcherFn<T>,
+        private readonly description: string,
+    ) {
         this.$$typeof = Symbol.for('vi.asymmetricMatcher');
     }
 
@@ -64,7 +67,7 @@ const anyNumber: MatcherCreator<number> = () =>
 const anyString: MatcherCreator<string> = () => new Matcher((actualValue: string) => typeof actualValue === 'string', 'anyString()');
 const anyFunction: MatcherCreator<Function> = () =>
     new Matcher((actualValue: Function) => typeof actualValue === 'function', 'anyFunction()');
-const anySymbol: MatcherCreator<Symbol> = () => new Matcher((actualValue) => typeof actualValue === 'symbol', 'anySymbol()');
+const anySymbol: MatcherCreator<symbol> = () => new Matcher((actualValue) => typeof actualValue === 'symbol', 'anySymbol()');
 const anyObject: MatcherCreator<any> = () =>
     new Matcher((actualValue) => typeof actualValue === 'object' && actualValue !== null, 'anyObject()');
 
@@ -84,7 +87,7 @@ const objectContainsKey: MatcherCreator<any, string> = (key) =>
 const objectContainsValue: MatcherCreator<any> = (value) =>
     new Matcher(
         (actualValue) => anyObject().asymmetricMatch(actualValue) && Object.values(actualValue).includes(value),
-        'objectContainsValue()'
+        'objectContainsValue()',
     );
 
 const notNull: MatcherCreator<any> = () => new Matcher((actualValue) => actualValue !== null, 'notNull()');

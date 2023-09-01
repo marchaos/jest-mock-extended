@@ -17,7 +17,7 @@ function isVitestAsymmetricMatcher(obj: any): obj is VitestAsymmetricMatcher {
 const checkCalledWith = <T, Y extends any[]>(
     calledWithStack: CalledWithStackItem<T, Y>[],
     actualArgs: Y,
-    fallbackMockImplementation?: FallbackImplementation<Y, T>
+    fallbackMockImplementation?: FallbackImplementation<Y, T>,
 ): T => {
     const calledWithInstance = calledWithStack.find((instance) =>
         instance.args.every((matcher, i) => {
@@ -30,7 +30,7 @@ const checkCalledWith = <T, Y extends any[]>(
             }
 
             return actualArgs[i] === matcher;
-        })
+        }),
     );
 
     // @ts-ignore cannot return undefined, but this will fail the test if there is an expectation which is what we want
