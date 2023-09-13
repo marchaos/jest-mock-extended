@@ -21,7 +21,7 @@ devDependencies:
     version: 6.6.0(eslint@8.49.0)(typescript@5.2.2)
   '@vitest/coverage-v8':
     specifier: ^0.34.1
-    version: 0.34.3(vitest@0.34.3)
+    version: 0.34.4(vitest@0.34.3)
   esbuild:
     specifier: ^0.19.0
     version: 0.19.2
@@ -1111,8 +1111,8 @@ packages:
       eslint-visitor-keys: 3.4.3
     dev: true
 
-  /@vitest/coverage-v8@0.34.3(vitest@0.34.3):
-    resolution: {integrity: sha512-bNjP0RHe8UxdklCigZlk6FVCNbOiqVjWnpZJ1zKixpvb7YHSaZiN/w+mzpvXIoqyxyePzKC+L+G1oj7SB20PJw==}
+  /@vitest/coverage-v8@0.34.4(vitest@0.34.3):
+    resolution: {integrity: sha512-TZ5ghzhmg3COQqfBShL+zRQEInHmV9TSwghTdfkHpCTyTOr+rxo6x41vCNcVfWysWULtqtBVpY6YFNovxnESfA==}
     peerDependencies:
       vitest: '>=0.32.0 <1'
     dependencies:
@@ -1122,7 +1122,7 @@ packages:
       istanbul-lib-report: 3.0.1
       istanbul-lib-source-maps: 4.0.1
       istanbul-reports: 3.1.5
-      magic-string: 0.30.2
+      magic-string: 0.30.3
       picocolors: 1.0.0
       std-env: 3.3.3
       test-exclude: 6.0.0
