@@ -3,8 +3,8 @@
     "compilerOptions": {
         "lib": ["ES2022", "DOM"],
         "target": "ES2022",
-        "module": "NodeNext",
-        "moduleResolution": "nodenext",
+        "module": "ES2022",
+        "moduleResolution": "Bundler",
         "isolatedModules": true,
         "outDir": "lib",
         "declarationDir": "lib/types"

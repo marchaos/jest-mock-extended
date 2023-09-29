@@ -1,4 +1,4 @@
-import { defineConfig, configDefaults } from 'vitest/config';
+import { defineConfig, configDefaults } from 'vitest/config'
 
 export default defineConfig({
     test: {
@@ -11,4 +11,4 @@ export default defineConfig({
             exclude: [...(configDefaults.coverage?.exclude ?? []), '**/*.spec.ts', 'lib/**'],
         },
     },
-});
+})
