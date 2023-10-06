@@ -31,19 +31,35 @@ interface CalledWithMock<T, Y extends any[]> extends Mock<Y, T> {
     calledWith: (...args: Y | MatchersOrLiterals<Y>) => Mock<Y, T>
 }
 
-type MockProxy<T> = {
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : T[K]
-} & T
+type _MockProxy<T> = {
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B
+                    ? T[K] & CalledWithMock<B, A>
+                    : T[K]
+}
 
-type DeepMockProxy<T> = {
-    // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> : DeepMockProxy<T[K]>
-} & T
+type MockProxy<T> = _MockProxy<T> & T;
 
-type DeepMockProxyWithFuncPropSupport<T> = {
+type _DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> & DeepMockProxy<T[K]> : DeepMockProxy<T[K]>
-} & T
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B
+                    ? T[K] & CalledWithMock<B, A>
+                    : T[K] & _DeepMockProxy<T[K]>
+}
+
+// we intersect with T here instead of on the mapped type above to
+// prevent immediate type resolution on a recursive type, this will
+// help to improve performance for deeply nested recursive mocking
+// at the same time, this intersection preserves private properties
+type DeepMockProxy<T> = _DeepMockProxy<T> & T
+
+type _DeepMockProxyWithFuncPropSupport<T> = {
+    // This supports deep mocks in the else branch
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B
+                    ? CalledWithMock<B, A> & DeepMockProxy<T[K]>
+                    : DeepMockProxy<T[K]>;
+}
+
+type DeepMockProxyWithFuncPropSupport<T> = _DeepMockProxyWithFuncPropSupport<T> & T;
 
 interface MockOpts {
     deep?: boolean
