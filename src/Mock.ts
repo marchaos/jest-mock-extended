@@ -32,18 +32,14 @@ interface CalledWithMock<T, Y extends any[]> extends Mock<Y, T> {
 }
 
 type _MockProxy<T> = {
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B
-                    ? T[K] & CalledWithMock<B, A>
-                    : T[K]
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? T[K] & CalledWithMock<B, A> : T[K]
 }
 
-type MockProxy<T> = _MockProxy<T> & T;
+type MockProxy<T> = _MockProxy<T> & T
 
 type _DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B
-                    ? T[K] & CalledWithMock<B, A>
-                    : T[K] & _DeepMockProxy<T[K]>
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? T[K] & CalledWithMock<B, A> : T[K] & _DeepMockProxy<T[K]>
 }
 
 // we intersect with T here instead of on the mapped type above to
@@ -54,12 +50,10 @@ type DeepMockProxy<T> = _DeepMockProxy<T> & T
 
 type _DeepMockProxyWithFuncPropSupport<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B
-                    ? CalledWithMock<B, A> & DeepMockProxy<T[K]>
-                    : DeepMockProxy<T[K]>;
+    [K in keyof T]: T[K] extends (...args: infer A) => infer B ? CalledWithMock<B, A> & DeepMockProxy<T[K]> : DeepMockProxy<T[K]>
 }
 
-type DeepMockProxyWithFuncPropSupport<T> = _DeepMockProxyWithFuncPropSupport<T> & T;
+type DeepMockProxyWithFuncPropSupport<T> = _DeepMockProxyWithFuncPropSupport<T> & T
 
 interface MockOpts {
     deep?: boolean
