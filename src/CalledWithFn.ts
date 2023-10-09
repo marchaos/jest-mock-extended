@@ -1,5 +1,6 @@
 import { CalledWithMock } from './Mock';
 import { Matcher, MatchersOrLiterals } from './Matchers';
+import isEqual from 'lodash.isequal';
 
 interface CalledWithStackItem<T, Y extends any[]> {
     args: MatchersOrLiterals<Y>;
@@ -28,7 +29,7 @@ const checkCalledWith = <T, Y extends any[]>(
                 return matcher.asymmetricMatch(actualArgs[i]);
             }
 
-            return actualArgs[i] === matcher;
+            return isEqual(actualArgs[i], matcher);
         })
     );
 
