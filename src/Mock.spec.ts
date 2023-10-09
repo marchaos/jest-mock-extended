@@ -211,6 +211,14 @@ describe('jest-mock-extended', () => {
             expect(mockFunc(1, 2)).toBe(3);
         });
 
+        test('can match object literals by value', () => {
+            const mockFunc = calledWithFn<(arg: { id: number; nested: { value: string } }) => number>();
+            mockFunc.calledWith({ id: 1, nested: { value: 'a' } }).mockReturnValue(3);
+
+            expect(mockFunc({ id: 1, nested: { value: 'a' } })).toBe(3);
+            expect(mockFunc({ id: 1, nested: { value: 'b' } })).toBe(undefined);
+        });
+
         test('Can specify matchers', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs.calledWith(anyNumber(), anyNumber()).mockReturnValue(3);
