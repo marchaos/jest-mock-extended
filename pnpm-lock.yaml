@@ -12,7 +12,7 @@ dependencies:
 devDependencies:
   '@types/eslint-config-prettier':
     specifier: ^6.11.0
-    version: 6.11.1
+    version: 6.11.2
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.5.0
     version: 6.7.3(@typescript-eslint/parser@6.7.5)(eslint@8.51.0)(typescript@5.2.2)
@@ -1044,8 +1044,8 @@ packages:
     resolution: {integrity: sha512-mEo1sAde+UCE6b2hxn332f1g1E8WfYRu6p5SvTKr2ZKC1f7gFJXk4h5PyGP9Dt6gCaG8y8XhwnXWC6Iy2cmBng==}
     dev: true
 
-  /@types/eslint-config-prettier@6.11.1:
-    resolution: {integrity: sha512-7jQDjrJWXj9DsfmSDpMk9paFh5TQ4qPxl9rYUTLvGLglr/xrxmyVMVxb1gs/7y9HQzRI5EPvnQ9yumwy83H3fg==}
+  /@types/eslint-config-prettier@6.11.2:
+    resolution: {integrity: sha512-H9aSpNEGTyL1fJ65CIuqHMAH741pKg7jZ/Y2cdFAmqtD90PsRrmp8Cpj76PgSffSTkRLGihe1X6QlM4ec639ZA==}
     dev: true
 
   /@types/estree@1.0.0:
