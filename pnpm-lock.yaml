@@ -21,7 +21,7 @@ devDependencies:
     version: 6.19.1(eslint@8.56.0)(typescript@5.3.3)
   '@vitest/coverage-v8':
     specifier: ^1.0.1
-    version: 1.2.1(vitest@1.2.2)
+    version: 1.2.2(vitest@1.2.2)
   esbuild:
     specifier: ^0.20.0
     version: 0.20.0
@@ -1241,8 +1241,8 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@vitest/coverage-v8@1.2.1(vitest@1.2.2):
-    resolution: {integrity: sha512-fJEhKaDwGMZtJUX7BRcGxooGwg1Hl0qt53mVup/ZJeznhvL5EodteVnb/mcByhEcvVWbK83ZF31c7nPEDi4LOQ==}
+  /@vitest/coverage-v8@1.2.2(vitest@1.2.2):
+    resolution: {integrity: sha512-IHyKnDz18SFclIEEAHb9Y4Uxx0sPKC2VO1kdDCs1BF6Ip4S8rQprs971zIsooLUn7Afs71GRxWMWpkCGZpRMhw==}
     peerDependencies:
       vitest: ^1.0.0
     dependencies:
