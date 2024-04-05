@@ -55,7 +55,7 @@
         "rollup-plugin-dts": "^6.0.0",
         "rollup-plugin-esbuild": "^6.0.2",
         "semantic-release": "^23.0.0",
-        "typescript": "5.4.3",
+        "typescript": "5.4.4",
         "vitest": "1.4.0"
     },
     "peerDependencies": {
