@@ -20,7 +20,7 @@
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
-    "ts-essentials": "^7.0.3"
+    "ts-essentials": "^9.4.2"
   },
   "devDependencies": {
     "@types/jest": "^27.5.0",
