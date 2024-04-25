@@ -12,7 +12,7 @@ describe('Use mock example', () => {
         const mockedInterface = mock<SomeInterface>({ fieldA: 'valueA', fieldB: { fieldC: 'valueC' } })
 
         expect(mockedInterface.fieldA).toBe('valueA')
-        expect(mockedInterface.fieldB).toContain({ fieldC: 'valueC' })
+        expect(mockedInterface.fieldB).contains({ fieldC: 'valueC' })
     })
 
     it('should mock returned object', () => {
