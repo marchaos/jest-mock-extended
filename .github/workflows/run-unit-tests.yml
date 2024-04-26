@@ -1,4 +1,4 @@
-name: Run Unit-Tests
+name: Pull Request
 on:
   pull_request:
   push:
@@ -10,41 +10,39 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  unit-tests:
-    name: Run Unit-Tests
+  pull-request:
     runs-on: ubuntu-latest
     steps:
       # https://github.com/marketplace/actions/checkout
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # https://github.com/marketplace/actions/setup-pnpm
-      - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
-        id: pnpm-install
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3.0.0
         with:
           version: latest
           run_install: false
 
       # https://github.com/marketplace/actions/setup-node-js-environment
       - name: Setup NodeJS
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: pnpm
           node-version: lts/*
           check-latest: true
 
       - name: Install dependencies
-        run: pnpm install ${{ github.actor != 'dependabot[bot]' && '--frozen-lockfile' || '--no-frozen-lockfile' }}
+        run: pnpm recursive install ${{ github.actor != 'dependabot[bot]' && '--frozen-lockfile' || '--no-frozen-lockfile' }}
+
+      - run: echo "${{ toJSON(env) }}"
+
+      - name: Build
+        run: pnpm build
 
       - name: Lint
         run: pnpm lint
 
-      - name: Run Unit-Tests
-        run: pnpm test:src
+      - name: Unit-Tests
+        run: pnpm test
 
-      - name: Type Check
-        run: pnpm build
-
-      - name: Run example Unit-Tests
-        run: cd example && pnpm install ${{ github.actor != 'dependabot[bot]' && '--frozen-lockfile' || '--no-frozen-lockfile' }} && pnpm test

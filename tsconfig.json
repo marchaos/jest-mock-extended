@@ -1,12 +1,35 @@
 {
-    "extends": "./tsconfig.base.json",
     "compilerOptions": {
-        "lib": ["ES2022", "DOM"],
+        "strict": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "declaration": true,
+        "declarationMap": true,
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "alwaysStrict": true,
+        "allowJs": false,
+        "lib": [
+            "ES2022",
+            "DOM"
+        ],
         "target": "ES2022",
         "module": "ES2022",
         "moduleResolution": "Bundler",
         "isolatedModules": true,
         "outDir": "lib",
         "declarationDir": "lib/types"
-    }
+    },
+    "files": [
+        "src/index.ts"
+    ],
+    "include": [
+        "src",
+        "**/*.mts"
+    ],
+    "exclude": [
+        "lib"
+    ]
 }

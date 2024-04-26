@@ -15,30 +15,32 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      ## Setup
       # https://github.com/marketplace/actions/checkout
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
       # https://github.com/marketplace/actions/setup-pnpm
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v3.0.0
         name: Install pnpm
         id: pnpm-install
         with:
           version: latest
           run_install: false
+
       # https://github.com/marketplace/actions/setup-node-js-environment
       - name: Setup NodeJS
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: pnpm
           node-version: lts/*
           check-latest: true
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      ## Steps
       - name: Build Lib
         run: pnpm build
+
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
