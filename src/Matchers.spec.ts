@@ -42,9 +42,6 @@ describe('Matchers', () => {
             const f = jest.fn();
             f(undefined);
 
-            // @ts-ignore
-            console.info(f.mock);
-
             expect(f).toHaveBeenCalledWith(any());
         });
     });
