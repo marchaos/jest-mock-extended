@@ -33,7 +33,7 @@ devDependencies:
     version: 4.18.0
   rollup-plugin-dts:
     specifier: ^6.1.0
-    version: 6.1.0(rollup@4.18.0)(typescript@5.4.5)
+    version: 6.1.1(rollup@4.18.0)(typescript@5.4.5)
   rollup-plugin-esbuild:
     specifier: ^6.1.1
     version: 6.1.1(esbuild@0.21.3)(rollup@4.18.0)
@@ -3654,8 +3654,8 @@ packages:
       glob: 10.3.12
     dev: true
 
-  /rollup-plugin-dts@6.1.0(rollup@4.18.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-ijSCPICkRMDKDLBK9torss07+8dl9UpY9z1N/zTeA1cIqdzMlpkV3MOOC7zukyvQfDyxa1s3Dl2+DeiP/G6DOw==}
+  /rollup-plugin-dts@6.1.1(rollup@4.18.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-aSHRcJ6KG2IHIioYlvAOcEq6U99sVtqDDKVhnwt70rW6tsz3tv5OSjEiWcgzfsHdLyGXZ/3b/7b/+Za3Y6r1XA==}
     engines: {node: '>=16'}
     peerDependencies:
       rollup: ^3.29.4 || ^4
