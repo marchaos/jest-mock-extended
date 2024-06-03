@@ -12,7 +12,7 @@ dependencies:
 devDependencies:
   '@eslint/js':
     specifier: ^9.1.1
-    version: 9.3.0
+    version: 9.4.0
   '@vitest/coverage-v8':
     specifier: ^1.5.2
     version: 1.6.0(vitest@1.6.0)
@@ -572,11 +572,6 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /@eslint/js@9.3.0:
-    resolution: {integrity: sha512-niBqk8iwv96+yuTwjM6bWg8ovzAPF9qkICsGtcoa5/dmqcEMfdwNAX7+/OHcJHc7wj7XqPxH98oAHytFYlw6Sw==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     dev: true
 
   /@eslint/js@9.4.0:
