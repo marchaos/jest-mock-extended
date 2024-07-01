@@ -10,7 +10,7 @@ importers:
     dependencies:
       ts-essentials:
         specifier: ^10.0.0
-        version: 10.0.0(typescript@5.4.5)
+        version: 10.0.1(typescript@5.4.5)
     devDependencies:
       '@eslint/js':
         specifier: ^9.1.1
@@ -2327,8 +2327,8 @@ packages:
     peerDependencies:
       typescript: '>=4.2.0'
 
-  ts-essentials@10.0.0:
-    resolution: {integrity: sha512-77FHNJEyysF9+1s4G6eejuA1lxw7uMchT3ZPy3CIbh7GIunffpshtM8pTe5G6N5dpOzNevqRHew859ceLWVBfw==}
+  ts-essentials@10.0.1:
+    resolution: {integrity: sha512-HPH+H2bkkO8FkMDau+hFvv7KYozzned9Zr1Urn7rRPXMF4mZmCKOq+u4AI1AAW+2bofIOXTuSdKo9drQuni2dQ==}
     peerDependencies:
       typescript: '>=4.5.0'
     peerDependenciesMeta:
@@ -4862,7 +4862,7 @@ snapshots:
     dependencies:
       typescript: 5.4.5
 
-  ts-essentials@10.0.0(typescript@5.4.5):
+  ts-essentials@10.0.1(typescript@5.4.5):
     optionalDependencies:
       typescript: 5.4.5
 
