@@ -42,7 +42,7 @@
     "devDependencies": {
         "@eslint/js": "^9.1.1",
         "@vitest/coverage-v8": "^1.5.2",
-        "esbuild": "^0.22.0",
+        "esbuild": "^0.23.0",
         "eslint": "^9.1.1",
         "eslint-config-prettier": "^9.1.0",
         "rimraf": "5.0.7",
