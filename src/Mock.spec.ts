@@ -633,7 +633,8 @@ describe('vitest-mock-extended', () => {
   describe('mock Date', () => {
     test('should call built-in date functions', () => {
       type objWithDate = { date: Date }
-      const mockObj = mock<objWithDate>({ date: new Date('2000-01-15') })
+      const unixTimestamp = 947980800000 // Jan 15, 2000 at midnight UTC
+      const mockObj = mock<objWithDate>({ date: new Date(unixTimestamp) })
       expect(mockObj.date.getFullYear()).toBe(2000)
       expect(mockObj.date.getMonth()).toBe(0)
       expect(mockObj.date.getDate()).toBe(15)

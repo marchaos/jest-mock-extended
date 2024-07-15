@@ -1,10 +1,11 @@
 import { CalledWithMock } from './Mock'
 import { Matcher, MatchersOrLiterals } from './Matchers'
+import { FallbackImplementation } from './types'
 import { vi, Mock } from 'vitest'
 
 interface CalledWithStackItem<T, Y extends any[]> {
   args: MatchersOrLiterals<Y>
-  calledWithFn: Mock<Y, T>
+  calledWithFn: Mock<FallbackImplementation<Y, T>>
 }
 
 interface VitestAsymmetricMatcher {
@@ -42,17 +43,16 @@ const checkCalledWith = <T, Y extends any[]>(
     : fallbackMockImplementation && fallbackMockImplementation(...actualArgs)
 }
 
-type FallbackImplementation<Y extends any[], T> = (...args: Y) => T
 type CalledWithFnArgs<Y extends any[], T> = { fallbackMockImplementation?: FallbackImplementation<Y, T> }
 
 const calledWithFn = <T, Y extends any[]>({ fallbackMockImplementation }: CalledWithFnArgs<Y, T> = {}): CalledWithMock<T, Y> => {
-  const fn: Mock<Y, T> = fallbackMockImplementation ? vi.fn(fallbackMockImplementation) : vi.fn()
+  const fn: Mock<FallbackImplementation<Y, T>> = fallbackMockImplementation ? vi.fn(fallbackMockImplementation) : vi.fn()
   let calledWithStack: CalledWithStackItem<T, Y>[] = []
 
     ; (fn as CalledWithMock<T, Y>).calledWith = (...args) => {
       // We create new function to delegate any interactions (mockReturnValue etc.) to for this set of args.
       // If that set of args is matched, we just call that vi.fn() for the result.
-      const calledWithFn: Mock<Y, T> = fallbackMockImplementation ? vi.fn(fallbackMockImplementation) : vi.fn()
+      const calledWithFn: Mock<FallbackImplementation<Y, T>> = fallbackMockImplementation ? vi.fn(fallbackMockImplementation) : vi.fn()
       const mockImplementation = fn.getMockImplementation()
       if (
         !mockImplementation ||

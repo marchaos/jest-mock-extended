@@ -1,5 +1,6 @@
 import { calledWithFn } from './CalledWithFn'
 import { MatchersOrLiterals } from './Matchers'
+import { FallbackImplementation } from './types'
 import { DeepPartial } from 'ts-essentials'
 import { Mock, vi } from 'vitest'
 
@@ -27,8 +28,8 @@ const VitestMockExtended = {
   },
 }
 
-interface CalledWithMock<T, Y extends any[]> extends Mock<Y, T> {
-  calledWith: (...args: Y | MatchersOrLiterals<Y>) => Mock<Y, T>
+interface CalledWithMock<T, Y extends any[]> extends Mock<FallbackImplementation<Y, T>> {
+  calledWith: (...args: Y | MatchersOrLiterals<Y>) => Mock<FallbackImplementation<Y, T>>
 }
 
 type _MockProxy<T> = {
