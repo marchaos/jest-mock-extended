@@ -1,6 +1,6 @@
 {
     "name": "vitest-mock-extended",
-    "version": "1.2.1",
+    "version": "1.0.0",
     "homepage": "https://github.com/eratio08/vitest-mock-extended",
     "description": "Type safe mocking extensions for vitest, forked from jest-mock-extended",
     "repository": {
