@@ -51,7 +51,7 @@
         "rollup-plugin-esbuild": "6.1.1",
         "semantic-release": "24.0.0",
         "typescript": "5.5.4",
-        "typescript-eslint": "7.16.1",
+        "typescript-eslint": "7.17.0",
         "vitest": "2.0.3"
     },
     "peerDependencies": {
