@@ -14,7 +14,7 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@types/node": "20.14.12",
+        "@types/node": "22.0.0",
         "@vitest/coverage-v8": "2.0.3",
         "ts-node": "10.9.2",
         "tsm": "2.3.0",
