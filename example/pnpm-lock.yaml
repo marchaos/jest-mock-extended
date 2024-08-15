@@ -9,14 +9,14 @@ importers:
   .:
     devDependencies:
       '@types/node':
-        specifier: 22.2.0
-        version: 22.2.0
+        specifier: 22.3.0
+        version: 22.3.0
       '@vitest/coverage-v8':
         specifier: 2.0.3
-        version: 2.0.3(vitest@2.0.3(@types/node@22.2.0))
+        version: 2.0.3(vitest@2.0.3(@types/node@22.3.0))
       ts-node:
         specifier: 10.9.2
-        version: 10.9.2(@types/node@22.2.0)(typescript@5.5.3)
+        version: 10.9.2(@types/node@22.3.0)(typescript@5.5.3)
       tsm:
         specifier: 2.3.0
         version: 2.3.0
@@ -25,7 +25,7 @@ importers:
         version: 5.5.3
       vitest:
         specifier: 2.0.3
-        version: 2.0.3(@types/node@22.2.0)
+        version: 2.0.3(@types/node@22.3.0)
       vitest-mock-extended:
         specifier: link:..
         version: link:..
@@ -338,8 +338,8 @@ packages:
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
-  '@types/node@22.2.0':
-    resolution: {integrity: sha512-bm6EG6/pCpkxDf/0gDNDdtDILMOHgaQBVOJGdwsqClnxA3xL6jtMv76rLBc006RVMWbmaf0xbmom4Z/5o2nRkQ==}
+  '@types/node@22.3.0':
+    resolution: {integrity: sha512-nrWpWVaDZuaVc5X84xJ0vNrLvomM205oQyLsRt7OHNZbSHslcWsvgFR7O7hire2ZonjLrWBbedmotmIlJDVd6g==}
 
   '@vitest/coverage-v8@2.0.3':
     resolution: {integrity: sha512-53d+6jXFdYbasXBmsL6qaGIfcY5eBQq0sP57AjdasOcSiGNj4qxkkpDKIitUNfjxcfAfUfQ8BD0OR2fSey64+g==}
@@ -847,8 +847,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  undici-types@6.13.0:
-    resolution: {integrity: sha512-xtFJHudx8S2DSoujjMd1WeWvn7KKWFRESZTMeL1RptAYERu29D6jphMjjY+vn96jvN3kVPDNxU/E13VTaXj6jg==}
+  undici-types@6.18.2:
+    resolution: {integrity: sha512-5ruQbENj95yDYJNS3TvcaxPMshV7aizdv/hWYjGIKoANWKjhWNBsr2YEuYZKodQulB1b8l7ILOuDQep3afowQQ==}
 
   v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
@@ -1132,11 +1132,11 @@ snapshots:
 
   '@types/estree@1.0.5': {}
 
-  '@types/node@22.2.0':
+  '@types/node@22.3.0':
     dependencies:
-      undici-types: 6.13.0
+      undici-types: 6.18.2
 
-  '@vitest/coverage-v8@2.0.3(vitest@2.0.3(@types/node@22.2.0))':
+  '@vitest/coverage-v8@2.0.3(vitest@2.0.3(@types/node@22.3.0))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -1151,7 +1151,7 @@ snapshots:
       strip-literal: 2.1.0
       test-exclude: 7.0.1
       tinyrainbow: 1.2.0
-      vitest: 2.0.3(@types/node@22.2.0)
+      vitest: 2.0.3(@types/node@22.3.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -1600,14 +1600,14 @@ snapshots:
 
   to-fast-properties@2.0.0: {}
 
-  ts-node@10.9.2(@types/node@22.2.0)(typescript@5.5.3):
+  ts-node@10.9.2(@types/node@22.3.0)(typescript@5.5.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 22.2.0
+      '@types/node': 22.3.0
       acorn: 8.11.3
       acorn-walk: 8.3.2
       arg: 4.1.3
@@ -1624,17 +1624,17 @@ snapshots:
 
   typescript@5.5.3: {}
 
-  undici-types@6.13.0: {}
+  undici-types@6.18.2: {}
 
   v8-compile-cache-lib@3.0.1: {}
 
-  vite-node@2.0.3(@types/node@22.2.0):
+  vite-node@2.0.3(@types/node@22.3.0):
     dependencies:
       cac: 6.7.14
       debug: 4.3.5
       pathe: 1.1.2
       tinyrainbow: 1.2.0
-      vite: 5.2.11(@types/node@22.2.0)
+      vite: 5.2.11(@types/node@22.3.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -1645,16 +1645,16 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.2.11(@types/node@22.2.0):
+  vite@5.2.11(@types/node@22.3.0):
     dependencies:
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.17.2
     optionalDependencies:
-      '@types/node': 22.2.0
+      '@types/node': 22.3.0
       fsevents: 2.3.3
 
-  vitest@2.0.3(@types/node@22.2.0):
+  vitest@2.0.3(@types/node@22.3.0):
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@vitest/expect': 2.0.3
@@ -1672,11 +1672,11 @@ snapshots:
       tinybench: 2.8.0
       tinypool: 1.0.0
       tinyrainbow: 1.2.0
-      vite: 5.2.11(@types/node@22.2.0)
-      vite-node: 2.0.3(@types/node@22.2.0)
+      vite: 5.2.11(@types/node@22.3.0)
+      vite-node: 2.0.3(@types/node@22.3.0)
       why-is-node-running: 2.2.2
     optionalDependencies:
-      '@types/node': 22.2.0
+      '@types/node': 22.3.0
     transitivePeerDependencies:
       - less
       - lightningcss
