@@ -40,7 +40,7 @@
         "ts-essentials": ">=10.0.0"
     },
     "devDependencies": {
-        "@eslint/js": "9.9.0",
+        "@eslint/js": "9.9.1",
         "@vitest/coverage-v8": "2.0.5",
         "esbuild": "0.23.1",
         "eslint": "9.9.1",
