@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, jest, test } from '@jest/globals';
 import {
     any,
     anyArray,
@@ -56,17 +57,17 @@ describe('Matchers', () => {
         });
 
         test('returns false for number', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyString().asymmetricMatch(123)).toBe(false);
         });
 
         test('returns false for null', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyString().asymmetricMatch(null)).toBe(false);
         });
 
         test('returns false for undefined', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyString().asymmetricMatch(undefined)).toBe(false);
         });
     });
@@ -81,17 +82,17 @@ describe('Matchers', () => {
         });
 
         test('returns false for string', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyNumber().asymmetricMatch('123')).toBe(false);
         });
 
         test('returns false for null', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyNumber().asymmetricMatch(null)).toBe(false);
         });
 
         test('returns false for undefined', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyNumber().asymmetricMatch(undefined)).toBe(false);
         });
 
@@ -110,17 +111,17 @@ describe('Matchers', () => {
         });
 
         test('returns false for string', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyBoolean().asymmetricMatch('true')).toBe(false);
         });
 
         test('returns false for null', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyBoolean().asymmetricMatch(null)).toBe(false);
         });
 
         test('returns false for undefined', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyBoolean().asymmetricMatch(undefined)).toBe(false);
         });
     });
@@ -131,17 +132,17 @@ describe('Matchers', () => {
         });
 
         test('returns false for string', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyFunction().asymmetricMatch('true')).toBe(false);
         });
 
         test('returns false for null', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyFunction().asymmetricMatch(null)).toBe(false);
         });
 
         test('returns false for undefined', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyFunction().asymmetricMatch(undefined)).toBe(false);
         });
     });
@@ -152,17 +153,17 @@ describe('Matchers', () => {
         });
 
         test('returns false for string', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anySymbol().asymmetricMatch('123')).toBe(false);
         });
 
         test('returns false for null', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anySymbol().asymmetricMatch(null)).toBe(false);
         });
 
         test('returns false for undefined', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anySymbol().asymmetricMatch(undefined)).toBe(false);
         });
     });
@@ -211,17 +212,17 @@ describe('Matchers', () => {
         });
 
         test('returns false for object', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyArray().asymmetricMatch({})).toBe(false);
         });
 
         test('returns false for null', () => {
-            // @ts-ignored
+            // @ts-expect-errord
             expect(anyArray().asymmetricMatch(null)).toBe(false);
         });
 
         test('returns false for undefined', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyArray().asymmetricMatch(undefined)).toBe(false);
         });
     });
@@ -238,17 +239,17 @@ describe('Matchers', () => {
         });
 
         test('returns false for object', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyMap().asymmetricMatch({})).toBe(false);
         });
 
         test('returns false for null', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyMap().asymmetricMatch(null)).toBe(false);
         });
 
         test('returns false for undefined', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anyMap().asymmetricMatch(undefined)).toBe(false);
         });
     });
@@ -265,17 +266,17 @@ describe('Matchers', () => {
         });
 
         test('returns false for object', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anySet().asymmetricMatch({})).toBe(false);
         });
 
         test('returns false for null', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anySet().asymmetricMatch(null)).toBe(false);
         });
 
         test('returns false for undefined', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(anySet().asymmetricMatch(undefined)).toBe(false);
         });
     });
@@ -312,17 +313,17 @@ describe('Matchers', () => {
         });
 
         test('returns false when not a map', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(arrayIncludes('val3').asymmetricMatch({})).toBe(false);
         });
 
         test('returns false when for null', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(arrayIncludes('val3').asymmetricMatch(null)).toBe(false);
         });
 
         test('returns false when for undefined', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(arrayIncludes('val3').asymmetricMatch(undefined)).toBe(false);
         });
     });
@@ -337,17 +338,17 @@ describe('Matchers', () => {
         });
 
         test('returns false when not a map', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(mapHas('val3').asymmetricMatch({})).toBe(false);
         });
 
         test('returns false when for null', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(mapHas('val3').asymmetricMatch(null)).toBe(false);
         });
 
         test('returns false when for undefined', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(mapHas('val3').asymmetricMatch(undefined)).toBe(false);
         });
     });
@@ -362,17 +363,17 @@ describe('Matchers', () => {
         });
 
         test('returns false when not a set', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(setHas('val3').asymmetricMatch({})).toBe(false);
         });
 
         test('returns false when for null', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(setHas('val3').asymmetricMatch(null)).toBe(false);
         });
 
         test('returns false when for undefined', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(setHas('val3').asymmetricMatch(undefined)).toBe(false);
         });
     });
