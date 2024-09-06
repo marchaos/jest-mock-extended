@@ -119,6 +119,14 @@ describe('jest-mock-extended', () => {
         expect(mockObj.getSomethingWithArgs).toBeCalledWith(1, 2);
     });
 
+    test('Can mock implementation of method', () => {
+        const mockObj = mock<MockInt>();
+        mockObj.getSomethingWithArgs.mockImplementation((arg1, arg2) => {
+            return arg1 + arg2;
+        })
+        expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
+    });
+
     test('Can specify calledWith', () => {
         const mockObj = mock<MockInt>();
         mockObj.getSomethingWithArgs.calledWith(1, 2).mockReturnValue(1);
@@ -212,7 +220,7 @@ describe('jest-mock-extended', () => {
         test('does not match when one arg does not match Matcher', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs.calledWith(anyNumber(), anyNumber()).mockReturnValue(3);
-            // @ts-ignore
+            // @ts-expect-error
             expect(mockObj.getSomethingWithArgs('1', 2)).toBe(undefined);
         });
 
@@ -251,7 +259,6 @@ describe('jest-mock-extended', () => {
         test('Support jest matcher', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithArgs
-                // @ts-expect-error Type 'AsymmetricMatcher_2' is missing the following properties from type 'Matcher<number>': $$typeof, description
                 .calledWith(expect.anything(), expect.anything())
                 .mockReturnValue(3);
 
@@ -261,7 +268,6 @@ describe('jest-mock-extended', () => {
         test('Suport mix Matchers with literals and with jest matcher', () => {
             const mockObj = mock<MockInt>();
             mockObj.getSomethingWithMoreArgs
-                // @ts-expect-error Type 'AsymmetricMatcher_2' is not assignable to type 'number | Matcher<number>'
                 .calledWith(anyNumber(), expect.anything(), 3)
                 .mockReturnValue(4);
 
@@ -491,7 +497,7 @@ describe('jest-mock-extended', () => {
             const mockPromiseObj = Promise.resolve(42);
             const mockObj = mock<MockInt>();
             mockObj.id = 17;
-            // @ts-ignore
+            // @ts-expect-error
             mockObj.then = mockPromiseObj.then.bind(mockPromiseObj);
             const promiseMockObj = Promise.resolve(mockObj);
             await promiseMockObj;

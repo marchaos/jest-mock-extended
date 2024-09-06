@@ -1,7 +1,15 @@
+
 export type MatcherFn<T> = (actualValue: T) => boolean;
 
+export interface MatcherLike<T> {
+    asymmetricMatch(other: unknown): boolean;
+    toString(): string;
+    getExpectedType?(): string;
+    toAsymmetricMatcher?(): string;
+}
+
 // needs to be a class so we can instanceof
-export class Matcher<T> {
+export class Matcher<T> implements MatcherLike<T> {
     $$typeof: symbol;
     inverse?: boolean;
 
@@ -31,7 +39,7 @@ export class CaptorMatcher<T> {
         this.$$typeof = Symbol.for('jest.asymmetricMatcher');
 
         this.asymmetricMatch = (actualValue: T) => {
-            // @ts-ignore
+            // @ts-expect-error
             this.value = actualValue;
             this.values.push(actualValue);
             return true;
@@ -55,7 +63,7 @@ export interface MatcherCreator<T, E = T> {
     (expectedValue?: E): Matcher<T>;
 }
 
-export type MatchersOrLiterals<Y extends any[]> = { [K in keyof Y]: Matcher<Y[K]> | Y[K] };
+export type MatchersOrLiterals<Y extends any[]> = { [K in keyof Y]: MatcherLike<Y[K]> | Y[K]  };
 
 export const any: MatcherCreator<any> = () => new Matcher(() => true, 'any()');
 export const anyBoolean: MatcherCreator<boolean> = () =>

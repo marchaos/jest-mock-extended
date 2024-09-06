@@ -2,7 +2,7 @@ import calledWithFn from './CalledWithFn';
 import { MatchersOrLiterals } from './Matchers';
 import { DeepPartial } from 'ts-essentials';
 import { jest } from '@jest/globals';
-import type { FunctionLike } from 'jest-mock';
+import { FunctionLike } from 'jest-mock';
 
 type ProxiedProperty = string | number | symbol;
 
@@ -29,22 +29,38 @@ export const JestMockExtended = {
 };
 
 export interface CalledWithMock<T extends FunctionLike> extends jest.Mock<T> {
-    calledWith: (...args: [...Parameters<T>] | MatchersOrLiterals<[...Parameters<T>]>) => jest.Mock<T>;
+    calledWith: (...args: [...MatchersOrLiterals<Parameters<T>>]) => jest.Mock<T>;
 }
 
-export type MockProxy<T> = {
-    [K in keyof T]: T[K] extends FunctionLike ? CalledWithMock<T[K]> : T[K];
-} & T;
+export type _MockProxy<T> = {
+    [K in keyof T]: T[K] extends FunctionLike
+        ? T[K] & CalledWithMock<T[K]>
+        : T[K];
+};
 
-export type DeepMockProxy<T> = {
-    // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends FunctionLike ? CalledWithMock<T[K]> : DeepMockProxy<T[K]>;
-} & T;
+export type MockProxy<T> = _MockProxy<T> & T;
 
-export type DeepMockProxyWithFuncPropSupport<T> = {
+export type _DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends FunctionLike ? CalledWithMock<T[K]> & DeepMockProxy<T[K]> : DeepMockProxy<T[K]>;
-} & T;
+    [K in keyof T]: T[K] extends FunctionLike
+    ? T[K] & CalledWithMock<T[K]>
+    : T[K] & _DeepMockProxy<T[K]>;
+};
+
+// we intersect with T here instead of on the mapped type above to
+// prevent immediate type resolution on a recursive type, this will
+// help to improve performance for deeply nested recursive mocking
+// at the same time, this intersection preserves private properties
+export type DeepMockProxy<T> = _DeepMockProxy<T> & T;
+
+export type _DeepMockProxyWithFuncPropSupport<T> = {
+    // This supports deep mocks in the else branch
+    [K in keyof T]: T[K] extends FunctionLike
+    ? CalledWithMock<T[K]> & DeepMockProxy<T[K]>
+    : DeepMockProxy<T[K]>;
+};
+
+export type DeepMockProxyWithFuncPropSupport<T> = _DeepMockProxyWithFuncPropSupport<T> & T;
 
 export interface MockOpts {
     deep?: boolean;
@@ -126,7 +142,6 @@ const handler = (opts?: MockOpts) => ({
     },
 
     set: (obj: MockProxy<any>, property: ProxiedProperty, value: any) => {
-        // @ts-ignore All of these ignores are due to https://github.com/microsoft/TypeScript/issues/1863
         obj[property] = value;
         return true;
     },
@@ -134,14 +149,12 @@ const handler = (opts?: MockOpts) => ({
     get: (obj: MockProxy<any>, property: ProxiedProperty) => {
         let fn = calledWithFn({ fallbackMockImplementation: opts?.fallbackMockImplementation });
 
-        // @ts-ignore
         if (!(property in obj)) {
             if (GLOBAL_CONFIG.ignoreProps?.includes(property)) {
                 return undefined;
             }
             // Jest's internal equality checking does some wierd stuff to check for iterable equality
             if (property === Symbol.iterator) {
-                // @ts-ignore
                 return obj[property];
             }
             // So this calls check here is totally not ideal - jest internally does a
@@ -149,23 +162,20 @@ const handler = (opts?: MockOpts) => ({
             // an proxy for calls results in the spy check returning true. This is another reason
             // why deep is opt in.
             if (opts?.deep && property !== 'calls') {
-                // @ts-ignore
+
                 obj[property] = new Proxy<MockProxy<any>>(fn, handler(opts));
-                // @ts-ignore
                 obj[property]._isMockObject = true;
             } else {
-                // @ts-ignore
                 obj[property] = calledWithFn({ fallbackMockImplementation: opts?.fallbackMockImplementation });
             }
         }
 
-        // @ts-ignore
+        // @ts-expect-error
         if (obj instanceof Date && typeof obj[property] === 'function') {
-            // @ts-ignore
+            // @ts-expect-error
             return obj[property].bind(obj);
         }
 
-        // @ts-ignore
         return obj[property];
     },
 });
@@ -174,13 +184,13 @@ const mock = <T, MockedReturn extends MockProxy<T> & T = MockProxy<T> & T>(
     mockImplementation: DeepPartial<T> = {} as DeepPartial<T>,
     opts?: MockOpts
 ): MockedReturn => {
-    // @ts-ignore private
+    // @ts-expect-error private
     mockImplementation!._isMockObject = true;
     return overrideMockImp(mockImplementation, opts);
 };
 
 export const mockFn = <T extends FunctionLike>(): CalledWithMock<T> & T => {
-    // @ts-ignore
+    // @ts-expect-error
     return calledWithFn();
 };
 
@@ -188,7 +198,7 @@ export const stub = <T extends object>(): T => {
     return new Proxy<T>({} as T, {
         get: (obj, property: ProxiedProperty) => {
             if (property in obj) {
-                // @ts-ignore
+                // @ts-expect-error
                 return obj[property];
             }
             return jest.fn();
