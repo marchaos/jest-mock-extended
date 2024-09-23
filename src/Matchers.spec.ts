@@ -21,6 +21,7 @@ import {
     notEmpty,
     captor,
     matches,
+    Matcher,
 } from './Matchers';
 
 class Cls {}
@@ -523,6 +524,51 @@ describe('Matchers', () => {
             fn(1);
 
             expect(fn).not.toHaveBeenCalledWith(matches((val) => val === 2));
+        });
+    });
+
+    describe('custom matchers', () => {
+        describe('with description', () => {
+            test('expects passes for when it returns true', () => {
+                const stringMatcher = new Matcher((actualValue) => {
+                    return (actualValue === "value");
+                }, "description");
+
+                expect(stringMatcher.asymmetricMatch("value")).toBeTruthy();
+                expect(stringMatcher.toString()).toBe("description");
+                expect(stringMatcher.toAsymmetricMatcher()).toBe("description");
+            });
+
+            test('expects with not passes for when it returns false', () => {
+                const stringMatcher = new Matcher((actualValue) => {
+                    return (actualValue === "value");
+                }, "description");
+
+                expect(stringMatcher.asymmetricMatch("value2")).toBeFalsy();
+                expect(stringMatcher.toString()).toBe("description");
+                expect(stringMatcher.toAsymmetricMatcher()).toBe("description");
+            });
+        });
+        describe('without description', () => {
+            test('expects passes for when it returns true', () => {
+                const stringMatcher = new Matcher((actualValue) => {
+                    return (actualValue === "value");
+                });
+
+                expect(stringMatcher.asymmetricMatch("value")).toBeTruthy();
+                expect(stringMatcher.toString()).toBe("customMatcher");
+                expect(stringMatcher.toAsymmetricMatcher()).toBe("customMatcher");
+            });
+
+            test('expects with not passes for when it returns false', () => {
+                const stringMatcher = new Matcher((actualValue) => {
+                    return (actualValue === "value");
+                });
+
+                expect(stringMatcher.asymmetricMatch("value2")).toBeFalsy();
+                expect(stringMatcher.toString()).toBe("customMatcher");
+                expect(stringMatcher.toAsymmetricMatcher()).toBe("customMatcher");
+            });
         });
     });
 });
