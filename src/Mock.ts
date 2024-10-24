@@ -1,8 +1,7 @@
 import calledWithFn from './CalledWithFn';
 import { MatchersOrLiterals } from './Matchers';
 import { DeepPartial } from 'ts-essentials';
-import { jest } from '@jest/globals';
-import { FunctionLike } from 'jest-mock';
+import { Mock, FunctionLike, fn as jestFn } from 'jest-mock';
 
 type ProxiedProperty = string | number | symbol;
 
@@ -28,23 +27,19 @@ export const JestMockExtended = {
     },
 };
 
-export interface CalledWithMock<T extends FunctionLike> extends jest.Mock<T> {
-    calledWith: (...args: [...MatchersOrLiterals<Parameters<T>>]) => jest.Mock<T>;
+export interface CalledWithMock<T extends FunctionLike> extends Mock<T> {
+    calledWith: (...args: [...MatchersOrLiterals<Parameters<T>>]) => Mock<T>;
 }
 
 export type _MockProxy<T> = {
-    [K in keyof T]: T[K] extends FunctionLike
-        ? T[K] & CalledWithMock<T[K]>
-        : T[K];
+    [K in keyof T]: T[K] extends FunctionLike ? T[K] & CalledWithMock<T[K]> : T[K];
 };
 
 export type MockProxy<T> = _MockProxy<T> & T;
 
 export type _DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends FunctionLike
-    ? T[K] & CalledWithMock<T[K]>
-    : T[K] & _DeepMockProxy<T[K]>;
+    [K in keyof T]: T[K] extends FunctionLike ? T[K] & CalledWithMock<T[K]> : T[K] & _DeepMockProxy<T[K]>;
 };
 
 // we intersect with T here instead of on the mapped type above to
@@ -55,9 +50,7 @@ export type DeepMockProxy<T> = _DeepMockProxy<T> & T;
 
 export type _DeepMockProxyWithFuncPropSupport<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends FunctionLike
-    ? CalledWithMock<T[K]> & DeepMockProxy<T[K]>
-    : DeepMockProxy<T[K]>;
+    [K in keyof T]: T[K] extends FunctionLike ? CalledWithMock<T[K]> & DeepMockProxy<T[K]> : DeepMockProxy<T[K]>;
 };
 
 export type DeepMockProxyWithFuncPropSupport<T> = _DeepMockProxyWithFuncPropSupport<T> & T;
@@ -162,7 +155,6 @@ const handler = (opts?: MockOpts) => ({
             // an proxy for calls results in the spy check returning true. This is another reason
             // why deep is opt in.
             if (opts?.deep && property !== 'calls') {
-
                 obj[property] = new Proxy<MockProxy<any>>(fn, handler(opts));
                 obj[property]._isMockObject = true;
             } else {
@@ -201,7 +193,7 @@ export const stub = <T extends object>(): T => {
                 // @ts-expect-error
                 return obj[property];
             }
-            return jest.fn();
+            return jestFn();
         },
     });
 };
