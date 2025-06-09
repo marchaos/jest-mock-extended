@@ -477,17 +477,16 @@ describe('Matchers', () => {
     });
 
     describe('captor', () => {
-        let fn: () => void;
         let doSomething: (...args: any[]) => void;
 
         beforeEach(() => {
-            fn = jest.fn();
             doSomething = (fn: (...args: any[]) => void, count: number) => {
                 fn(String(count), count, { 1: 2 });
             };
         });
 
         test('can capture arg with other matchers', () => {
+            const fn = jest.fn();
             doSomething(fn, 1);
 
             const argCaptor = captor();
@@ -496,6 +495,7 @@ describe('Matchers', () => {
         });
 
         test('stores all values', () => {
+            const fn = jest.fn();
             doSomething(fn, 1);
             doSomething(fn, 2);
             doSomething(fn, 3);
