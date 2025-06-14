@@ -11,6 +11,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "alwaysStrict": true,
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
