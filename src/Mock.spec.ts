@@ -116,7 +116,7 @@ describe('jest-mock-extended', () => {
     test('Can specify args', () => {
         const mockObj = mock<MockInt>();
         mockObj.getSomethingWithArgs(1, 2);
-        expect(mockObj.getSomethingWithArgs).toBeCalledWith(1, 2);
+        expect(mockObj.getSomethingWithArgs).toHaveBeenCalledWith(1, 2);
     });
 
     test('Can mock implementation of method', () => {
@@ -144,7 +144,7 @@ describe('jest-mock-extended', () => {
             }
         );
 
-        expect(() => mockObj.getSomethingWithArgs(1, 2)).toThrowError('not mocked');
+        expect(() => mockObj.getSomethingWithArgs(1, 2)).toThrow('not mocked');
     });
 
     test('Can specify multiple calledWith', () => {
@@ -343,8 +343,8 @@ describe('jest-mock-extended', () => {
                 },
             });
             mockObj.deepProp.getAnotherString.calledWith('foo'); // no mock implementation
-            expect(() => mockObj.getNumber()).toThrowError('not mocked');
-            expect(() => mockObj.deepProp.getAnotherString('foo')).toThrowError('not mocked');
+            expect(() => mockObj.getNumber()).toThrow('not mocked');
+            expect(() => mockObj.deepProp.getAnotherString('foo')).toThrow('not mocked');
         });
 
         test('fallback mock implementation can be overridden while also providing a mock implementation', () => {
@@ -364,8 +364,8 @@ describe('jest-mock-extended', () => {
             expect(mockObj.getNumber()).toBe(150);
             expect(mockObj.deepProp.getAnotherString('?')).toBe('mocked');
 
-            expect(() => mockObj.deepProp.getNumber(1)).toThrowError('not mocked');
-            expect(() => mockObj.deepProp.getAnotherString('!')).toThrowError('not mocked');
+            expect(() => mockObj.deepProp.getNumber(1)).toThrow('not mocked');
+            expect(() => mockObj.deepProp.getAnotherString('!')).toThrow('not mocked');
         });
     });
 
