@@ -123,7 +123,7 @@ describe('jest-mock-extended', () => {
         const mockObj = mock<MockInt>();
         mockObj.getSomethingWithArgs.mockImplementation((arg1, arg2) => {
             return arg1 + arg2;
-        })
+        });
         expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
     });
 
@@ -258,18 +258,14 @@ describe('jest-mock-extended', () => {
 
         test('Support jest matcher', () => {
             const mockObj = mock<MockInt>();
-            mockObj.getSomethingWithArgs
-                .calledWith(expect.anything(), expect.anything())
-                .mockReturnValue(3);
+            mockObj.getSomethingWithArgs.calledWith(expect.anything(), expect.anything()).mockReturnValue(3);
 
             expect(mockObj.getSomethingWithArgs(1, 2)).toBe(3);
         });
 
         test('Suport mix Matchers with literals and with jest matcher', () => {
             const mockObj = mock<MockInt>();
-            mockObj.getSomethingWithMoreArgs
-                .calledWith(anyNumber(), expect.anything(), 3)
-                .mockReturnValue(4);
+            mockObj.getSomethingWithMoreArgs.calledWith(anyNumber(), expect.anything(), 3).mockReturnValue(4);
 
             expect(mockObj.getSomethingWithMoreArgs(1, 2, 3)).toBe(4);
             expect(mockObj.getSomethingWithMoreArgs(1, 2, 4)).toBeUndefined;
