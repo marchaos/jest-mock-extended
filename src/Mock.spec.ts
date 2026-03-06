@@ -86,6 +86,11 @@ export class Test6 {
     }
 }
 
+interface TestOverloads {
+  header(name: "set-cookie"): string[] | undefined;
+  header(name: string): string | undefined;
+}
+
 describe('jest-mock-extended', () => {
     test('Can be assigned back to itself even when there are private parts', () => {
         // No TS errors here
@@ -650,4 +655,17 @@ describe('jest-mock-extended', () => {
             expect(mockObj.date.getDate()).toBe(15);
         });
     });
+
+    describe('overload support - #140', () => {
+        test('flat mock', () => {
+          const mockObj = mock<TestOverloads>();
+          mockObj.header.mockImplementationOnce((headerName: string) => 'String');
+        });
+
+        test('deep mock', () => {
+          const mockObj = mockDeep<TestOverloads>();
+          mockObj.header.mockImplementationOnce((headerName: string) => 'String');
+        });
+    });
+
 });
