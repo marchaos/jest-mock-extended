@@ -32,9 +32,13 @@ export interface CalledWithMock<T extends FunctionLike> extends jest.Mock<T> {
     calledWith: (...args: [...MatchersOrLiterals<Parameters<T>>]) => jest.Mock<T>;
 }
 
+type InferFunctionType<T> = T extends (...args: infer A) => infer B
+    ? (...args: A) => B
+    : T
+
 export type _MockProxy<T> = {
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B
-        ? T[K] & CalledWithMock<(...args: A) => B>
+    [K in keyof T]: T[K] extends FunctionLike
+        ? T[K] & CalledWithMock<InferFunctionType<T[K]>>
         : T[K];
 };
 
@@ -42,9 +46,9 @@ export type MockProxy<T> = _MockProxy<T> & T;
 
 export type _DeepMockProxy<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B
-    ? T[K] & CalledWithMock<(...args: A) => B>
-    : T[K] & _DeepMockProxy<T[K]>;
+    [K in keyof T]: T[K] extends FunctionLike
+        ? T[K] & CalledWithMock<InferFunctionType<T[K]>>
+        : T[K] & _DeepMockProxy<T[K]>;
 };
 
 // we intersect with T here instead of on the mapped type above to
@@ -55,9 +59,9 @@ export type DeepMockProxy<T> = _DeepMockProxy<T> & T;
 
 export type _DeepMockProxyWithFuncPropSupport<T> = {
     // This supports deep mocks in the else branch
-    [K in keyof T]: T[K] extends (...args: infer A) => infer B
-    ? CalledWithMock<(...args: A) => B> & DeepMockProxy<T[K]>
-    : DeepMockProxy<T[K]>;
+    [K in keyof T]: T[K] extends FunctionLike
+        ? CalledWithMock<InferFunctionType<T[K]>> & DeepMockProxy<T[K]>
+        : DeepMockProxy<T[K]>;
 };
 
 export type DeepMockProxyWithFuncPropSupport<T> = _DeepMockProxyWithFuncPropSupport<T> & T;
