@@ -2,7 +2,7 @@ import { CalledWithMock } from './Mock';
 import { Matcher, MatchersOrLiterals } from './Matchers';
 import { jest } from '@jest/globals';
 import type { FunctionLike } from 'jest-mock';
-import isEqual from 'lodash.isequal';
+import equal from 'fast-deep-equal';
 
 interface CalledWithStackItem<T extends FunctionLike> {
     args: MatchersOrLiterals<[...Parameters<T>]>;
@@ -31,7 +31,7 @@ const checkCalledWith = <T extends FunctionLike>(
                 return matcher.asymmetricMatch(actualArgs[i]);
             }
 
-            return isEqual(actualArgs[i], matcher);
+            return equal(actualArgs[i], matcher);
         })
     );
 
