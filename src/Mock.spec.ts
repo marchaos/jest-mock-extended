@@ -638,6 +638,39 @@ describe('jest-mock-extended', () => {
         });
     });
 
+    describe('asymmetric matchers', () => {
+        class MyClass {
+            someProperty!: string;
+        }
+
+        test('a mock matches expect.anything() and expect.any()', () => {
+            const mockObj = mock<MyClass>();
+            const spy = jest.fn();
+            spy(mockObj);
+
+            expect(spy).toHaveBeenCalledWith(expect.anything());
+            expect(spy).toHaveBeenCalledWith(expect.any(Object));
+            expect({ value: mockObj }).toEqual({ value: expect.anything() });
+        });
+
+        test('a deep mock matches expect.anything()', () => {
+            const mockObj = mockDeep<{ nested: MyClass }>();
+            const spy = jest.fn();
+            spy(mockObj, mockObj.nested);
+
+            expect(spy).toHaveBeenCalledWith(expect.anything(), expect.anything());
+        });
+
+        test('an asymmetricMatch from the implementation is kept', () => {
+            const mockObj = mock<{ asymmetricMatch: (other: unknown) => boolean }>({
+                asymmetricMatch: (other: unknown) => other === 42,
+            });
+
+            expect(42).toEqual(mockObj);
+            expect(43).not.toEqual(mockObj);
+        });
+    });
+
     describe('JestMockExtended config', () => {
         test('can mock then', async () => {
             JestMockExtended.configure({ ignoreProps: [] });
