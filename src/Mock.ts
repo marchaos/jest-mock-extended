@@ -157,6 +157,11 @@ const handler = (opts?: MockOpts) => ({
             if (property === Symbol.iterator) {
                 return obj[property];
             }
+            // Jest treats any value with an `asymmetricMatch` function as an asymmetric matcher, so an
+            // auto-created one would make the mock fail every equality check, e.g. against expect.anything()
+            if (property === 'asymmetricMatch') {
+                return undefined;
+            }
             // So this calls check here is totally not ideal - jest internally does a
             // check to see if this is a spy - which we want to say no to, but blindly returning
             // an proxy for calls results in the spy check returning true. This is another reason
